@@ -1,7 +1,7 @@
 package com.xpinjection.springboot.init;
 
 import com.xpinjection.springboot.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -13,15 +13,10 @@ import static java.util.stream.Collectors.toMap;
 
 
 @Component
+@AllArgsConstructor
 public class DefaultLibraryInitializer implements ApplicationRunner {
     private final BookService bookService;
     private final InventorySettings settings;
-
-    @Autowired
-    public DefaultLibraryInitializer(BookService bookService, InventorySettings settings) {
-        this.bookService = bookService;
-        this.settings = settings;
-    }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
