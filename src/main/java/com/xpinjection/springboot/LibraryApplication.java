@@ -1,13 +1,13 @@
 package com.xpinjection.springboot;
 
-import com.xpinjection.springboot.init.InventorySettings;
+import com.xpinjection.springboot.init.LibrarySettings;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-@EnableConfigurationProperties(InventorySettings.class)
+@EnableConfigurationProperties(LibrarySettings.class)
 public class LibraryApplication extends SpringBootServletInitializer {
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {

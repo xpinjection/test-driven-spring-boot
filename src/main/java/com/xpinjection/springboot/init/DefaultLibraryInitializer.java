@@ -16,7 +16,7 @@ import static java.util.stream.Collectors.toMap;
 @AllArgsConstructor
 public class DefaultLibraryInitializer implements ApplicationRunner {
     private final BookService bookService;
-    private final InventorySettings settings;
+    private final LibrarySettings settings;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

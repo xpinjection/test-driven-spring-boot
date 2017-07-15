@@ -6,6 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter @Setter
 @ConfigurationProperties(prefix = "library")
-public class InventorySettings {
+public class LibrarySettings {
     private int size;
 }
