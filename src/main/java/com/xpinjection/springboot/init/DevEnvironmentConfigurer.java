@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Profiles;
 
 @Order(Integer.MIN_VALUE)
 public class DevEnvironmentConfigurer implements EnvironmentPostProcessor {
@@ -14,7 +15,7 @@ public class DevEnvironmentConfigurer implements EnvironmentPostProcessor {
             System.out.println("No active profile specified, switch to DEVELOPMENT mode by default");
             environment.addActiveProfile("dev");
         }
-        if (environment.acceptsProfiles("dev")) {
+        if (environment.acceptsProfiles(Profiles.of("dev"))) {
             Validate.validState(environment.getActiveProfiles().length == 1,
                     "Development profile could not be mixed with other profiles");
             System.out.println("Application is started in DEVELOPMENT mode");

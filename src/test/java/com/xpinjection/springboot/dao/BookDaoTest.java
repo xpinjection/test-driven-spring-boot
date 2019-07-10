@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -54,9 +56,9 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
         Book book = new Book("Existing book", "Unknown");
         book.setId(13L);
         assertThat(dao.findAll(), hasItem(samePropertyValuesAs(book)));
-        assertThat(dao.findOne(13L), samePropertyValuesAs(book));
+        assertThat(dao.findById(13L), samePropertyValuesAs(Optional.of(book)));
         assertThat(dao.getOne(13L), samePropertyValuesAs(book));
-        assertThat(dao.exists(13L), is(true));
+        assertThat(dao.existsById(13L), is(true));
         assertThat(dao.findByAuthor("Unknown"), hasItem(samePropertyValuesAs(book)));
     }
 

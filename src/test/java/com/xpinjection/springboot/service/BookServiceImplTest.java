@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.notNull;
+import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -43,7 +43,7 @@ public class BookServiceImplTest {
     public void forEveryPairOfTitleAndAuthorBookIsCreatedAndStored() {
         Book first = new Book("The first", "author");
         Book second = new Book("The second", "another author");
-        when(dao.save(notNull(Book.class))).thenReturn(first).thenReturn(second);
+        when(dao.save(notNull())).thenReturn(first).thenReturn(second);
 
         Map<String, String> books = new HashMap<>();
         books.put("The first", "author");

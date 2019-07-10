@@ -41,7 +41,7 @@ public class BookControllerRestAssuredSystemTest {
         .then()
             .statusCode(HttpStatus.SC_OK)
             .contentType("text/html;charset=UTF-8")
-            .content(allOf(
+            .body(allOf(
                 containsString("Spring in Action, <em>Craig Walls</em>"),
                 containsString("Hibernate in Action, <em>Christian Bauer</em>")));
     }
