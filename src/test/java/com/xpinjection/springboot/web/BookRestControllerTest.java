@@ -40,7 +40,8 @@ public class BookRestControllerTest {
     @Test
     public void booksAreReturnedForAuthor() throws Exception {
         when(bookService.findBooksByAuthor("A")).thenReturn(books);
-        mockMvc.perform(get("/books?author=A").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/books?author=A")
+                .accept(MediaType.APPLICATION_JSON))
         				.andExpect(status().isOk())
         				.andExpect(content().contentType("application/json;charset=UTF-8"))
         				.andExpect(jsonPath("$[0].name").value("First"))

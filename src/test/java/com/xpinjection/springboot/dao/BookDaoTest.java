@@ -5,6 +5,7 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.google.common.collect.ImmutableMap;
 import com.xpinjection.springboot.domain.Book;
 import org.junit.Test;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -18,6 +19,26 @@ import static org.junit.Assert.assertThat;
  */
 public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Test
+    public void ifThereIsNoBookWithSuchNameEmptyOptionalIsReturned() {
+        assertThat(dao.findByName("unknown"), is(equalTo(Optional.empty())));
+    }
+
+    @Test
+    @DataSet("books-by-name.xml")
+    public void ifThereIsOnlyOneBookFoundByNameReturnIt() {
+        Book expected = new Book("First", "Author");
+        expected.setId(2L);
+        assertThat(dao.findByName("First"),
+                is(samePropertyValuesAs(Optional.of(expected))));
+    }
+
+    @Test(expected = IncorrectResultSizeDataAccessException.class)
+    @DataSet("books-by-name.xml")
+    public void ifSeveralBooksFoundByNameThrowException() {
+        dao.findByName("Second");
+    }
+
+    @Test
     public void ifThereIsNoBookWithSuchAuthorEmptyListIsReturned() {
         assertThat(dao.findByAuthor("unknown"), is(empty()));
     }
@@ -29,7 +50,8 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
         Book book = new Book("Title", "author");
         book.setId(id);
-        assertThat(dao.findByAuthor("author"), hasItem(samePropertyValuesAs(book)));
+        assertThat(dao.findByAuthor("author"),
+                hasItem(samePropertyValuesAs(book)));
     }
 
     @Test
@@ -47,7 +69,8 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @ExpectedDataSet("expected-books.xml")
     @Commit
     public void booksMayBeStored() {
-        dao.save(new Book("The First", "Mikalai Alimenkou"));
+        Book saved = dao.save(new Book("The First", "Mikalai Alimenkou"));
+        assertThat(saved.getId(), is(notNullValue()));
     }
 
     @Test

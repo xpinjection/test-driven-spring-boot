@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.containsString;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
-public class BookControllerRestAssuredSystemTest {
+public class BookEndpointApiTest {
     @Autowired
     private WebApplicationContext context;
 

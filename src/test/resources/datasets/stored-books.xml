@@ -1,3 +1,5 @@
+<!DOCTYPE dataset SYSTEM "database.dtd">
+
 <dataset>
     <BOOK id="13" name="Existing book" author="Unknown"/>
 </dataset>

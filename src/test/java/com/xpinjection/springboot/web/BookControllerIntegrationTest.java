@@ -57,7 +57,8 @@ public class BookControllerIntegrationTest {
 
     @Test
     public void requestForLibraryIsSuccessfullyProcessedWithAvailableBooksList() throws Exception {
-        this.mockMvc.perform(get("/library.html").accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
+        this.mockMvc.perform(get("/library.html")
+                .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("text/html;charset=UTF-8"))
                 .andExpect(content().string(allOf(
