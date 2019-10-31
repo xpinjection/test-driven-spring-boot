@@ -3,23 +3,16 @@ package com.xpinjection.springboot.web;
 import com.xpinjection.springboot.service.BookService;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.RestAssured.given;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
-public class ExpertEndpointApiTest {
+public class ExpertEndpointApiTest extends AbstractEndpointApiTest {
     @Test
     public void expertCouldBeAddedWithRecommendations() {
         int id = given()
