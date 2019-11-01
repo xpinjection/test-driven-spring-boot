@@ -3,5 +3,5 @@
 <dataset>
     <BOOK id="2" name="First" author="Author"/>
     <BOOK id="3" name="Second" author="Author"/>
-    <BOOK id="4" name="Second" author="Another author"/>
+    <BOOK id="4" name="js:'Sec' + 'ond'" author="Another author"/>
 </dataset>

@@ -14,6 +14,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ExpertEndpointApiTest extends AbstractEndpointApiTest {
     @Test
+    /*@ExportDataSet(format = DataSetFormat.XML, outputName = "target/expert-added.xml",
+                includeTables = {"expert", "recommendations"})*/
     public void expertCouldBeAddedWithRecommendations() {
         int id = given()
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -28,7 +30,7 @@ public class ExpertEndpointApiTest extends AbstractEndpointApiTest {
             .statusCode(HttpStatus.SC_OK)
             .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
             .extract().body().jsonPath().get("id");
-        
+
         assertThat(id).isPositive();
     }
 

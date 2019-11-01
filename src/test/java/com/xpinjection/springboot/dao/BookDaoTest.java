@@ -1,9 +1,12 @@
 package com.xpinjection.springboot.dao;
 
 import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.DataSetProvider;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
+import com.github.database.rider.core.dataset.builder.DataSetBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.xpinjection.springboot.domain.Book;
+import org.dbunit.dataset.IDataSet;
 import org.junit.Test;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.annotation.Commit;
@@ -25,6 +28,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
     @Test
     @DataSet("books-by-name.xml")
+    //@DataSet(provider = BooksByNameDataSetVerbose.class)
     public void ifThereIsOnlyOneBookFoundByNameReturnIt() {
         Book expected = new Book("First", "Author");
         expected.setId(2L);
@@ -87,5 +91,36 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
     private long addBookToDatabase(String title, String author) {
         return addRecordToDatabase("book", ImmutableMap.of("name", title, "author", author));
+    }
+
+    public static class BooksByNameDataSet implements DataSetProvider {
+        @Override
+        public IDataSet provide() {
+            return new DataSetBuilder().table("book")
+                    .columns("id", "name", "author")
+                    .values(2, "First", "Author")
+                    .values(3, "Second", "Author")
+                    .values(4, "Second", "Another author").build();
+        }
+    }
+
+    public static class BooksByNameDataSetVerbose implements DataSetProvider {
+        @Override
+        public IDataSet provide() {
+            return new DataSetBuilder().table("book")
+                    .row()
+                        .column("id", 2)
+                        .column("name", "First")
+                        .column("author", "Author")
+                    .row()
+                        .column("id", 3)
+                        .column("name", "Second")
+                        .column("author", "Author")
+                    .row()
+                        .column("id", 4)
+                        .column("name", "Second")
+                        .column("author", "Another author")
+                    .build();
+        }
     }
 }
