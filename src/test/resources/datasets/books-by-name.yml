@@ -6,5 +6,5 @@ BOOK:
     name: "Second"
     author: "Author"
   - id: 4
-    name: Second
-    author: Another author
+    name: "Second"
+    author: "Another author"
