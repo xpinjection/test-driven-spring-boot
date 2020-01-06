@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.joining;
-import static org.mockito.Matchers.refEq;
+import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

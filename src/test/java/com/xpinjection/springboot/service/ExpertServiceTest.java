@@ -10,14 +10,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
 import java.util.Optional;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.refEq;
+import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
