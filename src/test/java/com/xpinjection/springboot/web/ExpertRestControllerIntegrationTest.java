@@ -1,5 +1,6 @@
 package com.xpinjection.springboot.web;
 
+import com.xpinjection.springboot.dao.valueobject.Recommendation;
 import com.xpinjection.springboot.domain.Expert;
 import com.xpinjection.springboot.exception.InvalidRecommendationException;
 import com.xpinjection.springboot.service.ExpertService;
@@ -36,7 +37,7 @@ public class ExpertRestControllerIntegrationTest {
     @Test
     public void expertCouldBeAddedWithRecommendations() throws Exception {
         Expert expert = new Expert("Mikalai", "+38099023546");
-        expert.addRecommendations("Effective Java by Josh Bloch");
+        expert.addRecommendations(new Recommendation("Effective Java by Josh Bloch"));
         when(service.add(refEq(expert))).thenReturn(5L);
 
         addExpert("\"name\": \"Mikalai\"",
@@ -52,7 +53,7 @@ public class ExpertRestControllerIntegrationTest {
     @Test
     public void ifExpertCouldNotBeStoredReturnBadRequest() throws Exception {
         Expert expert = new Expert("Mikalai", "+38099023546");
-        expert.addRecommendations("Effective Java by Josh Bloch");
+        expert.addRecommendations(new Recommendation("Effective Java by Josh Bloch"));
         when(service.add(refEq(expert)))
                 .thenThrow(new InvalidRecommendationException("ERROR"));
 

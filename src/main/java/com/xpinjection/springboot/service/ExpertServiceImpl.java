@@ -3,6 +3,7 @@ package com.xpinjection.springboot.service;
 import com.xpinjection.springboot.dao.BookDao;
 import com.xpinjection.springboot.dao.ExpertDao;
 import com.xpinjection.springboot.dao.entity.ExpertEntity;
+import com.xpinjection.springboot.dao.valueobject.Recommendation;
 import com.xpinjection.springboot.domain.Book;
 import com.xpinjection.springboot.domain.Expert;
 import com.xpinjection.springboot.exception.InvalidRecommendationException;
@@ -42,14 +43,14 @@ public class ExpertServiceImpl implements ExpertService {
     private Set<Book> findRecommendedBooks(Expert expert) {
         return expert.getRecommendations()
                     .stream()
-                    .map(this::findBook)
+                    .map(this::findBookByRecommendation)
                     .filter(Optional::isPresent)
                     .map(Optional::get)
                     .collect(toSet());
     }
 
-    private Optional<Book> findBook(String name) {
-        String[] parts = name.split(" by ");
+    private Optional<Book> findBookByRecommendation(Recommendation recommendation) {
+        String[] parts = recommendation.getSentence().split(" by ");
         return findBookByName(parts[0])
                 .filter(book -> parts.length == 1 ||
                         validateAuthor(parts[1], book));
