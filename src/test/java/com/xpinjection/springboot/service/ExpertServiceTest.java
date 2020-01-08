@@ -3,6 +3,7 @@ package com.xpinjection.springboot.service;
 import com.xpinjection.springboot.dao.BookDao;
 import com.xpinjection.springboot.dao.ExpertDao;
 import com.xpinjection.springboot.dao.entity.ExpertEntity;
+import com.xpinjection.springboot.dao.valueobject.Recommendation;
 import com.xpinjection.springboot.domain.Book;
 import com.xpinjection.springboot.domain.Expert;
 import com.xpinjection.springboot.exception.InvalidRecommendationException;
@@ -10,14 +11,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
 import java.util.Optional;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.refEq;
+import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -44,8 +45,8 @@ public class ExpertServiceTest {
         entity.setRecommendations(newHashSet(regular, humanFormat));
         expectExpertIsStored(7L);
 
-        expert.addRecommendations("Spring in Action",
-                "Hibernate in Action by Sam Newman");
+        expert.addRecommendations(new Recommendation("Spring in Action"),
+                new Recommendation("Hibernate in Action by Sam Newman"));
         assertThat(service.add(expert)).isEqualTo(7);
     }
 
@@ -53,7 +54,7 @@ public class ExpertServiceTest {
     public void whenBookIsRecommendedInHumanFormatThenAuthorIsValidated() {
         expectBookFound("Spring in Action", "Arun Gupta");
 
-        expert.addRecommendations("Spring in Action by Sam Newman");
+        expert.addRecommendations(new Recommendation("Spring in Action by Sam Newman"));
         service.add(expert);
     }
 
@@ -62,7 +63,7 @@ public class ExpertServiceTest {
         when(bookDao.findByName("Spring in Action"))
                 .thenReturn(Optional.empty());
 
-        expert.addRecommendations("Spring in Action");
+        expert.addRecommendations(new Recommendation("Spring in Action"));
         service.add(expert);
     }
 
@@ -71,7 +72,7 @@ public class ExpertServiceTest {
         when(bookDao.findByName("Spring in Action"))
                 .thenThrow(new IncorrectResultSizeDataAccessException(1));
 
-        expert.addRecommendations("Spring in Action");
+        expert.addRecommendations(new Recommendation("Spring in Action"));
         service.add(expert);
     }
 

@@ -1,9 +1,10 @@
 package com.xpinjection.springboot.domain;
 
+import com.xpinjection.springboot.dao.valueobject.Recommendation;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,9 +17,9 @@ public class Expert {
     @NotBlank
     private final String contact;
     @NotEmpty
-    private Set<String> recommendations = new HashSet<>();
+    private Set<Recommendation> recommendations = new HashSet<>();
 
-    public void addRecommendations(String... recommendations) {
+    public void addRecommendations(Recommendation... recommendations) {
         this.recommendations.addAll(asList(recommendations));
     }
 }
