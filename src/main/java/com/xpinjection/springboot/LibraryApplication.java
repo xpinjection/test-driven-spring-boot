@@ -1,6 +1,6 @@
 package com.xpinjection.springboot;
 
-import com.xpinjection.springboot.init.LibrarySettings;
+import com.xpinjection.springboot.config.LibrarySettings;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

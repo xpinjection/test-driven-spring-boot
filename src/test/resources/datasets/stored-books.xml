@@ -1,5 +1,6 @@
 <!DOCTYPE dataset SYSTEM "database.dtd">
 
 <dataset>
+    <RECOMMENDATIONS/>
     <BOOK ID="13" NAME="Existing book" AUTHOR="Unknown"/>
 </dataset>

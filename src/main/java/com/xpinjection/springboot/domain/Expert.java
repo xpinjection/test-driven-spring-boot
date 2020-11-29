@@ -1,6 +1,5 @@
 package com.xpinjection.springboot.domain;
 
-import com.xpinjection.springboot.dao.valueobject.Recommendation;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

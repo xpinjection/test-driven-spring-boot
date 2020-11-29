@@ -1,9 +1,9 @@
 package com.xpinjection.springboot.service;
 
-import com.xpinjection.springboot.dao.BookDao;
-import com.xpinjection.springboot.dao.ExpertDao;
-import com.xpinjection.springboot.dao.entity.ExpertEntity;
-import com.xpinjection.springboot.dao.valueobject.Recommendation;
+import com.xpinjection.springboot.adaptors.persistence.BookDao;
+import com.xpinjection.springboot.adaptors.persistence.ExpertDao;
+import com.xpinjection.springboot.adaptors.persistence.entity.ExpertEntity;
+import com.xpinjection.springboot.domain.Recommendation;
 import com.xpinjection.springboot.domain.Book;
 import com.xpinjection.springboot.domain.Expert;
 import com.xpinjection.springboot.exception.InvalidRecommendationException;

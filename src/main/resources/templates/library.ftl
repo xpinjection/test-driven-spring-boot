@@ -1,4 +1,7 @@
-<html>
+<html lang="en">
+<head>
+	<title>Library - Books</title>
+</head>
 <body>
 <h2>This is cool library!</h2>
 

@@ -1,2 +1,2 @@
-cacheConnection: true
+cacheConnection: false
 leakHunter: false
