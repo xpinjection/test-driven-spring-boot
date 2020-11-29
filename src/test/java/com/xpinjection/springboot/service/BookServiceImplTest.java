@@ -14,8 +14,7 @@ import java.util.Map;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.*;
 
@@ -36,7 +35,7 @@ public class BookServiceImplTest {
 
     @Test
     public void ifNoBooksPassedEmptyListIsReturned() {
-        assertThat(bookService.addBooks(Collections.emptyMap()), is(empty()));
+        assertThat(bookService.addBooks(Collections.emptyMap())).isEmpty();
     }
 
     @Test
@@ -48,7 +47,7 @@ public class BookServiceImplTest {
         Map<String, String> books = new HashMap<>();
         books.put("The first", "author");
         books.put("The second", "another author");
-        assertThat(bookService.addBooks(books), hasItems(first, second));
+        assertThat(bookService.addBooks(books)).contains(first, second);
     }
 
     @Test
@@ -114,10 +113,10 @@ public class BookServiceImplTest {
     }
 
     private void assertBooksByAuthor(String author, Book book) {
-        assertThat(bookService.findBooksByAuthor(author), hasItem(book));
+        assertThat(bookService.findBooksByAuthor(author)).contains(book);
     }
 
     private void assertNoBooksFound(String author) {
-        assertThat(bookService.findBooksByAuthor(author), is(empty()));
+        assertThat(bookService.findBooksByAuthor(author)).isEmpty();
     }
 }

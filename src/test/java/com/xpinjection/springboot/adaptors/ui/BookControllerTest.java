@@ -1,6 +1,5 @@
 package com.xpinjection.springboot.adaptors.ui;
 
-import com.xpinjection.springboot.adaptors.ui.BookController;
 import com.xpinjection.springboot.domain.Book;
 import com.xpinjection.springboot.service.BookService;
 import org.junit.Before;
@@ -15,9 +14,8 @@ import org.springframework.ui.ExtendedModelMap;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.collection.IsMapContaining.hasEntry;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -47,8 +45,8 @@ public class BookControllerTest {
     @Test
     public void allBooksAreAddedToModelForLibraryView() {
         var model = new ExtendedModelMap();
-        assertThat(controller.booksPage(model), equalTo("library"));
-        assertThat(model.asMap(), hasEntry("books", books));
+        assertThat(controller.booksPage(model)).isEqualTo("library");
+        assertThat(model.asMap()).containsEntry("books", books);
     }
 
     @Test

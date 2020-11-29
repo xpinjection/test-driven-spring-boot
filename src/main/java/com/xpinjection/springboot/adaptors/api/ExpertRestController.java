@@ -1,9 +1,9 @@
 package com.xpinjection.springboot.adaptors.api;
 
+import com.xpinjection.springboot.adaptors.api.dto.ExpertState;
 import com.xpinjection.springboot.domain.Expert;
 import com.xpinjection.springboot.exception.InvalidRecommendationException;
 import com.xpinjection.springboot.service.ExpertService;
-import com.xpinjection.springboot.adaptors.api.dto.ExpertState;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

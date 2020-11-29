@@ -3,7 +3,6 @@ package com.xpinjection.springboot.adaptors.ui;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.xpinjection.springboot.adaptors.ui.BookController;
 import com.xpinjection.springboot.domain.Book;
 import com.xpinjection.springboot.service.BookService;
 import org.junit.Before;
@@ -23,8 +22,9 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -75,6 +75,6 @@ public class BookControllerIntegrationTest {
                 .map(DomNode::asText)
                 .collect(toList());
 
-        assertThat(booksList, hasItems("1. First, author", "2. Second, another author"));
+        assertThat(booksList).contains("1. First, author", "2. Second, another author");
     }
 }

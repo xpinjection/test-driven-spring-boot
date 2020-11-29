@@ -12,10 +12,7 @@ import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.util.Optional;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Alimenkou Mikalai
@@ -23,7 +20,7 @@ import static org.junit.Assert.assertThat;
 public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Test
     public void ifThereIsNoBookWithSuchNameEmptyOptionalIsReturned() {
-        assertThat(dao.findByName("unknown"), is(equalTo(Optional.empty())));
+        assertThat(dao.findByName("unknown")).isEmpty();
     }
 
     @Test
@@ -32,8 +29,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     public void ifThereIsOnlyOneBookFoundByNameReturnIt() {
         var expected = new Book("First", "Author");
         expected.setId(2L);
-        assertThat(dao.findByName("First"),
-                is(samePropertyValuesAs(Optional.of(expected))));
+        assertThat(dao.findByName("First")).usingFieldByFieldValueComparator().contains(expected);
     }
 
     @Test(expected = IncorrectResultSizeDataAccessException.class)
@@ -44,7 +40,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
     @Test
     public void ifThereIsNoBookWithSuchAuthorEmptyListIsReturned() {
-        assertThat(dao.findByAuthor("unknown"), is(empty()));
+        assertThat(dao.findByAuthor("unknown")).isEmpty();
     }
 
     @Test
@@ -54,8 +50,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
         var book = new Book("Title", "author");
         book.setId(id);
-        assertThat(dao.findByAuthor("author"),
-                hasItem(samePropertyValuesAs(book)));
+        assertThat(dao.findByAuthor("author")).usingFieldByFieldElementComparator().contains(book);
     }
 
     @Test
@@ -65,7 +60,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
         first.setId(1L);
         var second = new Book("Second book", "author");
         second.setId(2L);
-        assertThat(dao.findByAuthor("author"), hasItems(samePropertyValuesAs(first), samePropertyValuesAs(second)));
+        assertThat(dao.findByAuthor("author")).usingFieldByFieldElementComparator().contains(first, second);
     }
 
     @Test
@@ -74,7 +69,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Commit
     public void booksMayBeStored() {
         var saved = dao.save(new Book("The First", "Mikalai Alimenkou"));
-        assertThat(saved.getId(), is(notNullValue()));
+        assertThat(saved.getId()).isNotNull();
     }
 
     @Test
@@ -82,11 +77,11 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     public void ifBookAlreadyExistsItMayBeFoundUsingSeveralMethods() {
         var book = new Book("Existing book", "Unknown");
         book.setId(13L);
-        assertThat(dao.findAll(), hasItem(samePropertyValuesAs(book)));
-        assertThat(dao.findById(13L), samePropertyValuesAs(Optional.of(book)));
-        assertThat(dao.getOne(13L), samePropertyValuesAs(book));
-        assertThat(dao.existsById(13L), is(true));
-        assertThat(dao.findByAuthor("Unknown"), hasItem(samePropertyValuesAs(book)));
+        assertThat(dao.findAll()).usingFieldByFieldElementComparator().contains(book);
+        assertThat(dao.findById(13L)).usingFieldByFieldValueComparator().contains(book);
+        assertThat(dao.getOne(13L)).isEqualToComparingFieldByField(book);
+        assertThat(dao.existsById(13L)).isTrue();
+        assertThat(dao.findByAuthor("Unknown")).usingFieldByFieldElementComparator().contains(book);
     }
 
     private long addBookToDatabase(String title, String author) {
