@@ -40,8 +40,8 @@ public class ExpertServiceTest {
 
     @Test
     public void expertIsStoredWithRecommendedBooksInAnyFormat() {
-        Book regular = expectBookFound("Spring in Action", "Arun Gupta");
-        Book humanFormat = expectBookFound("Hibernate in Action", "Sam Newman");
+        var regular = expectBookFound("Spring in Action", "Arun Gupta");
+        var humanFormat = expectBookFound("Hibernate in Action", "Sam Newman");
         entity.setRecommendations(newHashSet(regular, humanFormat));
         expectExpertIsStored(7L);
 
@@ -77,13 +77,13 @@ public class ExpertServiceTest {
     }
 
     private void expectExpertIsStored(long id) {
-        ExpertEntity savedEntity = new ExpertEntity(entity.getName(), entity.getContact());
+        var savedEntity = new ExpertEntity(entity.getName(), entity.getContact());
         savedEntity.setId(id);
         when(expertDao.save(refEq(entity))).thenReturn(savedEntity);
     }
 
     private Book expectBookFound(String name, String author) {
-        Book book = new Book(name, author);
+        var book = new Book(name, author);
         when(bookDao.findByName(name))
                 .thenReturn(Optional.of(book));
         return book;

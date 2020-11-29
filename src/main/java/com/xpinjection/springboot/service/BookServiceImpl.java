@@ -38,12 +38,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> findBooksByAuthor(String author) {
         Assert.hasText(author, "Author is empty!");
-        String normalizedAuthor = normalizeAuthorName(author);
+        var normalizedAuthor = normalizeAuthorName(author);
         return cache.computeIfAbsent(normalizedAuthor, bookDao::findByAuthor);
     }
 
     private String normalizeAuthorName(String author) {
-        String authorName = StringUtils.normalizeSpace(author);
+        var authorName = StringUtils.normalizeSpace(author);
         return isSingleWord(authorName) ? splitOnFirstAndLastNames(authorName) : authorName;
     }
 
@@ -52,12 +52,12 @@ public class BookServiceImpl implements BookService {
     }
 
     private String splitOnFirstAndLastNames(String author) {
-        String[] parts = StringUtils.splitByCharacterTypeCamelCase(author);
-        String firstName = parts[0];
+        var parts = StringUtils.splitByCharacterTypeCamelCase(author);
+        var firstName = parts[0];
         if (parts.length == 1) {
             return firstName;
         }
-        String lastName = StringUtils.substringAfter(author, firstName);
+        var lastName = StringUtils.substringAfter(author, firstName);
         return String.join(" ", firstName, lastName);
     }
 

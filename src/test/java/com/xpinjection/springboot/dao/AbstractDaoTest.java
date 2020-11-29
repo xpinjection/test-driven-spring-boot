@@ -40,8 +40,8 @@ public abstract class AbstractDaoTest<D> {
     protected D dao;
 
     protected long addRecordToDatabase(String table, Map<String, Object> fields) {
-        long id = ID++;
-        Object[] params = Stream.concat(Stream.of(id), fields.values().stream()).toArray();
+        var id = ID++;
+        var params = Stream.concat(Stream.of(id), fields.values().stream()).toArray();
         jdbcTemplate.update("INSERT INTO " + table +
                 " (id, " + String.join(", ", fields.keySet()) +
                 ") VALUES (?" + StringUtils.repeat(", ?", fields.size()) + ")", params);

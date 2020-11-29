@@ -26,16 +26,16 @@ public class ExpertServiceImpl implements ExpertService {
 
     @Override
     public long add(Expert expert) {
-        Set<Book> books = findRecommendedBooks(expert);
+        var books = findRecommendedBooks(expert);
         if (books.isEmpty()) {
             throw new InvalidRecommendationException("No valid recommendations");
         }
-        ExpertEntity saved = storeExpert(expert, books);
+        var saved = storeExpert(expert, books);
         return saved.getId();
     }
 
     private ExpertEntity storeExpert(Expert expert, Set<Book> books) {
-        ExpertEntity entity = new ExpertEntity(expert.getName(), expert.getContact());
+        var entity = new ExpertEntity(expert.getName(), expert.getContact());
         entity.setRecommendations(books);
         return expertDao.save(entity);
     }
@@ -50,7 +50,7 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     private Optional<Book> findBookByRecommendation(Recommendation recommendation) {
-        String[] parts = recommendation.getSentence().split(" by ");
+        var parts = recommendation.getSentence().split(" by ");
         return findBookByName(parts[0])
                 .filter(book -> parts.length == 1 ||
                         validateAuthor(parts[1], book));

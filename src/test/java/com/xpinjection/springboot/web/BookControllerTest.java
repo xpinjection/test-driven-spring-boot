@@ -46,7 +46,7 @@ public class BookControllerTest {
 
     @Test
     public void allBooksAreAddedToModelForLibraryView() {
-        Model model = new ExtendedModelMap();
+        var model = new ExtendedModelMap();
         assertThat(controller.booksPage(model), equalTo("library"));
         assertThat(model.asMap(), hasEntry("books", books));
     }

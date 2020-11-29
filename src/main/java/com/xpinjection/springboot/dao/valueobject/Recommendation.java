@@ -6,5 +6,5 @@ import lombok.Value;
 @Value
 public class Recommendation {
     @NonNull
-    private final String sentence;
+    String sentence;
 }

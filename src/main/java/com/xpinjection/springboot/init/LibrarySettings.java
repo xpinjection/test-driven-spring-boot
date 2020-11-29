@@ -3,9 +3,15 @@ package com.xpinjection.springboot.init;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
-@Getter @Setter
+import javax.validation.constraints.Min;
+
+@Getter
+@Setter
+@Validated
 @ConfigurationProperties(prefix = "library")
 public class LibrarySettings {
+    @Min(0)
     private int size;
 }

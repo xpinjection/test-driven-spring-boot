@@ -22,18 +22,18 @@ public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
     @ExpectedDataSet("expected-stored-expert.xml")
     @Commit
     public void expertCanBeStored() {
-        ExpertEntity expert = new ExpertEntity("Mikalai", "a@b.com");
-        Book book = new Book("Existing book", "Unknown");
+        var expert = new ExpertEntity("Mikalai", "a@b.com");
+        var book = new Book("Existing book", "Unknown");
         book.setId(13L);
         expert.setRecommendations(newHashSet(book));
-        ExpertEntity saved = dao.save(expert);
+        var saved = dao.save(expert);
         assertThat(saved.getId()).isNotNull();
     }
 
     @Test(expected = DataIntegrityViolationException.class)
     public void unknownBookCanNotBeStoredAsRecommendation() {
-        ExpertEntity expert = new ExpertEntity("Mikalai", "a@b.com");
-        Book book = new Book("Existing book", "Unknown");
+        var expert = new ExpertEntity("Mikalai", "a@b.com");
+        var book = new Book("Existing book", "Unknown");
         book.setId(17L);
         expert.setRecommendations(newHashSet(book));
         dao.save(expert);

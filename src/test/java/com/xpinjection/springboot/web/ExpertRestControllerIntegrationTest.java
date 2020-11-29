@@ -36,7 +36,7 @@ public class ExpertRestControllerIntegrationTest {
 
     @Test
     public void expertCouldBeAddedWithRecommendations() throws Exception {
-        Expert expert = new Expert("Mikalai", "+38099023546");
+        var expert = new Expert("Mikalai", "+38099023546");
         expert.addRecommendations(new Recommendation("Effective Java by Josh Bloch"));
         when(service.add(refEq(expert))).thenReturn(5L);
 

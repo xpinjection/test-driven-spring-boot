@@ -30,7 +30,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @DataSet("books-by-name.xml")
     //@DataSet(provider = BooksByNameDataSetVerbose.class)
     public void ifThereIsOnlyOneBookFoundByNameReturnIt() {
-        Book expected = new Book("First", "Author");
+        var expected = new Book("First", "Author");
         expected.setId(2L);
         assertThat(dao.findByName("First"),
                 is(samePropertyValuesAs(Optional.of(expected))));
@@ -49,10 +49,10 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
     @Test
     public void ifBooksByAuthorAreFoundTheyAreReturned() {
-        long id = addBookToDatabase("Title", "author");
+        var id = addBookToDatabase("Title", "author");
         addBookToDatabase("Another title", "another author");
 
-        Book book = new Book("Title", "author");
+        var book = new Book("Title", "author");
         book.setId(id);
         assertThat(dao.findByAuthor("author"),
                 hasItem(samePropertyValuesAs(book)));
@@ -61,9 +61,9 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Test
     @Sql("/books-for-the-same-author.sql")
     public void severalBooksForTheSameAuthorAreReturned() {
-        Book first = new Book("First book", "author");
+        var first = new Book("First book", "author");
         first.setId(1L);
-        Book second = new Book("Second book", "author");
+        var second = new Book("Second book", "author");
         second.setId(2L);
         assertThat(dao.findByAuthor("author"), hasItems(samePropertyValuesAs(first), samePropertyValuesAs(second)));
     }
@@ -73,14 +73,14 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @ExpectedDataSet("expected-books.xml")
     @Commit
     public void booksMayBeStored() {
-        Book saved = dao.save(new Book("The First", "Mikalai Alimenkou"));
+        var saved = dao.save(new Book("The First", "Mikalai Alimenkou"));
         assertThat(saved.getId(), is(notNullValue()));
     }
 
     @Test
     @DataSet("stored-books.xml")
     public void ifBookAlreadyExistsItMayBeFoundUsingSeveralMethods() {
-        Book book = new Book("Existing book", "Unknown");
+        var book = new Book("Existing book", "Unknown");
         book.setId(13L);
         assertThat(dao.findAll(), hasItem(samePropertyValuesAs(book)));
         assertThat(dao.findById(13L), samePropertyValuesAs(Optional.of(book)));

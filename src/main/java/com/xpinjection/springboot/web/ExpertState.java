@@ -4,5 +4,5 @@ import lombok.Value;
 
 @Value
 public class ExpertState {
-    private final long id;
+    long id;
 }
