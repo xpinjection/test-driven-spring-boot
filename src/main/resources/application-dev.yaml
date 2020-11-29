@@ -1,0 +1,15 @@
+debug: true
+
+library:
+  size: ${random.int(2,10)}
+
+spring:
+  freemarker:
+    cache: false
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true

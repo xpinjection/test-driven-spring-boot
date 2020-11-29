@@ -1,0 +1,25 @@
+debug: true
+
+spring:
+  application:
+    admin:
+      enabled: false
+  freemarker:
+    cache: false
+  jpa:
+    show-sql: true
+
+library:
+  size: 0
+
+logging:
+  level:
+    com.github.database.rider: DEBUG
+    org.springframework.test.context.cache: DEBUG
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        exclude: '*'
