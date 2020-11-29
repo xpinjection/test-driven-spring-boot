@@ -44,7 +44,7 @@ public class ExpertRestControllerIntegrationTest {
                 "\"contact\": \"+38099023546\"",
                 "\"recommendations\": [\"Effective Java by Josh Bloch\"]")
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.id").value(5L));
 
         verify(service).add(refEq(expert));
@@ -89,7 +89,7 @@ public class ExpertRestControllerIntegrationTest {
 
     private ResultActions addExpert(String... lines) throws Exception {
         return mockMvc.perform(post("/experts")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(Stream.of(lines)
                         .collect(joining(",\n", "{\n", "\n}"))));
     }

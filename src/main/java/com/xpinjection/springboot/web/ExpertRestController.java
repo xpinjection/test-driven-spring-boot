@@ -15,7 +15,7 @@ import javax.validation.Valid;
 public class ExpertRestController {
     private final ExpertService service;
 
-    @PostMapping(path = "/experts", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(path = "/experts", produces = MediaType.APPLICATION_JSON_VALUE)
     ExpertState addExpert(@RequestBody @Valid Expert expert) {
         long id = service.add(expert);
         return new ExpertState(id);

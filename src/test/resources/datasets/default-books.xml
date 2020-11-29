@@ -1,6 +1,6 @@
 <!DOCTYPE dataset SYSTEM "database.dtd">
 
 <dataset>
-    <BOOK id="105" name="Spring in Action" author="Craig Walls"/>
-    <BOOK id="106" name="Hibernate in Action" author="Christian Bauer"/>
+    <BOOK ID="105" NAME="Spring in Action" AUTHOR="Craig Walls"/>
+    <BOOK ID="106" NAME="Hibernate in Action" AUTHOR="Christian Bauer"/>
 </dataset>

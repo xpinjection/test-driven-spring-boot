@@ -1,5 +1,5 @@
 <!DOCTYPE dataset SYSTEM "database.dtd">
 
 <dataset>
-    <BOOK id="13" name="Existing book" author="Unknown"/>
+    <BOOK ID="13" NAME="Existing book" AUTHOR="Unknown"/>
 </dataset>

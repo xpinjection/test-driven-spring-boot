@@ -18,7 +18,7 @@ public class ExpertEndpointApiTest extends AbstractEndpointApiTest {
                 includeTables = {"expert", "recommendations"})*/
     public void expertCouldBeAddedWithRecommendations() {
         int id = given()
-            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("{\n" +
                     "  \"name\": \"Mikalai\",\n" +
                     "  \"contact\": \"+38099023546\",\n" +
@@ -28,7 +28,7 @@ public class ExpertEndpointApiTest extends AbstractEndpointApiTest {
             .post("/experts")
         .then()
             .statusCode(HttpStatus.SC_OK)
-            .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
             .extract().body().jsonPath().get("id");
 
         assertThat(id).isPositive();

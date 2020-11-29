@@ -43,7 +43,7 @@ public class BookRestControllerTest {
         mockMvc.perform(get("/books?author=A")
                 .accept(MediaType.APPLICATION_JSON))
         				.andExpect(status().isOk())
-        				.andExpect(content().contentType("application/json;charset=UTF-8"))
+        				.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         				.andExpect(jsonPath("$[0].name").value("First"))
         				.andExpect(jsonPath("$[0].author").value("A"))
         				.andExpect(jsonPath("$[1].name").value("Second"))
@@ -52,7 +52,8 @@ public class BookRestControllerTest {
 
     @Test
     public void ifAuthorParamIsMissedThrowException() throws Exception {
-        mockMvc.perform(get("/books").accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/books")
+                .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 }

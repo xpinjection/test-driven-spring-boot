@@ -1,6 +1,8 @@
 package com.xpinjection.springboot.dao;
 
 import com.github.database.rider.core.DBUnitRule;
+import com.github.database.rider.core.api.dataset.DataSetFormat;
+import com.github.database.rider.core.api.exporter.ExportDataSet;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
@@ -20,6 +22,8 @@ import java.util.stream.Stream;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @ActiveProfiles("test")
+@ExportDataSet(format = DataSetFormat.XML_DTD, outputName = "src/test/resources/datasets/database.dtd",
+        includeTables = {"BOOK", "EXPERT", "RECOMMENDATIONS"})
 public abstract class AbstractDaoTest<D> {
     private static long ID = 1;
 

@@ -1,7 +1,7 @@
 <!DOCTYPE dataset SYSTEM "database.dtd">
 
 <dataset>
-    <BOOK id="2" name="First" author="Author"/>
-    <BOOK id="3" name="Second" author="Author"/>
-    <BOOK id="4" name="js:'Sec' + 'ond'" author="Another author"/>
+    <BOOK ID="2" NAME="First" AUTHOR="Author"/>
+    <BOOK ID="3" NAME="Second" AUTHOR="Author"/>
+    <BOOK ID="4" NAME="js:'Sec' + 'ond'" AUTHOR="Another author"/>
 </dataset>
