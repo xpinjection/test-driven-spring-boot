@@ -1,4 +1,4 @@
-package com.xpinjection.springboot.config;
+package com.xpinjection.springboot.config.init;
 
 import org.springframework.boot.diagnostics.AbstractFailureAnalyzer;
 import org.springframework.boot.diagnostics.FailureAnalysis;

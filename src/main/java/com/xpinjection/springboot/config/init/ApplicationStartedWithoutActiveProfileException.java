@@ -1,4 +1,4 @@
-package com.xpinjection.springboot.config;
+package com.xpinjection.springboot.config.init;
 
 public class ApplicationStartedWithoutActiveProfileException extends RuntimeException {
     public ApplicationStartedWithoutActiveProfileException() {
