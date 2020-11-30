@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <springProfile name="json-logs">
+        <springProperty name="app" source="spring.application.name" defaultValue="app"/>
+
+        <contextName>${app}</contextName>
+        <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <contextName>
+                        <fieldName>app</fieldName>
+                    </contextName>
+                    <timestamp>
+                        <fieldName>ts</fieldName>
+                        <timeZone>UTC</timeZone>
+                    </timestamp>
+                    <logLevel>
+                        <fieldName>level</fieldName>
+                    </logLevel>
+                    <loggerName>
+                        <fieldName>logger</fieldName>
+                    </loggerName>
+                    <callerData>
+                        <classFieldName>class</classFieldName>
+                        <methodFieldName>method</methodFieldName>
+                        <lineFieldName>line</lineFieldName>
+                        <fileFieldName>file</fileFieldName>
+                    </callerData>
+                    <threadName>
+                        <fieldName>thread</fieldName>
+                    </threadName>
+                    <mdc/>
+                    <arguments>
+                        <includeNonStructuredArguments>false</includeNonStructuredArguments>
+                    </arguments>
+                    <stackTrace>
+                        <fieldName>stack</fieldName>
+                    </stackTrace>
+                    <message>
+                        <fieldName>msg</fieldName>
+                    </message>
+                </providers>
+            </encoder>
+        </appender>
+
+        <root level="INFO">
+            <appender-ref ref="JSON"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="!json-logs">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+</configuration>
