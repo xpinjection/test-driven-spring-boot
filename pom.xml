@@ -5,13 +5,13 @@
 
     <groupId>com.xpinjection</groupId>
     <artifactId>test-driven-spring-boot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <!-- uncomment to build WAR for external container  -->
     <!--<packaging>war</packaging>-->
 
     <name>test-driven-spring-boot</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Demo project for TDD with Spring Boot course</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
