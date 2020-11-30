@@ -1,4 +1,4 @@
-package com.xpinjection.springboot;
+package com.xpinjection.springboot.config;
 
 import com.xpinjection.springboot.service.BookService;
 import lombok.AllArgsConstructor;
