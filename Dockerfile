@@ -1,7 +1,7 @@
 FROM openjdk:13.0.2-slim as builder
 ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-RUN java -Djarmode=layertools -jar app.jar extract
+COPY ${JAR_FILE} library.jar
+RUN java -Djarmode=layertools -jar library.jar extract
 
 FROM openjdk:13.0.2-slim
 VOLUME /tmp
