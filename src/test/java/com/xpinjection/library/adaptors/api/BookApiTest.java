@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.containsString;
 
 public class BookApiTest extends AbstractApiTest {
     @Test
-    @DataSet(value = "default-books.xml", executorId = "system", strategy = SeedStrategy.INSERT)
+    @DataSet(value = "default-books.xml", strategy = SeedStrategy.REFRESH)
     public void allBooksFromDatabaseAreAvailableOnWeb() {
         given()
             .accept(MediaType.TEXT_HTML_VALUE)

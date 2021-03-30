@@ -28,6 +28,10 @@ spring:
     cache: true
     suffix: .ftl
   datasource:
+    url: jdbc:postgresql://localhost/library
+    username:
+    password:
+    driver-class-name: org.postgresql.Driver
     hikari:
       minimum-idle: 1
       maximum-pool-size: 10
@@ -40,6 +44,7 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
         order_inserts: true
         order_updates: true
         batch_versioned_data: true
@@ -48,8 +53,6 @@ spring:
     throw-exception-if-no-handler-found: true
   jmx:
     enabled: false
-  flyway:
-    locations: classpath:db/migration/h2
 
 library:
   size: 0

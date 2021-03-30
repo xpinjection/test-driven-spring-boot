@@ -1,6 +1,0 @@
-spring:
-  datasource:
-    url: jdbc:tc:postgresql:11://localhost/library?TC_REUSABLE=true
-    username: test
-    password: test
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver

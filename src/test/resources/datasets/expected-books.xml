@@ -1,5 +1,5 @@
-<!DOCTYPE dataset SYSTEM "database.dtd">
+<!DOCTYPE dataset SYSTEM "src/test/resources/datasets/database.dtd">
 
 <dataset>
-    <BOOK ID="regex:\d+" NAME="The First" AUTHOR="Mikalai Alimenkou"/>
+    <book id="regex:\d+" name="The First" author="Mikalai Alimenkou"/>
 </dataset>

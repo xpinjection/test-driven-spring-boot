@@ -102,11 +102,6 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
@@ -142,7 +137,13 @@
         <dependency>
             <groupId>com.github.database-rider</groupId>
             <artifactId>rider-core</artifactId>
-            <version>1.7.3</version>
+            <version>1.23.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.database-rider</groupId>
+            <artifactId>rider-spring</artifactId>
+            <version>1.23.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
