@@ -7,6 +7,8 @@ spring:
   application:
     admin:
       enabled: true
+  jmx:
+    enabled: true
 
 management:
   security:
@@ -18,6 +20,9 @@ management:
       probes:
         enabled: true
   endpoints:
+    jmx:
+      exposure:
+        include: '*'
     web:
       base-path: /admin
       exposure:
