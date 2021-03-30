@@ -1,5 +1,7 @@
+<!DOCTYPE dataset SYSTEM "src/test/resources/datasets/database.dtd">
+
 <dataset>
-    <BOOK/>
-    <EXPERT/>
-    <RECOMMENDATIONS/>
+    <book/>
+    <expert/>
+    <recommendations/>
 </dataset>

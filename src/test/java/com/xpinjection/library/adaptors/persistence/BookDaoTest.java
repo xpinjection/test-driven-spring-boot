@@ -9,7 +9,6 @@ import com.xpinjection.library.domain.Book;
 import org.dbunit.dataset.IDataSet;
 import org.junit.Test;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -66,10 +65,10 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Test
     @DataSet("empty.xml")
     @ExpectedDataSet("expected-books.xml")
-    @Commit
     public void booksMayBeStored() {
         var saved = dao.save(new Book("The First", "Mikalai Alimenkou"));
         assertThat(saved.getId()).isNotNull();
+        em.flush();
     }
 
     @Test

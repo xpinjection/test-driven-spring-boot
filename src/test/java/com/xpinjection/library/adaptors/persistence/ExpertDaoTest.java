@@ -1,6 +1,5 @@
 package com.xpinjection.library.adaptors.persistence;
 
-import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.xpinjection.library.adaptors.persistence.entity.ExpertEntity;
@@ -13,12 +12,13 @@ import org.springframework.test.context.transaction.TestTransaction;
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DBUnit(mergeDataSets = true)
 public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
     @Test
-    @DataSet(executeStatementsBefore = "ALTER TABLE expert ALTER COLUMN id RESTART WITH 1",
+    @DataSet(executeStatementsBefore = "ALTER SEQUENCE expert_id_seq RESTART WITH 1",
             value = "stored-books.xml", cleanBefore = true,
-            tableOrdering = {"recommendations", "expert", "book"})
+            tableOrdering = {"recommendations", "expert", "book"},
+            skipCleaningFor = "flyway_schema_history"
+    )
     @ExpectedDataSet("expected-stored-expert.xml")
     @Commit
     public void expertCanBeStored() {
@@ -28,6 +28,7 @@ public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
         expert.setRecommendations(newHashSet(book));
         var saved = dao.save(expert);
         assertThat(saved.getId()).isNotNull();
+        em.flush();
     }
 
     @Test(expected = DataIntegrityViolationException.class)

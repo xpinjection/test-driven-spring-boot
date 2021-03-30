@@ -12,7 +12,9 @@ import java.util.Set;
 @Setter @Getter
 @Table(name = "expert")
 public class ExpertEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "expert_id_seq")
+    @SequenceGenerator(name = "expert_id_seq", sequenceName = "expert_id_seq", allocationSize = 1)
     private Long id;
 
     @NonNull

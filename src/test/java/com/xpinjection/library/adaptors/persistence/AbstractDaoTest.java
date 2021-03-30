@@ -1,10 +1,9 @@
 package com.xpinjection.library.adaptors.persistence;
 
-import com.github.database.rider.core.DBUnitRule;
 import com.github.database.rider.core.api.dataset.DataSetFormat;
 import com.github.database.rider.core.api.exporter.ExportDataSet;
+import com.github.database.rider.spring.api.DBRider;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -21,17 +20,15 @@ import java.util.stream.Stream;
  */
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@DBRider
 @ActiveProfiles("test")
 @ExportDataSet(format = DataSetFormat.XML_DTD, outputName = "src/test/resources/datasets/database.dtd",
-        includeTables = {"BOOK", "EXPERT", "RECOMMENDATIONS"})
+        includeTables = {"book", "expert", "recommendations"})
 public abstract class AbstractDaoTest<D> {
     private static long ID = 1;
 
     @Autowired
     protected JdbcTemplate jdbcTemplate;
-
-    @Rule
-    public DBUnitRule dbUnitRule = DBUnitRule.instance(() -> jdbcTemplate.getDataSource().getConnection());
 
     @Autowired
     protected TestEntityManager em;
