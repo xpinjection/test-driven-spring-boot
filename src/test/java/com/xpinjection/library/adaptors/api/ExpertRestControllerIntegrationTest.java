@@ -24,6 +24,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Named.named;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,13 +75,13 @@ public class ExpertRestControllerIntegrationTest {
 
     private static Stream<Arguments> validationRules() {
         return Stream.of(
-                Arguments.of((Consumer<Expert>) expert -> expert.setName(" \n \t ")),
-                Arguments.of((Consumer<Expert>) expert -> expert.setContact(" \n \t ")),
-                Arguments.of((Consumer<Expert>) expert -> expert.setRecommendations(Set.of()))
+                arguments(named("blank name", (Consumer<Expert>) expert -> expert.setName(" \n \t "))),
+                arguments(named("blank contact", (Consumer<Expert>) expert -> expert.setContact(" \n \t "))),
+                arguments(named("no recommendations", (Consumer<Expert>) expert -> expert.setRecommendations(Set.of())))
         );
     }
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "{index}: {0}")
     @MethodSource("validationRules")
     void ifExpertIsInvalidReturnBadRequest(Consumer<Expert> invalidator) throws Exception {
         invalidator.accept(validExpert);
