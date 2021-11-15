@@ -1,6 +1,8 @@
 package com.xpinjection.library.domain;
 
 import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -10,11 +12,14 @@ import java.util.Set;
 import static java.util.Arrays.asList;
 
 @Data
+@RequiredArgsConstructor
 public class Expert {
     @NotBlank
-    private final String name;
+    @NonNull
+    private String name;
     @NotBlank
-    private final String contact;
+    @NonNull
+    private String contact;
     @NotEmpty
     private Set<Recommendation> recommendations = new HashSet<>();
 
