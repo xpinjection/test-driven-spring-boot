@@ -7,43 +7,45 @@ import com.github.database.rider.core.dataset.builder.DataSetBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.xpinjection.library.domain.Book;
 import org.dbunit.dataset.IDataSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.jdbc.Sql;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author Alimenkou Mikalai
  */
 public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Test
-    public void ifThereIsNoBookWithSuchNameEmptyOptionalIsReturned() {
+    void ifThereIsNoBookWithSuchNameEmptyOptionalIsReturned() {
         assertThat(dao.findByName("unknown")).isEmpty();
     }
 
     @Test
     @DataSet("books-by-name.xml")
     //@DataSet(provider = BooksByNameDataSetVerbose.class)
-    public void ifThereIsOnlyOneBookFoundByNameReturnIt() {
+    void ifThereIsOnlyOneBookFoundByNameReturnIt() {
         var expected = new Book("First", "Author");
         expected.setId(2L);
         assertThat(dao.findByName("First")).usingFieldByFieldValueComparator().contains(expected);
     }
 
-    @Test(expected = IncorrectResultSizeDataAccessException.class)
+    @Test
     @DataSet("books-by-name.xml")
-    public void ifSeveralBooksFoundByNameThrowException() {
-        dao.findByName("Second");
+    void ifSeveralBooksFoundByNameThrowException() {
+        assertThatThrownBy(() -> dao.findByName("Second"))
+                .isInstanceOf(IncorrectResultSizeDataAccessException.class);
     }
 
     @Test
-    public void ifThereIsNoBookWithSuchAuthorEmptyListIsReturned() {
+    void ifThereIsNoBookWithSuchAuthorEmptyListIsReturned() {
         assertThat(dao.findByAuthor("unknown")).isEmpty();
     }
 
     @Test
-    public void ifBooksByAuthorAreFoundTheyAreReturned() {
+    void ifBooksByAuthorAreFoundTheyAreReturned() {
         var id = addBookToDatabase("Title", "author");
         addBookToDatabase("Another title", "another author");
 
@@ -54,7 +56,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
     @Test
     @Sql("/books-for-the-same-author.sql")
-    public void severalBooksForTheSameAuthorAreReturned() {
+    void severalBooksForTheSameAuthorAreReturned() {
         var first = new Book("First book", "author");
         first.setId(1L);
         var second = new Book("Second book", "author");
@@ -65,7 +67,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Test
     @DataSet("empty.xml")
     @ExpectedDataSet("expected-books.xml")
-    public void booksMayBeStored() {
+    void booksMayBeStored() {
         var saved = dao.save(new Book("The First", "Mikalai Alimenkou"));
         assertThat(saved.getId()).isNotNull();
         em.flush();
@@ -73,7 +75,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
     @Test
     @DataSet("stored-books.xml")
-    public void ifBookAlreadyExistsItMayBeFoundUsingSeveralMethods() {
+    void ifBookAlreadyExistsItMayBeFoundUsingSeveralMethods() {
         var book = new Book("Existing book", "Unknown");
         book.setId(13L);
         assertThat(dao.findAll()).usingFieldByFieldElementComparator().contains(book);

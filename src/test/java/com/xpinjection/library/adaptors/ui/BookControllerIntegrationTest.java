@@ -5,15 +5,15 @@ import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.xpinjection.library.domain.Book;
 import com.xpinjection.library.service.BookService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
 
@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Alimenkou Mikalai
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(BookController.class)
 @ActiveProfiles("test")
 public class BookControllerIntegrationTest {
@@ -48,8 +48,8 @@ public class BookControllerIntegrationTest {
     private List<Book> books = asList(new Book("First", "author"),
             new Book("Second", "another author"));
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         when(bookService.findAllBooks()).thenReturn(books);
         webClient = MockMvcWebClientBuilder.mockMvcSetup(mockMvc)
                 .useMockMvcForHosts("books.com", "mylibrary.org")
@@ -57,7 +57,7 @@ public class BookControllerIntegrationTest {
     }
 
     @Test
-    public void requestForLibraryIsSuccessfullyProcessedWithAvailableBooksList() throws Exception {
+    void requestForLibraryIsSuccessfullyProcessedWithAvailableBooksList() throws Exception {
         this.mockMvc.perform(get("/library.html")
                 .accept(MediaType.parseMediaType("text/html;charset=UTF-8")))
                 .andExpect(status().isOk())
@@ -69,7 +69,7 @@ public class BookControllerIntegrationTest {
     }
 
     @Test
-    public void libraryPageContentIsRenderedAsHtmlWithListOfBooks() throws IOException {
+    void libraryPageContentIsRenderedAsHtmlWithListOfBooks() throws IOException {
         HtmlPage page = webClient.getPage("http://books.com/library.html");
         var booksList = page.getElementsByTagName("li").stream()
                 .map(DomNode::asText)

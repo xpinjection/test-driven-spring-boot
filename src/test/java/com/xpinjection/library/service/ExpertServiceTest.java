@@ -7,21 +7,22 @@ import com.xpinjection.library.domain.Book;
 import com.xpinjection.library.domain.Expert;
 import com.xpinjection.library.domain.Recommendation;
 import com.xpinjection.library.exception.InvalidRecommendationException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
 import java.util.Optional;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ExpertServiceTest {
     private ExpertService service;
 
@@ -33,13 +34,13 @@ public class ExpertServiceTest {
     private Expert expert = new Expert("Mikalai", "a@b.com");
     private ExpertEntity entity = new ExpertEntity("Mikalai", "a@b.com");
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         service = new ExpertServiceImpl(bookDao, expertDao);
     }
 
     @Test
-    public void expertIsStoredWithRecommendedBooksInAnyFormat() {
+    void expertIsStoredWithRecommendedBooksInAnyFormat() {
         var regular = expectBookFound("Spring in Action", "Arun Gupta");
         var humanFormat = expectBookFound("Hibernate in Action", "Sam Newman");
         entity.setRecommendations(newHashSet(regular, humanFormat));
@@ -50,30 +51,33 @@ public class ExpertServiceTest {
         assertThat(service.add(expert)).isEqualTo(7);
     }
 
-    @Test(expected = InvalidRecommendationException.class)
-    public void whenBookIsRecommendedInHumanFormatThenAuthorIsValidated() {
+    @Test
+    void whenBookIsRecommendedInHumanFormatThenAuthorIsValidated() {
         expectBookFound("Spring in Action", "Arun Gupta");
 
         expert.addRecommendations(new Recommendation("Spring in Action by Sam Newman"));
-        service.add(expert);
+        assertThatThrownBy(() -> service.add(expert))
+                .isInstanceOf(InvalidRecommendationException.class);
     }
 
-    @Test(expected = InvalidRecommendationException.class)
-    public void ifAllRecommendationsWasNotFoundThenThrowException() {
+    @Test
+    void ifAllRecommendationsWasNotFoundThenThrowException() {
         when(bookDao.findByName("Spring in Action"))
                 .thenReturn(Optional.empty());
 
         expert.addRecommendations(new Recommendation("Spring in Action"));
-        service.add(expert);
+        assertThatThrownBy(() -> service.add(expert))
+                .isInstanceOf(InvalidRecommendationException.class);
     }
 
-    @Test(expected = InvalidRecommendationException.class)
-    public void ifRecommendedBookFailedOnFindingThenThrowException() {
+    @Test
+    void ifRecommendedBookFailedOnFindingThenThrowException() {
         when(bookDao.findByName("Spring in Action"))
                 .thenThrow(new IncorrectResultSizeDataAccessException(1));
 
         expert.addRecommendations(new Recommendation("Spring in Action"));
-        service.add(expert);
+        assertThatThrownBy(() -> service.add(expert))
+                .isInstanceOf(InvalidRecommendationException.class);
     }
 
     private void expectExpertIsStored(long id) {

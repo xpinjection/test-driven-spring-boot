@@ -2,11 +2,11 @@ package com.xpinjection.library.adaptors.api;
 
 import com.xpinjection.library.domain.Book;
 import com.xpinjection.library.service.BookService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Alimenkou Mikalai
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class BookRestControllerTest {
     @Mock
     private BookService bookService;
@@ -30,15 +30,15 @@ public class BookRestControllerTest {
 
     private List<Book> books = asList(new Book("First", "A"), new Book("Second", "A"));
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(new BookRestController(bookService))
                 .build();
     }
 
     @Test
-    public void booksAreReturnedForAuthor() throws Exception {
+    void booksAreReturnedForAuthor() throws Exception {
         when(bookService.findBooksByAuthor("A")).thenReturn(books);
         mockMvc.perform(get("/books?author=A")
                 .accept(MediaType.APPLICATION_JSON))
@@ -51,7 +51,7 @@ public class BookRestControllerTest {
     }
 
     @Test
-    public void ifAuthorParamIsMissedThrowException() throws Exception {
+    void ifAuthorParamIsMissedThrowException() throws Exception {
         mockMvc.perform(get("/books")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

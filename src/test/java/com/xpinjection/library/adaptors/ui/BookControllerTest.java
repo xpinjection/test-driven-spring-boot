@@ -2,11 +2,11 @@ package com.xpinjection.library.adaptors.ui;
 
 import com.xpinjection.library.domain.Book;
 import com.xpinjection.library.service.BookService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.ExtendedModelMap;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * @author Alimenkou Mikalai
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class BookControllerTest {
     @Mock
     private BookService bookService;
@@ -35,22 +35,22 @@ public class BookControllerTest {
     private List<Book> books = asList(new Book("First", "author"),
             new Book("Second", "another author"));
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         controller = new BookController(bookService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
         when(bookService.findAllBooks()).thenReturn(books);
     }
 
     @Test
-    public void allBooksAreAddedToModelForLibraryView() {
+    void allBooksAreAddedToModelForLibraryView() {
         var model = new ExtendedModelMap();
         assertThat(controller.booksPage(model)).isEqualTo("library");
         assertThat(model.asMap()).containsEntry("books", books);
     }
 
     @Test
-    public void requestForLibraryIsSuccessfullyProcessedWithAvailableBooksList() throws Exception {
+    void requestForLibraryIsSuccessfullyProcessedWithAvailableBooksList() throws Exception {
         this.mockMvc.perform(get("/library.html"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", equalTo(books)))

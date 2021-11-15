@@ -3,11 +3,11 @@ package com.xpinjection.library.service;
 import com.xpinjection.library.adaptors.persistence.BookDao;
 import com.xpinjection.library.domain.Book;
 import com.xpinjection.library.domain.Books;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,31 +15,32 @@ import java.util.Map;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.*;
 
 /**
  * @author Alimenkou Mikalai
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class BookServiceImplTest {
     @Mock
     private BookDao dao;
 
     private BookService bookService;
 
-    @Before
-    public void init() {
+    @BeforeEach
+    void init() {
         bookService = new BookServiceImpl(dao);
     }
 
     @Test
-    public void ifNoBooksPassedEmptyListIsReturned() {
+    void ifNoBooksPassedEmptyListIsReturned() {
         assertThat(bookService.addBooks(Books.empty())).isEmpty();
     }
 
     @Test
-    public void forEveryPairOfTitleAndAuthorBookIsCreatedAndStored() {
+    void forEveryPairOfTitleAndAuthorBookIsCreatedAndStored() {
         var first = new Book("The first", "author");
         var second = new Book("The second", "another author");
         when(dao.save(notNull())).thenReturn(first).thenReturn(second);
@@ -51,25 +52,27 @@ public class BookServiceImplTest {
     }
 
     @Test
-    public void ifNoBooksFoundForAuthorReturnEmptyList() {
+    void ifNoBooksFoundForAuthorReturnEmptyList() {
         when(dao.findByAuthor("a")).thenReturn(emptyList());
 
         assertNoBooksFound("a");
         verify(dao, only()).findByAuthor("a");
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void ifAuthorIsEmptyThrowException() {
-        bookService.findBooksByAuthor(" \t \n ");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void ifAuthorIsNullThrowException() {
-        bookService.findBooksByAuthor(null);
+    @Test
+    void ifAuthorIsEmptyThrowException() {
+        assertThatThrownBy(() -> bookService.findBooksByAuthor(" \t \n "))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    public void booksByAuthorShouldBeCached() {
+    void ifAuthorIsNullThrowException() {
+        assertThatThrownBy(() -> bookService.findBooksByAuthor(null))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void booksByAuthorShouldBeCached() {
         var book = new Book("The book", "author");
         when(dao.findByAuthor("a")).thenReturn(singletonList(book));
         when(dao.findByAuthor("a a")).thenReturn(emptyList());
@@ -81,7 +84,7 @@ public class BookServiceImplTest {
     }
 
     @Test
-    public void ifCamelCaseDetectedThenSplitInvalidAuthorNameOnFirstAndLastName() {
+    void ifCamelCaseDetectedThenSplitInvalidAuthorNameOnFirstAndLastName() {
         var book = new Book("The book", "Mikalai Alimenkou");
         when(dao.findByAuthor("Mikalai Alimenkou")).thenReturn(singletonList(book));
 
@@ -89,7 +92,7 @@ public class BookServiceImplTest {
     }
 
     @Test
-    public void punctuationShouldBeIgnored() {
+    void punctuationShouldBeIgnored() {
         var book = new Book("The book", "Who cares");
         when(dao.findByAuthor("Who cares?")).thenReturn(singletonList(book));
 
@@ -97,7 +100,7 @@ public class BookServiceImplTest {
     }
 
     @Test
-    public void compositeLastNameIsNotSplit() {
+    void compositeLastNameIsNotSplit() {
         var book = new Book("The book", "Alfred McGregor");
         when(dao.findByAuthor("Alfred McGregor")).thenReturn(singletonList(book));
 
@@ -105,7 +108,7 @@ public class BookServiceImplTest {
     }
 
     @Test
-    public void authorNameShouldBeTrimmedBeforeUsage() {
+    void authorNameShouldBeTrimmedBeforeUsage() {
         var book = new Book("The book", "Mikalai Alimenkou");
         when(dao.findByAuthor("Mikalai Alimenkou")).thenReturn(singletonList(book));
 

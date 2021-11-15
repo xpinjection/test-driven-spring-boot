@@ -3,7 +3,7 @@ package com.xpinjection.library.adaptors.api;
 import com.xpinjection.library.domain.Books;
 import com.xpinjection.library.service.BookService;
 import org.apache.http.HttpStatus;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

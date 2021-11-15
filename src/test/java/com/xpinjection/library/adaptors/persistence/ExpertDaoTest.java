@@ -4,13 +4,14 @@ import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.xpinjection.library.adaptors.persistence.entity.ExpertEntity;
 import com.xpinjection.library.domain.Book;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.transaction.TestTransaction;
 
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
     @Test
@@ -21,7 +22,7 @@ public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
     )
     @ExpectedDataSet("expected-stored-expert.xml")
     @Commit
-    public void expertCanBeStored() {
+    void expertCanBeStored() {
         var expert = new ExpertEntity("Mikalai", "a@b.com");
         var book = new Book("Existing book", "Unknown");
         book.setId(13L);
@@ -31,20 +32,21 @@ public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
         em.flush();
     }
 
-    @Test(expected = DataIntegrityViolationException.class)
-    public void unknownBookCanNotBeStoredAsRecommendation() {
+    @Test
+    void unknownBookCanNotBeStoredAsRecommendation() {
         var expert = new ExpertEntity("Mikalai", "a@b.com");
         var book = new Book("Existing book", "Unknown");
         book.setId(17L);
         expert.setRecommendations(newHashSet(book));
         dao.save(expert);
         TestTransaction.flagForCommit();
-        TestTransaction.end();
+        assertThatThrownBy(TestTransaction::end)
+                .isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     @DataSet(value = {"stored-books.xml", "expected-stored-expert.xml"})
-    public void expertCanBeFoundById() {
+    void expertCanBeFoundById() {
         assertThat(dao.findById(1L).orElseThrow(IllegalStateException::new))
                 .hasFieldOrPropertyWithValue("name", "Mikalai");
     }
