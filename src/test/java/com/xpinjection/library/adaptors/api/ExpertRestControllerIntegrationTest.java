@@ -4,7 +4,6 @@ import com.xpinjection.library.domain.Expert;
 import com.xpinjection.library.domain.Recommendation;
 import com.xpinjection.library.exception.InvalidRecommendationException;
 import com.xpinjection.library.service.ExpertService;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +23,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.joining;
 import static org.junit.jupiter.api.Named.named;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.refEq;
@@ -41,8 +41,6 @@ public class ExpertRestControllerIntegrationTest {
 
     @MockBean
     private ExpertService service;
-
-    private ObjectMapper objectMapper = new ObjectMapper();
 
     private Expert validExpert;
 
@@ -91,8 +89,17 @@ public class ExpertRestControllerIntegrationTest {
     }
 
     private ResultActions addExpert(Expert expert) throws Exception {
+        var recommendations = expert.getRecommendations().stream()
+                .map(Recommendation::getSentence)
+                .map(s -> "\"" + s + "\"")
+                .collect(joining(","));
+
         return mockMvc.perform(post("/experts")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(objectMapper.writeValueAsString(expert)));
+                .content(String.format("{\n" +
+                        "  \"name\": \"%s\",\n" +
+                        "  \"contact\": \"%s\",\n" +
+                        "  \"recommendations\": [%s]\n" +
+                        "}", expert.getName(), expert.getContact(), recommendations)));
     }
 }
