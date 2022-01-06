@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 @ExportDataSet(format = DataSetFormat.XML_DTD, outputName = "src/test/resources/datasets/database.dtd",
         includeTables = {"book", "expert", "recommendations"})
 public abstract class AbstractDaoTest<D> {
-    private static long ID = 1;
+    private static long ID = 1000;
 
     @Autowired
     protected JdbcTemplate jdbcTemplate;

@@ -29,7 +29,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     void ifThereIsOnlyOneBookFoundByNameReturnIt() {
         var expected = new Book("First", "Author");
         expected.setId(2L);
-        assertThat(dao.findByName("First")).usingFieldByFieldValueComparator().contains(expected);
+        assertThat(dao.findByName("First")).get().usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
         var book = new Book("Title", "author");
         book.setId(id);
-        assertThat(dao.findByAuthor("author")).usingFieldByFieldElementComparator().contains(book);
+        assertThat(dao.findByAuthor("author")).usingRecursiveFieldByFieldElementComparator().contains(book);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
         first.setId(1L);
         var second = new Book("Second book", "author");
         second.setId(2L);
-        assertThat(dao.findByAuthor("author")).usingFieldByFieldElementComparator().contains(first, second);
+        assertThat(dao.findByAuthor("author")).usingRecursiveFieldByFieldElementComparator().contains(first, second);
     }
 
     @Test
@@ -78,11 +78,11 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     void ifBookAlreadyExistsItMayBeFoundUsingSeveralMethods() {
         var book = new Book("Existing book", "Unknown");
         book.setId(13L);
-        assertThat(dao.findAll()).usingFieldByFieldElementComparator().contains(book);
-        assertThat(dao.findById(13L)).usingFieldByFieldValueComparator().contains(book);
-        assertThat(dao.getOne(13L)).isEqualToComparingFieldByField(book);
+        assertThat(dao.findAll()).usingRecursiveFieldByFieldElementComparator().contains(book);
+        assertThat(dao.findById(13L)).get().usingRecursiveComparison().isEqualTo(book);
+        assertThat(dao.getById(13L)).usingRecursiveComparison().isEqualTo(book);
         assertThat(dao.existsById(13L)).isTrue();
-        assertThat(dao.findByAuthor("Unknown")).usingFieldByFieldElementComparator().contains(book);
+        assertThat(dao.findByAuthor("Unknown")).usingRecursiveFieldByFieldElementComparator().contains(book);
     }
 
     private long addBookToDatabase(String title, String author) {

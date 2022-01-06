@@ -11,8 +11,6 @@ spring:
     enabled: true
 
 management:
-  security:
-    role: ADMIN
   endpoint:
     health:
       show-details: always
@@ -28,6 +26,10 @@ management:
       exposure:
         include: '*'
   info:
+    java:
+      enabled: true
+    env:
+      enabled: true
     git:
       mode: full
 

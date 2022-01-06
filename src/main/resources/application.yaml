@@ -16,6 +16,9 @@ server:
     mime-types: text/html,text/xml,text/plain,text/css,application/json
 
 spring:
+  sql:
+    init:
+      mode: never
   application:
     name: library
   jackson:
@@ -37,7 +40,6 @@ spring:
       maximum-pool-size: 10
       connection-test-query: SELECT 1
       pool-name: library-db-cp
-    initialization-mode: never
   jpa:
     generate-ddl: false
     hibernate:
