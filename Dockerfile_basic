@@ -1,4 +1,4 @@
-FROM openjdk:13.0.2-slim
+FROM openjdk:17.0.1-slim
 VOLUME /tmp
 COPY target/*.jar library.jar
 ENTRYPOINT ["java","-jar","/library.jar"]

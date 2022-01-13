@@ -1,9 +1,9 @@
-FROM openjdk:13.0.2-slim as builder
+FROM openjdk:17.0.1-slim as builder
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} library.jar
 RUN java -Djarmode=layertools -jar library.jar extract
 
-FROM openjdk:13.0.2-slim
+FROM openjdk:17.0.1-slim
 VOLUME /tmp
 COPY --from=builder dependencies/ ./
 COPY --from=builder snapshot-dependencies/ ./
