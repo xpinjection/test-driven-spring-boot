@@ -20,11 +20,12 @@ public class ExpertApiTest extends AbstractApiTest {
     public void expertCouldBeAddedWithRecommendations() {
         int id = given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body("{\n" +
-                    "  \"name\": \"Mikalai\",\n" +
-                    "  \"contact\": \"+38099023546\",\n" +
-                    "  \"recommendations\": [\"Effective Java by Josh Bloch\"]\n" +
-                    "}")
+            .body("""
+                    {
+                      "name": "Mikalai",
+                      "contact": "+38099023546",
+                      "recommendations": ["Effective Java by Josh Bloch"]
+                    }""")
         .when()
             .post("/experts")
         .then()

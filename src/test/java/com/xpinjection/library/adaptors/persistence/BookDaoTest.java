@@ -29,7 +29,8 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     void ifThereIsOnlyOneBookFoundByNameReturnIt() {
         var expected = new Book("First", "Author");
         expected.setId(2L);
-        assertThat(dao.findByName("First")).get().usingRecursiveComparison().isEqualTo(expected);
+        assertThat(dao.findByName("First")).get()
+                .usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test

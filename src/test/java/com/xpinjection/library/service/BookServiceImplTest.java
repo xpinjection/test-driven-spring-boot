@@ -16,7 +16,6 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -43,7 +42,8 @@ public class BookServiceImplTest {
     void forEveryPairOfTitleAndAuthorBookIsCreatedAndStored() {
         var first = new Book("The first", "author");
         var second = new Book("The second", "another author");
-        when(dao.save(notNull())).thenReturn(first).thenReturn(second);
+        when(dao.save(refEq(first))).thenReturn(first);
+        when(dao.save(refEq(second))).thenReturn(second);
 
         Map<String, String> books = new HashMap<>();
         books.put("The first", "author");

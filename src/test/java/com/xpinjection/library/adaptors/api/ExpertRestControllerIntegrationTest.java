@@ -96,10 +96,11 @@ public class ExpertRestControllerIntegrationTest {
 
         return mockMvc.perform(post("/experts")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(String.format("{\n" +
-                        "  \"name\": \"%s\",\n" +
-                        "  \"contact\": \"%s\",\n" +
-                        "  \"recommendations\": [%s]\n" +
-                        "}", expert.getName(), expert.getContact(), recommendations)));
+                .content(String.format("""
+                        {
+                          "name": "%s",
+                          "contact": "%s",
+                          "recommendations": [%s]
+                        }""", expert.getName(), expert.getContact(), recommendations)));
     }
 }
