@@ -184,9 +184,16 @@
                         <enabled>true</enabled>
                     </layers>
                     <image>
-                        <name>xpinjection.com/library:v0.1.0</name>
+                        <name>xpinjection.com/library:0.1.0</name>
                     </image>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
