@@ -11,6 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@ContextConfiguration(initializers = StandaloneApplicationContextInitializer.class)
 @DBRider
 @ActiveProfiles("test")
 public abstract class AbstractApiTest {
