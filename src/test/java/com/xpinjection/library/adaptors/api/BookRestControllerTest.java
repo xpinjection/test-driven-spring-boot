@@ -1,6 +1,5 @@
 package com.xpinjection.library.adaptors.api;
 
-import com.xpinjection.library.adaptors.FakeManagementConfig;
 import com.xpinjection.library.domain.Book;
 import com.xpinjection.library.service.BookService;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -24,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Alimenkou Mikalai
  */
 @ExtendWith(MockitoExtension.class)
-@Import(FakeManagementConfig.class)
 public class BookRestControllerTest {
     @Mock
     private BookService bookService;
