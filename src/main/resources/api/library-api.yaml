@@ -1,0 +1,59 @@
+openapi: 3.0.3
+info:
+  title: Library API
+  description: Library API
+  version: 0.1.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /books:
+    get:
+      tags:
+        - books
+      summary: Find books by author
+      operationId: findBooksByAuthor
+      responses:
+        '200':
+          description: List of found books is returned
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Books"
+      parameters:
+        - name: author
+          in: query
+          description: Author name filter
+          allowEmptyValue: false
+          required: true
+          example: Josh Bloch
+          schema:
+            type: string
+components:
+  schemas:
+    BookDto:
+      type: object
+      required:
+        - id
+        - name
+        - author
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Book unique ID
+          readOnly: true
+          example: 101
+        name:
+          type: string
+          description: Book name
+          readOnly: true
+          example: Effective Java
+        author:
+          type: string
+          description: Book author
+          readOnly: true
+          example: Josh Bloch
+    Books:
+      type: array
+      items:
+        $ref: "#/components/schemas/BookDto"

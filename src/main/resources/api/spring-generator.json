@@ -1,0 +1,19 @@
+{
+  "groupId": "com.xpinjection",
+  "artifactId":	"library-api",
+  "artifactDescription": "Library API",
+  "artifactVersion": "0.1.0",
+  "basePackage": "com.xpinjection.library",
+  "apiPackage":	"com.xpinjection.library.adaptors.api",
+  "modelPackage": "com.xpinjection.library.adaptors.api.dto",
+  "configPackage":	"com.xpinjection.library.config",
+  "invokerPackage":	"com.xpinjection.library",
+  "library": "spring-boot",
+  "documentationProvider": "springdoc",
+  "singleContentTypes": true,
+  "legacyDiscriminatorBehavior": false,
+  "performBeanValidation": true,
+  "interfaceOnly": true,
+  "skipDefaultInterface": true,
+  "testOutput":	"src/test/java"
+}
