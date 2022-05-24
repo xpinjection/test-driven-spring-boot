@@ -29,4 +29,5 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        junit_files: ${{ github.workspace }}/target/surefire-reports/*.xml
+        junit_files: "**/surefire-reports/TEST-*.xml"
+        files: "**/surefire-reports/TEST-*.xml"
