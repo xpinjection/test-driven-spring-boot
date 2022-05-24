@@ -4,6 +4,7 @@ import com.github.database.rider.core.api.dataset.DataSetFormat;
 import com.github.database.rider.core.api.exporter.ExportDataSet;
 import com.github.database.rider.spring.api.DBRider;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -22,8 +23,6 @@ import java.util.stream.Stream;
 @DataJpaTest
 @DBRider
 @ActiveProfiles("test")
-@ExportDataSet(format = DataSetFormat.XML_DTD, outputName = "src/test/resources/datasets/database.dtd",
-        includeTables = {"book", "expert", "recommendations"})
 public abstract class AbstractDaoTest<D> {
     private static long ID = 1000;
 
@@ -43,5 +42,11 @@ public abstract class AbstractDaoTest<D> {
                 " (id, " + String.join(", ", fields.keySet()) +
                 ") VALUES (?" + StringUtils.repeat(", ?", fields.size()) + ")", params);
         return id;
+    }
+
+    @Test
+    @ExportDataSet(format = DataSetFormat.XML_DTD, outputName = "src/test/resources/datasets/database.dtd",
+            includeTables = {"book", "expert", "recommendations"})
+    void exportDatabaseStructure() {
     }
 }

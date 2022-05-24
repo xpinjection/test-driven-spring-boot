@@ -1,4 +1,4 @@
-cacheConnection: false
+cacheConnection: true
 leakHunter: false
 caseInsensitiveStrategy: LOWERCASE
 mergeDataSets: true
