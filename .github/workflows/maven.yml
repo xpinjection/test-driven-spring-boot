@@ -30,4 +30,3 @@ jobs:
       if: always()
       with:
         junit_files: "**/surefire-reports/TEST-*.xml"
-        files: "**/surefire-reports/TEST-*.xml"
