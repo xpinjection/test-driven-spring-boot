@@ -1,4 +1,4 @@
-# test-driven-spring-boot
+# Library application
 
 ![CI status](https://github.com/xpinjection/test-driven-spring-boot/actions/workflows/maven.yml/badge.svg)
 
