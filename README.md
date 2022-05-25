@@ -2,7 +2,7 @@
 
 ![CI status](https://github.com/xpinjection/test-driven-spring-boot/actions/workflows/maven.yml/badge.svg)
 
-Sample Spring Boot applications written in TDD style.
+Sample Spring Boot cloud-native application written in TDD style.
 
 The easiest way to run application locally is to use _LocalLibraryApplication_ class. It will run all needed dependencies in the Docker containers and configure application to use them automatically.
 
