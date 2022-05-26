@@ -66,3 +66,6 @@ library:
 logging:
   file:
     name: library.log
+
+springdoc:
+  packages-to-scan: com.xpinjection.library.adaptors.api

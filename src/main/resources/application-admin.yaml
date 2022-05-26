@@ -35,6 +35,3 @@ management:
       enabled: true
     git:
       mode: full
-
-
-

@@ -2,6 +2,7 @@ package com.xpinjection.library.adaptors.api;
 
 import com.xpinjection.library.domain.Book;
 import com.xpinjection.library.service.BookService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import java.util.List;
 /**
  * @author Alimenkou Mikalai
  */
+@Tag(name = "books")
 @RestController
 @AllArgsConstructor
 public class BookRestController {
