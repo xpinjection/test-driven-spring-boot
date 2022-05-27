@@ -1,12 +1,13 @@
-package com.xpinjection.library.service;
+package com.xpinjection.library.service.impl;
 
 import com.xpinjection.library.adaptors.persistence.BookDao;
 import com.xpinjection.library.adaptors.persistence.ExpertDao;
 import com.xpinjection.library.adaptors.persistence.entity.ExpertEntity;
 import com.xpinjection.library.domain.Book;
-import com.xpinjection.library.domain.Expert;
-import com.xpinjection.library.domain.Recommendation;
+import com.xpinjection.library.domain.dto.CreateExpertDto;
+import com.xpinjection.library.domain.dto.Recommendation;
 import com.xpinjection.library.exception.InvalidRecommendationException;
+import com.xpinjection.library.service.ExpertService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -27,25 +28,25 @@ public class ExpertServiceImpl implements ExpertService {
     private final ExpertDao expertDao;
 
     @Override
-    public long add(Expert expert) {
+    public long addExpert(CreateExpertDto expert) {
         LOG.info("Add expert: {}", expert);
         var books = findRecommendedBooks(expert);
         if (books.isEmpty()) {
             LOG.error("Recommended books are not found");
             throw new InvalidRecommendationException("No valid recommendations");
         }
-        var saved = storeExpert(expert, books);
-        LOG.info("Expert is stored with ID: {}", saved.getId());
-        return saved.getId();
+        var created = createExpert(expert, books);
+        LOG.info("Expert is stored with ID: {}", created.getId());
+        return created.getId();
     }
 
-    private ExpertEntity storeExpert(Expert expert, Set<Book> books) {
+    private ExpertEntity createExpert(CreateExpertDto expert, Set<Book> books) {
         var entity = new ExpertEntity(expert.getName(), expert.getContact());
         entity.setRecommendations(books);
         return expertDao.save(entity);
     }
 
-    private Set<Book> findRecommendedBooks(Expert expert) {
+    private Set<Book> findRecommendedBooks(CreateExpertDto expert) {
         return expert.getRecommendations()
                     .stream()
                     .map(this::findBookByRecommendation)

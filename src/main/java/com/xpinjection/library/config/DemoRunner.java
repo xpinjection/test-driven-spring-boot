@@ -1,6 +1,6 @@
 package com.xpinjection.library.config;
 
-import com.xpinjection.library.domain.Books;
+import com.xpinjection.library.domain.dto.Books;
 import com.xpinjection.library.service.BookService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,6 @@
-package com.xpinjection.library.domain;
+package com.xpinjection.library.domain.dto;
+
+import com.xpinjection.library.domain.Book;
 
 import java.util.HashMap;
 import java.util.List;

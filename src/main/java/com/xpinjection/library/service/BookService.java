@@ -1,7 +1,7 @@
 package com.xpinjection.library.service;
 
-import com.xpinjection.library.domain.Book;
-import com.xpinjection.library.domain.Books;
+import com.xpinjection.library.domain.dto.BookDto;
+import com.xpinjection.library.domain.dto.Books;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import java.util.List;
  * @author Alimenkou Mikalai
  */
 public interface BookService {
-    List<Book> addBooks(Books books);
+    List<BookDto> addBooks(Books books);
 
-    List<Book> findBooksByAuthor(String author);
+    List<BookDto> findBooksByAuthor(String author);
 
-    List<Book> findAllBooks();
+    List<BookDto> findAllBooks();
 }

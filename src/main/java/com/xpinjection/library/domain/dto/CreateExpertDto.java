@@ -1,4 +1,4 @@
-package com.xpinjection.library.domain;
+package com.xpinjection.library.domain.dto;
 
 import lombok.Data;
 import lombok.NonNull;
@@ -13,7 +13,7 @@ import static java.util.Arrays.asList;
 
 @Data
 @RequiredArgsConstructor
-public class Expert {
+public class CreateExpertDto {
     @NotBlank
     @NonNull
     private String name;

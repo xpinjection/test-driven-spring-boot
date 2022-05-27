@@ -1,7 +1,7 @@
 package com.xpinjection.library.service;
 
-import com.xpinjection.library.domain.Expert;
+import com.xpinjection.library.domain.dto.CreateExpertDto;
 
 public interface ExpertService {
-    long add(Expert expert);
+    long addExpert(CreateExpertDto expert);
 }

@@ -1,7 +1,7 @@
 package com.xpinjection.library.adaptors.api;
 
-import com.xpinjection.library.adaptors.api.dto.ExpertState;
-import com.xpinjection.library.domain.Expert;
+import com.xpinjection.library.adaptors.api.dto.NewExpert;
+import com.xpinjection.library.domain.dto.CreateExpertDto;
 import com.xpinjection.library.exception.InvalidRecommendationException;
 import com.xpinjection.library.service.ExpertService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,9 +19,9 @@ public class ExpertRestController {
     private final ExpertService service;
 
     @PostMapping(path = "/experts", produces = MediaType.APPLICATION_JSON_VALUE)
-    ExpertState addExpert(@RequestBody @Valid Expert expert) {
-        long id = service.add(expert);
-        return new ExpertState(id);
+    NewExpert addExpert(@RequestBody @Valid CreateExpertDto command) {
+        long id = service.addExpert(command);
+        return new NewExpert(id);
     }
 
     @ExceptionHandler(InvalidRecommendationException.class)

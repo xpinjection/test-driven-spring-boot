@@ -2,7 +2,8 @@ package com.xpinjection.library.service;
 
 import com.xpinjection.library.adaptors.persistence.BookDao;
 import com.xpinjection.library.domain.Book;
-import com.xpinjection.library.domain.Books;
+import com.xpinjection.library.domain.dto.Books;
+import com.xpinjection.library.service.impl.BookServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,7 +49,8 @@ public class BookServiceImplTest {
         Map<String, String> books = new HashMap<>();
         books.put("The first", "author");
         books.put("The second", "another author");
-        assertThat(bookService.addBooks(Books.fromMap(books))).contains(first, second);
+        assertThat(bookService.addBooks(Books.fromMap(books)))
+                .contains(first.toDto(), second.toDto());
     }
 
     @Test
@@ -116,7 +118,7 @@ public class BookServiceImplTest {
     }
 
     private void assertBooksByAuthor(String author, Book book) {
-        assertThat(bookService.findBooksByAuthor(author)).contains(book);
+        assertThat(bookService.findBooksByAuthor(author)).contains(book.toDto());
     }
 
     private void assertNoBooksFound(String author) {

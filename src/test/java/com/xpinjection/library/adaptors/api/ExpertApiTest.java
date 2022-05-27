@@ -1,6 +1,6 @@
 package com.xpinjection.library.adaptors.api;
 
-import com.xpinjection.library.domain.Books;
+import com.xpinjection.library.domain.dto.Books;
 import com.xpinjection.library.service.BookService;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;

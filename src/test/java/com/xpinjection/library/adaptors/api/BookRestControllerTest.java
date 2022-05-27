@@ -1,6 +1,6 @@
 package com.xpinjection.library.adaptors.api;
 
-import com.xpinjection.library.domain.Book;
+import com.xpinjection.library.domain.dto.BookDto;
 import com.xpinjection.library.service.BookService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,8 @@ public class BookRestControllerTest {
 
     private MockMvc mockMvc;
 
-    private List<Book> books = asList(new Book("First", "A"), new Book("Second", "A"));
+    private final List<BookDto> books = asList(new BookDto(1L,"First", "A"),
+            new BookDto(2L, "Second", "A"));
 
     @BeforeEach
     void init() {

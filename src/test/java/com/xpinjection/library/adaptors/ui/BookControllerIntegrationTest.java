@@ -3,7 +3,7 @@ package com.xpinjection.library.adaptors.ui;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.xpinjection.library.domain.Book;
+import com.xpinjection.library.domain.dto.BookDto;
 import com.xpinjection.library.service.BookService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,8 +45,8 @@ public class BookControllerIntegrationTest {
     @MockBean
     private BookService bookService;
 
-    private List<Book> books = asList(new Book("First", "author"),
-            new Book("Second", "another author"));
+    private final List<BookDto> books = asList(new BookDto(1L, "First", "author"),
+            new BookDto(2L,"Second", "another author"));
 
     @BeforeEach
     void init() {

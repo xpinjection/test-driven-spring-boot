@@ -4,9 +4,10 @@ import com.xpinjection.library.adaptors.persistence.BookDao;
 import com.xpinjection.library.adaptors.persistence.ExpertDao;
 import com.xpinjection.library.adaptors.persistence.entity.ExpertEntity;
 import com.xpinjection.library.domain.Book;
-import com.xpinjection.library.domain.Expert;
-import com.xpinjection.library.domain.Recommendation;
+import com.xpinjection.library.domain.dto.CreateExpertDto;
+import com.xpinjection.library.domain.dto.Recommendation;
 import com.xpinjection.library.exception.InvalidRecommendationException;
+import com.xpinjection.library.service.impl.ExpertServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,8 +32,8 @@ public class ExpertServiceTest {
     @Mock
     private ExpertDao expertDao;
 
-    private Expert expert = new Expert("Mikalai", "a@b.com");
-    private ExpertEntity entity = new ExpertEntity("Mikalai", "a@b.com");
+    private final CreateExpertDto expert = new CreateExpertDto("Mikalai", "a@b.com");
+    private final ExpertEntity entity = new ExpertEntity("Mikalai", "a@b.com");
 
     @BeforeEach
     void init() {
@@ -48,7 +49,7 @@ public class ExpertServiceTest {
 
         expert.addRecommendations(new Recommendation("Spring in Action"),
                 new Recommendation("Hibernate in Action by Sam Newman"));
-        assertThat(service.add(expert)).isEqualTo(7);
+        assertThat(service.addExpert(expert)).isEqualTo(7);
     }
 
     @Test
@@ -56,7 +57,7 @@ public class ExpertServiceTest {
         expectBookFound("Spring in Action", "Arun Gupta");
 
         expert.addRecommendations(new Recommendation("Spring in Action by Sam Newman"));
-        assertThatThrownBy(() -> service.add(expert))
+        assertThatThrownBy(() -> service.addExpert(expert))
                 .isInstanceOf(InvalidRecommendationException.class);
     }
 
@@ -66,7 +67,7 @@ public class ExpertServiceTest {
                 .thenReturn(Optional.empty());
 
         expert.addRecommendations(new Recommendation("Spring in Action"));
-        assertThatThrownBy(() -> service.add(expert))
+        assertThatThrownBy(() -> service.addExpert(expert))
                 .isInstanceOf(InvalidRecommendationException.class);
     }
 
@@ -76,7 +77,7 @@ public class ExpertServiceTest {
                 .thenThrow(new IncorrectResultSizeDataAccessException(1));
 
         expert.addRecommendations(new Recommendation("Spring in Action"));
-        assertThatThrownBy(() -> service.add(expert))
+        assertThatThrownBy(() -> service.addExpert(expert))
                 .isInstanceOf(InvalidRecommendationException.class);
     }
 

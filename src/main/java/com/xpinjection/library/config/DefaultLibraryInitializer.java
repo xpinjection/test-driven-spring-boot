@@ -1,6 +1,6 @@
 package com.xpinjection.library.config;
 
-import com.xpinjection.library.domain.Books;
+import com.xpinjection.library.domain.dto.Books;
 import com.xpinjection.library.service.BookService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class DefaultLibraryInitializer implements ApplicationRunner {
     private final LibrarySettings settings;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         if (args.containsOption("debug")) {
             LOG.info("Application is started in DEBUG mode");
         }
