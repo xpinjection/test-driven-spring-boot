@@ -57,6 +57,9 @@ spring:
     open-in-view: false
   mvc:
     throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      static-locations: classpath:/static/, classpath:/api/spec/
   jmx:
     enabled: false
 
@@ -69,3 +72,9 @@ logging:
 
 springdoc:
   packages-to-scan: com.xpinjection.library.adaptors.api
+  swagger-ui:
+    urls:
+      - url: /v1/library-api.yaml
+        name: static
+      - url: /v3/api-docs.yaml
+        name: generated
