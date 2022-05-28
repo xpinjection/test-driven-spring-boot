@@ -1,9 +1,9 @@
 package com.xpinjection.library.adaptors.api;
 
 import com.xpinjection.library.adaptors.api.dto.NewExpert;
-import com.xpinjection.library.domain.dto.CreateExpertDto;
-import com.xpinjection.library.exception.InvalidRecommendationException;
 import com.xpinjection.library.service.ExpertService;
+import com.xpinjection.library.service.dto.CreateExpertDto;
+import com.xpinjection.library.service.exception.InvalidRecommendationException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

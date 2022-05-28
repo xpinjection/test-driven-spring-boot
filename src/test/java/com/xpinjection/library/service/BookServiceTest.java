@@ -2,7 +2,7 @@ package com.xpinjection.library.service;
 
 import com.xpinjection.library.adaptors.persistence.BookDao;
 import com.xpinjection.library.domain.Book;
-import com.xpinjection.library.domain.dto.Books;
+import com.xpinjection.library.service.dto.Books;
 import com.xpinjection.library.service.impl.BookServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.xpinjection.library.service.impl.BookServiceImpl.toDto;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.*;
  * @author Alimenkou Mikalai
  */
 @ExtendWith(MockitoExtension.class)
-public class BookServiceImplTest {
+public class BookServiceTest {
     @Mock
     private BookDao dao;
 
@@ -50,7 +51,7 @@ public class BookServiceImplTest {
         books.put("The first", "author");
         books.put("The second", "another author");
         assertThat(bookService.addBooks(Books.fromMap(books)))
-                .contains(first.toDto(), second.toDto());
+                .contains(toDto(first), toDto(second));
     }
 
     @Test
@@ -118,7 +119,7 @@ public class BookServiceImplTest {
     }
 
     private void assertBooksByAuthor(String author, Book book) {
-        assertThat(bookService.findBooksByAuthor(author)).contains(book.toDto());
+        assertThat(bookService.findBooksByAuthor(author)).contains(toDto(book));
     }
 
     private void assertNoBooksFound(String author) {

@@ -1,7 +1,7 @@
 package com.xpinjection.library.service;
 
-import com.xpinjection.library.domain.dto.BookDto;
-import com.xpinjection.library.domain.dto.Books;
+import com.xpinjection.library.service.dto.BookDto;
+import com.xpinjection.library.service.dto.Books;
 
 import java.util.List;
 

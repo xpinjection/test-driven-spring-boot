@@ -1,4 +1,4 @@
-package com.xpinjection.library.domain.dto;
+package com.xpinjection.library.service.dto;
 
 import lombok.Data;
 import lombok.NonNull;

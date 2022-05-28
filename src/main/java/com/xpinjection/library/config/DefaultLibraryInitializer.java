@@ -1,7 +1,7 @@
 package com.xpinjection.library.config;
 
-import com.xpinjection.library.domain.dto.Books;
 import com.xpinjection.library.service.BookService;
+import com.xpinjection.library.service.dto.Books;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;

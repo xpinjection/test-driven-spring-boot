@@ -2,9 +2,9 @@ package com.xpinjection.library.service.impl;
 
 import com.xpinjection.library.adaptors.persistence.BookDao;
 import com.xpinjection.library.domain.Book;
-import com.xpinjection.library.domain.dto.BookDto;
-import com.xpinjection.library.domain.dto.Books;
 import com.xpinjection.library.service.BookService;
+import com.xpinjection.library.service.dto.BookDto;
+import com.xpinjection.library.service.dto.Books;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<BookDto> addBooks(Books books) {
         LOG.info("Adding books: {}", books);
-        return toDto(books.asList().stream()
+        return toDto(books.stream()
+                .map(entry -> new Book(entry.getKey(), entry.getValue()))
                 .map(bookDao::save));
     }
 
@@ -74,7 +75,11 @@ public class BookServiceImpl implements BookService {
     }
 
     private List<BookDto> toDto(Stream<Book> books) {
-        return books.map(Book::toDto)
+        return books.map(BookServiceImpl::toDto)
                 .collect(toList());
+    }
+
+    public static BookDto toDto(Book book) {
+        return new BookDto(book.getId(), book.getName(), book.getAuthor());
     }
 }

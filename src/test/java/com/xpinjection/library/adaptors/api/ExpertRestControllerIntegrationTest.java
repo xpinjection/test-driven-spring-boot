@@ -1,9 +1,9 @@
 package com.xpinjection.library.adaptors.api;
 
-import com.xpinjection.library.domain.dto.CreateExpertDto;
-import com.xpinjection.library.domain.dto.Recommendation;
-import com.xpinjection.library.exception.InvalidRecommendationException;
 import com.xpinjection.library.service.ExpertService;
+import com.xpinjection.library.service.dto.CreateExpertDto;
+import com.xpinjection.library.service.dto.Recommendation;
+import com.xpinjection.library.service.exception.InvalidRecommendationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

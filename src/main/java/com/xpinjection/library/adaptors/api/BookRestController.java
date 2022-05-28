@@ -1,7 +1,7 @@
 package com.xpinjection.library.adaptors.api;
 
-import com.xpinjection.library.domain.dto.BookDto;
 import com.xpinjection.library.service.BookService;
+import com.xpinjection.library.service.dto.BookDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;

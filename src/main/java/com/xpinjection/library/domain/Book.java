@@ -1,6 +1,5 @@
 package com.xpinjection.library.domain;
 
-import com.xpinjection.library.domain.dto.BookDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,8 +23,4 @@ public class Book {
 
     @NonNull
     private String author;
-
-    public BookDto toDto() {
-        return new BookDto(id, name, author);
-    }
 }
