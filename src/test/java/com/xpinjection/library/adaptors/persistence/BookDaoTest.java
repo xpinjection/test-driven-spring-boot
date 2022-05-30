@@ -7,6 +7,7 @@ import com.github.database.rider.core.dataset.builder.DataSetBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.xpinjection.library.domain.Book;
 import org.dbunit.dataset.IDataSet;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.jdbc.Sql;
@@ -18,51 +19,61 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Alimenkou Mikalai
  */
 public class BookDaoTest extends AbstractDaoTest<BookDao> {
-    @Test
-    void ifThereIsNoBookWithSuchNameThenEmptyOptionalIsReturned() {
-        assertThat(dao.findByName("unknown")).isEmpty();
+    @Nested
+    class FindByNameTests {
+        @Test
+        void ifThereIsNoBookWithSuchNameThenEmptyOptionalIsReturned() {
+            assertThat(dao.findByName("unknown")).isEmpty();
+        }
+
+        @Test
+        @DataSet("books-by-name.xml")
+            //@DataSet(provider = BooksByNameDataSetVerbose.class)
+        void ifThereIsOnlyOneBookFoundByNameThenReturnIt() {
+            var expected = new Book("First", "Author");
+            expected.setId(2L);
+            assertThat(dao.findByName("First")).get()
+                    .usingRecursiveComparison().isEqualTo(expected);
+        }
+
+        @Test
+        @DataSet("books-by-name.xml")
+        void ifSeveralBooksFoundByNameThenThrowException() {
+            assertThatThrownBy(() -> dao.findByName("Second"))
+                    .isInstanceOf(IncorrectResultSizeDataAccessException.class);
+        }
     }
 
-    @Test
-    @DataSet("books-by-name.xml")
-    //@DataSet(provider = BooksByNameDataSetVerbose.class)
-    void ifThereIsOnlyOneBookFoundByNameThenReturnIt() {
-        var expected = new Book("First", "Author");
-        expected.setId(2L);
-        assertThat(dao.findByName("First")).get()
-                .usingRecursiveComparison().isEqualTo(expected);
-    }
+    @Nested
+    class FindByAuthorTests {
+        @Test
+        void ifThereIsNoBookWithSuchAuthorThenEmptyListIsReturned() {
+            assertThat(dao.findByAuthor("unknown")).isEmpty();
+        }
 
-    @Test
-    @DataSet("books-by-name.xml")
-    void ifSeveralBooksFoundByNameThenThrowException() {
-        assertThatThrownBy(() -> dao.findByName("Second"))
-                .isInstanceOf(IncorrectResultSizeDataAccessException.class);
-    }
+        @Test
+        void ifBooksByAuthorAreFoundThenTheyAreAllReturned() {
+            var id = addBookToDatabase("Title", "author");
+            addBookToDatabase("Another title", "another author");
 
-    @Test
-    void ifThereIsNoBookWithSuchAuthorThenEmptyListIsReturned() {
-        assertThat(dao.findByAuthor("unknown")).isEmpty();
-    }
+            var book = new Book("Title", "author");
+            book.setId(id);
+            assertThat(dao.findByAuthor("author")).usingRecursiveFieldByFieldElementComparator().contains(book);
+        }
 
-    @Test
-    void ifBooksByAuthorAreFoundThenTheyAreAllReturned() {
-        var id = addBookToDatabase("Title", "author");
-        addBookToDatabase("Another title", "another author");
+        @Test
+        @Sql("/books-for-the-same-author.sql")
+        void ifSeveralBooksForTheSameAuthorThenTheyAreAllReturned() {
+            var first = new Book("First book", "author");
+            first.setId(1L);
+            var second = new Book("Second book", "author");
+            second.setId(2L);
+            assertThat(dao.findByAuthor("author")).usingRecursiveFieldByFieldElementComparator().contains(first, second);
+        }
 
-        var book = new Book("Title", "author");
-        book.setId(id);
-        assertThat(dao.findByAuthor("author")).usingRecursiveFieldByFieldElementComparator().contains(book);
-    }
-
-    @Test
-    @Sql("/books-for-the-same-author.sql")
-    void ifSeveralBooksForTheSameAuthorThenTheyAreAllReturned() {
-        var first = new Book("First book", "author");
-        first.setId(1L);
-        var second = new Book("Second book", "author");
-        second.setId(2L);
-        assertThat(dao.findByAuthor("author")).usingRecursiveFieldByFieldElementComparator().contains(first, second);
+        private long addBookToDatabase(String title, String author) {
+            return addRecordToDatabase("book", ImmutableMap.of("name", title, "author", author));
+        }
     }
 
     @Test
@@ -84,10 +95,6 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
         assertThat(dao.getById(13L)).usingRecursiveComparison().isEqualTo(book);
         assertThat(dao.existsById(13L)).isTrue();
         assertThat(dao.findByAuthor("Unknown")).usingRecursiveFieldByFieldElementComparator().contains(book);
-    }
-
-    private long addBookToDatabase(String title, String author) {
-        return addRecordToDatabase("book", ImmutableMap.of("name", title, "author", author));
     }
 
     public static class BooksByNameDataSet implements DataSetProvider {
