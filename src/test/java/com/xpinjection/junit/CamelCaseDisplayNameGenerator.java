@@ -13,6 +13,8 @@ import static java.util.stream.Collectors.joining;
 @NoArgsConstructor
 public class CamelCaseDisplayNameGenerator extends DisplayNameGenerator.Standard {
     private static final String NESTED_ICON = "\u21AA";
+    private static final String BOOKS_ICON = "\uD83D\uDCDA";
+    private static final String EXPERT_ICON = "\uD83D\uDC74";
 
     @Override
     public String generateDisplayNameForClass(Class<?> testClass) {
@@ -23,6 +25,8 @@ public class CamelCaseDisplayNameGenerator extends DisplayNameGenerator.Standard
                     case "Rest" -> "REST";
                     case "Dao" -> "DAO";
                     case "Test" -> "Tests";
+                    case "Book" -> BOOKS_ICON + " Books";
+                    case "Expert" -> EXPERT_ICON + " Expert";
                     default -> word;
                 }).collect(joining(" "));
     }
