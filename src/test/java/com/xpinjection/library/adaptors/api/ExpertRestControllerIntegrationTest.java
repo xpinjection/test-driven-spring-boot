@@ -5,6 +5,7 @@ import com.xpinjection.library.service.dto.CreateExpertDto;
 import com.xpinjection.library.service.dto.Recommendation;
 import com.xpinjection.library.service.exception.InvalidRecommendationException;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -55,28 +56,34 @@ public class ExpertRestControllerIntegrationTest {
                 .andExpect(jsonPath("$.id").value(5L));
     }
 
-    @Test
-    void ifExpertCanNotBeStoredThenReturnBadRequest() throws Exception {
-        when(service.addExpert(notNull()))
-                .thenThrow(new InvalidRecommendationException("ERROR"));
+    @Nested
+    class ErrorHandlingTests {
+        @Test
+        void ifExpertCanNotBeStoredThenReturnBadRequest() throws Exception {
+            when(service.addExpert(notNull()))
+                    .thenThrow(new InvalidRecommendationException("ERROR"));
 
-        addExpert(NAME, CONTACT, RECOMMENDATIONS)
-                .andExpect(status().isBadRequest());
+            addExpert(NAME, CONTACT, RECOMMENDATIONS)
+                    .andExpect(status().isBadRequest());
+        }
     }
 
-    static Stream<Arguments> validationRules() {
-        return Stream.of(
-                arguments(named("blank name", " \n \t "), CONTACT, RECOMMENDATIONS),
-                arguments(named("blank contact", NAME), " \n \t ", RECOMMENDATIONS),
-                arguments(named("no recommendations", NAME), CONTACT, "")
-        );
-    }
+    @Nested
+    class ValidationTests {
+        static Stream<Arguments> validationRules() {
+            return Stream.of(
+                    arguments(named("blank name", " \n \t "), CONTACT, RECOMMENDATIONS),
+                    arguments(named("blank contact", NAME), " \n \t ", RECOMMENDATIONS),
+                    arguments(named("no recommendations", NAME), CONTACT, "")
+            );
+        }
 
-    @ParameterizedTest(name = "{index}: {0}")
-    @MethodSource("validationRules")
-    void ifExpertIsInvalidThenReturnBadRequest(String name, String contact, String recommendations) throws Exception {
-        addExpert(name, contact, recommendations)
-                .andExpect(status().isBadRequest());
+        @ParameterizedTest(name = "{index}: {0}")
+        @MethodSource("validationRules")
+        void ifExpertIsInvalidThenReturnBadRequest(String name, String contact, String recommendations) throws Exception {
+            addExpert(name, contact, recommendations)
+                    .andExpect(status().isBadRequest());
+        }
     }
 
     private ResultActions addExpert(String name, String contact, String recommendations) throws Exception {

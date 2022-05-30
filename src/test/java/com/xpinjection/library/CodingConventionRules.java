@@ -17,43 +17,43 @@ import static com.tngtech.archunit.library.GeneralCodingRules.*;
 )
 public class CodingConventionRules {
     @ArchTest
-    ArchRule NO_GENERIC_EXCEPTIONS = NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
+    ArchRule generic_exceptions_are_forbidden = NO_CLASSES_SHOULD_THROW_GENERIC_EXCEPTIONS;
 
     @ArchTest
-    ArchRule NO_JAVA_UTIL_LOGGING = NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
+    ArchRule java_util_logging_is_forbidden = NO_CLASSES_SHOULD_USE_JAVA_UTIL_LOGGING;
 
     @ArchTest
-    ArchRule NO_FIELD_INJECTION = NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
+    ArchRule field_injection_should_not_be_used = NO_CLASSES_SHOULD_USE_FIELD_INJECTION;
 
     @ArchTest
-    ArchRule NO_ACCESS_TO_STANDARD_OUTPUT_STREAMS = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
+    ArchRule standard_output_streams_should_not_be_used = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
 
     @ArchTest
-    ArchRule CONTROLLERS_SHOULD_NOT_DEPEND_ON_EACH_OTHER =
+    ArchRule controllers_should_not_depend_on_each_other =
             classes().that().areAnnotatedWith(RestController.class)
                     .should().onlyDependOnClassesThat().areNotAnnotatedWith(RestController.class);
 
     @ArchTest
-    ArchRule SERVICES_SHOULD_NOT_DEPEND_ON_EACH_OTHER =
+    ArchRule services_should_not_depend_on_each_other =
             noClasses().that().areAnnotatedWith(Service.class)
                     .should().accessClassesThat().haveSimpleNameEndingWith("Service");
 
     @ArchTest
-    ArchRule REST_CONTROLLERS_ARE_STATELESS_AND_DEPEND_ON_INTERFACES =
+    ArchRule rest_controllers_are_stateless_and_depend_on_interfaces =
             fields().that().areDeclaredInClassesThat().areAnnotatedWith(RestController.class)
                     .should().beFinal()
                     .andShould().bePrivate()
                     .andShould().haveRawType(INTERFACES);
 
     @ArchTest
-    ArchRule CONTROLLERS_ARE_STATELESS_AND_DEPEND_ON_INTERFACES =
+    ArchRule controllers_are_stateless_and_depend_on_interfaces =
             fields().that().areDeclaredInClassesThat().areAnnotatedWith(Controller.class)
                     .should().beFinal()
                     .andShould().bePrivate()
                     .andShould().haveRawType(INTERFACES);
 
     @ArchTest
-    ArchRule SERVICES_ARE_STATELESS_AND_DEPEND_ON_INTERFACES =
+    ArchRule services_are_stateless_and_depend_on_interfaces =
             fields().that().areDeclaredInClassesThat().areAnnotatedWith(Service.class)
                     .should().beFinal()
                     .andShould().bePrivate()

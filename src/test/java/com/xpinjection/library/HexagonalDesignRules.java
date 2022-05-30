@@ -30,7 +30,7 @@ public class HexagonalDesignRules {
     static final String CONFIG = "config";
 
     @ArchTest
-    ArchRule HEXAGONAL_PACKAGES_STRUCTURE = layeredArchitecture()
+    ArchRule packages_should_follow_hexagonal_design = layeredArchitecture()
             .as("Packages structure should match hexagonal design rules")
             .layer(DOMAIN).definedBy("..domain..")
             .layer(SERVICE).definedBy("..service", "..service.dto..", "..service.exception..")
@@ -49,41 +49,41 @@ public class HexagonalDesignRules {
             .ignoreDependency(LibraryApplication.class, LibrarySettings.class);
 
     @ArchTest
-    ArchRule ENTITIES_LOCATED_IN_DOMAIN_OR_PERSISTENCE_ADAPTOR =
+    ArchRule entities_should_be_located_in_domain_or_persistence_adaptor =
             classes().that().areAnnotatedWith(Entity.class)
                     .should().resideInAnyPackage("..domain..", "..adaptors.persistence.entity..")
                     .as("Entities should reside in a domain or persistence entity packages");
 
     @ArchTest
-    ArchRule DAO_ARE_LOCATED_IN_PERSISTENCE_ADAPTOR =
+    ArchRule dao_should_be_located_in_persistence_adaptor =
             classes().that().areInterfaces().and().areAssignableTo(CrudRepository.class)
                     .should().resideInAPackage("..adaptors.persistence")
                     .andShould().haveNameMatching(".*Dao")
                     .as("Repositories should reside in a persistence adaptor package and have corresponding name suffix");
 
     @ArchTest
-    ArchRule REST_CONTROLLERS_ARE_LOCATED_IN_API_ADAPTOR =
+    ArchRule rest_controllers_should_be_located_in_api_adaptor =
             classes().that().areAnnotatedWith(RestController.class)
                     .should().resideInAPackage("..adaptors.api")
                     .andShould().haveNameMatching(".*RestController")
                     .as("Rest controllers should reside in a api adaptor package and have corresponding name suffix");
 
     @ArchTest
-    ArchRule CONTROLLERS_ARE_LOCATED_IN_UI_ADAPTOR =
+    ArchRule controllers_should_be_located_in_ui_adaptor =
             classes().that().areAnnotatedWith(Controller.class)
                     .should().resideInAPackage("..adaptors.ui")
                     .andShould().haveNameMatching(".*Controller")
                     .as("Controllers should reside in a ui adaptor package and have corresponding name suffix");
 
     @ArchTest
-    ArchRule SERVICE_IMPLEMENTATIONS_ARE_LOCATED_IN_SERVICE_IMPL =
+    ArchRule service_implementations_should_be_located_in_service_impl =
             classes().that().areAnnotatedWith(Service.class)
                     .should().resideInAPackage("..service.impl")
                     .andShould().haveNameMatching(".*ServiceImpl")
                     .as("Service implementations should reside in a service impl package and have corresponding name suffix");
 
     @ArchTest
-    ArchRule SERVICES_ARE_LOCATED_IN_SERVICE =
+    ArchRule services_should_be_located_in_service =
             classes().that().resideInAPackage("..service")
                     .should().beInterfaces()
                     .andShould().haveNameMatching(".*Service")

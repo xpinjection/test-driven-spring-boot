@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xpinjection.library.service.BookService;
 import com.xpinjection.library.service.dto.BookDto;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,17 +54,20 @@ public class BookRestControllerIntegrationTest {
         assertThat(foundBooks).isEqualTo(books);
     }
 
-    @Test
-    void ifAuthorParamIsMissedThenReturnBadRequest() throws Exception {
-        mockMvc.perform(get("/books")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-    }
+    @Nested
+    class ValidationTests {
+        @Test
+        void ifAuthorParamIsMissedThenReturnBadRequest() throws Exception {
+            mockMvc.perform(get("/books")
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }
 
-    @Test
-    void ifAuthorParamIsBlankThenReturnBadRequest() throws Exception {
-        mockMvc.perform(get("/books?author= \t ")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
+        @Test
+        void ifAuthorParamIsBlankThenReturnBadRequest() throws Exception {
+            mockMvc.perform(get("/books?author= \t ")
+                            .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest());
+        }
     }
 }
