@@ -4,7 +4,7 @@ import com.xpinjection.library.service.ExpertService;
 import com.xpinjection.library.service.dto.CreateExpertDto;
 import com.xpinjection.library.service.dto.Recommendation;
 import com.xpinjection.library.service.exception.InvalidRecommendationException;
-import org.junit.jupiter.api.BeforeEach;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,15 +19,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.joining;
 import static org.junit.jupiter.api.Named.named;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-import static org.mockito.ArgumentMatchers.refEq;
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.notNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,64 +32,54 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ExpertRestController.class)
 @ActiveProfiles("test")
 public class ExpertRestControllerIntegrationTest {
+    private static final String NAME = "Mikalai";
+    private static final String CONTACT = "+38099023546";
+    private static final String RECOMMENDATIONS = "Effective Java by Josh Bloch";
+
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private ExpertService service;
 
-    private CreateExpertDto validExpert;
-
-    @BeforeEach
-    void setUp() {
-        validExpert = new CreateExpertDto("Mikalai", "+38099023546");
-        validExpert.addRecommendations(new Recommendation("Effective Java by Josh Bloch"));
-    }
 
     @Test
-    void expertCouldBeAddedWithRecommendations() throws Exception {
-        when(service.addExpert(refEq(validExpert))).thenReturn(5L);
+    void ifExpertIsValidThenItIsStored() throws Exception {
+        var validExpert = new CreateExpertDto(NAME, CONTACT);
+        validExpert.addRecommendations(new Recommendation(RECOMMENDATIONS));
+        when(service.addExpert(validExpert)).thenReturn(5L);
 
-        addExpert(validExpert)
+        addExpert(NAME, CONTACT, RECOMMENDATIONS)
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.id").value(5L));
-
-        verify(service).addExpert(refEq(validExpert));
     }
 
     @Test
-    void ifExpertCouldNotBeStoredReturnBadRequest() throws Exception {
-        when(service.addExpert(refEq(validExpert)))
+    void ifExpertCanNotBeStoredThenReturnBadRequest() throws Exception {
+        when(service.addExpert(notNull()))
                 .thenThrow(new InvalidRecommendationException("ERROR"));
 
-        addExpert(validExpert)
+        addExpert(NAME, CONTACT, RECOMMENDATIONS)
                 .andExpect(status().isBadRequest());
     }
 
-    private static Stream<Arguments> validationRules() {
+    static Stream<Arguments> validationRules() {
         return Stream.of(
-                arguments(named("blank name", (Consumer<CreateExpertDto>) expert -> expert.setName(" \n \t "))),
-                arguments(named("blank contact", (Consumer<CreateExpertDto>) expert -> expert.setContact(" \n \t "))),
-                arguments(named("no recommendations", (Consumer<CreateExpertDto>) expert -> expert.setRecommendations(Set.of())))
+                arguments(named("blank name", " \n \t "), CONTACT, RECOMMENDATIONS),
+                arguments(named("blank contact", NAME), " \n \t ", RECOMMENDATIONS),
+                arguments(named("no recommendations", NAME), CONTACT, "")
         );
     }
 
     @ParameterizedTest(name = "{index}: {0}")
     @MethodSource("validationRules")
-    void ifExpertIsInvalidReturnBadRequest(Consumer<CreateExpertDto> invalidator) throws Exception {
-        invalidator.accept(validExpert);
-
-        addExpert(validExpert)
+    void ifExpertIsInvalidThenReturnBadRequest(String name, String contact, String recommendations) throws Exception {
+        addExpert(name, contact, recommendations)
                 .andExpect(status().isBadRequest());
     }
 
-    private ResultActions addExpert(CreateExpertDto expert) throws Exception {
-        var recommendations = expert.getRecommendations().stream()
-                .map(Recommendation::getSentence)
-                .map(s -> "\"" + s + "\"")
-                .collect(joining(","));
-
+    private ResultActions addExpert(String name, String contact, String recommendations) throws Exception {
         return mockMvc.perform(post("/experts")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(String.format("""
@@ -101,6 +87,6 @@ public class ExpertRestControllerIntegrationTest {
                           "name": "%s",
                           "contact": "%s",
                           "recommendations": [%s]
-                        }""", expert.getName(), expert.getContact(), recommendations)));
+                        }""", name, contact, StringUtils.wrap(recommendations, '\"'))));
     }
 }

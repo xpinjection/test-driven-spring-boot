@@ -22,7 +22,7 @@ public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
     )
     @ExpectedDataSet("expected-stored-expert.xml")
     @Commit
-    void expertCanBeStored() {
+    void ifExpertHasValidRecommendationsThenItIsStored() {
         var expert = new ExpertEntity("Mikalai", "a@b.com");
         var book = new Book("Existing book", "Unknown");
         book.setId(13L);
@@ -33,7 +33,7 @@ public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
     }
 
     @Test
-    void unknownBookCanNotBeStoredAsRecommendation() {
+    void ifExpertRecommendsUnknownBookThenItCouldNotBeStored() {
         var expert = new ExpertEntity("Mikalai", "a@b.com");
         var book = new Book("Existing book", "Unknown");
         book.setId(17L);
@@ -46,7 +46,7 @@ public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
 
     @Test
     @DataSet(value = {"stored-books.xml", "expected-stored-expert.xml"})
-    void expertCanBeFoundById() {
+    void ifExpertExistsTheItCouldBeFoundById() {
         assertThat(dao.findById(1L).orElseThrow(IllegalStateException::new))
                 .hasFieldOrPropertyWithValue("name", "Mikalai");
     }

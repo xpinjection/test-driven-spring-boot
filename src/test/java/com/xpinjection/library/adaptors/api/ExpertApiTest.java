@@ -17,7 +17,7 @@ public class ExpertApiTest extends AbstractApiTest {
     @Test
     /*@ExportDataSet(format = DataSetFormat.XML, outputName = "target/expert-added.xml",
                 includeTables = {"expert", "recommendations"})*/
-    public void expertCouldBeAddedWithRecommendations() {
+    public void ifExpertHasValidParamsAndRecommendationsThenItIsStored() {
         int id = given()
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .body("""

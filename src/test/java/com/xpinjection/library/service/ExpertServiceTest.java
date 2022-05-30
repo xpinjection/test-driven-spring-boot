@@ -41,7 +41,7 @@ public class ExpertServiceTest {
     }
 
     @Test
-    void expertIsStoredWithRecommendedBooksInAnyFormat() {
+    void ifExpertHasRecommendationsInHumanFormatThenItIsStoredWithStructuredRecommendations() {
         var regular = expectBookFound("Spring in Action", "Arun Gupta");
         var humanFormat = expectBookFound("Hibernate in Action", "Sam Newman");
         entity.setRecommendations(newHashSet(regular, humanFormat));

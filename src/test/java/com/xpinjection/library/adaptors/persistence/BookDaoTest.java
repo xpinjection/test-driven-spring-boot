@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Test
-    void ifThereIsNoBookWithSuchNameEmptyOptionalIsReturned() {
+    void ifThereIsNoBookWithSuchNameThenEmptyOptionalIsReturned() {
         assertThat(dao.findByName("unknown")).isEmpty();
     }
 
     @Test
     @DataSet("books-by-name.xml")
     //@DataSet(provider = BooksByNameDataSetVerbose.class)
-    void ifThereIsOnlyOneBookFoundByNameReturnIt() {
+    void ifThereIsOnlyOneBookFoundByNameThenReturnIt() {
         var expected = new Book("First", "Author");
         expected.setId(2L);
         assertThat(dao.findByName("First")).get()
@@ -35,18 +35,18 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
     @Test
     @DataSet("books-by-name.xml")
-    void ifSeveralBooksFoundByNameThrowException() {
+    void ifSeveralBooksFoundByNameThenThrowException() {
         assertThatThrownBy(() -> dao.findByName("Second"))
                 .isInstanceOf(IncorrectResultSizeDataAccessException.class);
     }
 
     @Test
-    void ifThereIsNoBookWithSuchAuthorEmptyListIsReturned() {
+    void ifThereIsNoBookWithSuchAuthorThenEmptyListIsReturned() {
         assertThat(dao.findByAuthor("unknown")).isEmpty();
     }
 
     @Test
-    void ifBooksByAuthorAreFoundTheyAreReturned() {
+    void ifBooksByAuthorAreFoundThenTheyAreAllReturned() {
         var id = addBookToDatabase("Title", "author");
         addBookToDatabase("Another title", "another author");
 
@@ -57,7 +57,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
     @Test
     @Sql("/books-for-the-same-author.sql")
-    void severalBooksForTheSameAuthorAreReturned() {
+    void ifSeveralBooksForTheSameAuthorThenTheyAreAllReturned() {
         var first = new Book("First book", "author");
         first.setId(1L);
         var second = new Book("Second book", "author");
@@ -68,7 +68,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Test
     @DataSet("empty.xml")
     @ExpectedDataSet("expected-books.xml")
-    void booksMayBeStored() {
+    void ifBooksAreUniqueThenTheyAreStored() {
         var saved = dao.save(new Book("The First", "Mikalai Alimenkou"));
         assertThat(saved.getId()).isNotNull();
         em.flush();
@@ -76,7 +76,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
 
     @Test
     @DataSet("stored-books.xml")
-    void ifBookAlreadyExistsItMayBeFoundUsingSeveralMethods() {
+    void ifBookAlreadyExistsThenItCouldBeFoundUsingSeveralMethods() {
         var book = new Book("Existing book", "Unknown");
         book.setId(13L);
         assertThat(dao.findAll()).usingRecursiveFieldByFieldElementComparator().contains(book);

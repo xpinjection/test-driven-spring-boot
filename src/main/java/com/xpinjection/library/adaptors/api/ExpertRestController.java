@@ -19,8 +19,8 @@ public class ExpertRestController {
     private final ExpertService service;
 
     @PostMapping(path = "/experts", produces = MediaType.APPLICATION_JSON_VALUE)
-    NewExpert addExpert(@RequestBody @Valid CreateExpertDto command) {
-        long id = service.addExpert(command);
+    NewExpert addExpert(@RequestBody @Valid CreateExpertDto expert) {
+        long id = service.addExpert(expert);
         return new NewExpert(id);
     }
 

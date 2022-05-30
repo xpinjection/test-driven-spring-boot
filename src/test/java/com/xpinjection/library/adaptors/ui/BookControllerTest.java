@@ -43,14 +43,14 @@ public class BookControllerTest {
     }
 
     @Test
-    void allBooksAreAddedToModelForLibraryView() {
+    void ifBooksExistThenTheyAreAddedToModelForLibraryView() {
         var model = new ExtendedModelMap();
         assertThat(controller.booksPage(model)).isEqualTo("library");
         assertThat(model.asMap()).containsEntry("books", books);
     }
 
     @Test
-    void requestForLibraryIsSuccessfullyProcessedWithAvailableBooksList() throws Exception {
+    void ifBooksExistThenForwardToLibraryViewWithBooksListAsModel() throws Exception {
         this.mockMvc.perform(get("/library.html"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("books", equalTo(books)))

@@ -6,25 +6,23 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import java.net.URI;
-
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 
 public class BookApiTest extends AbstractApiTest {
     @Test
     @DataSet(value = "default-books.xml", strategy = SeedStrategy.REFRESH)
-    void allBooksFromDatabaseAreAvailableOnWeb() {
+    void ifBooksAreFoundByAuthorThenTheyAreAllReturned() {
         given()
-            .accept(MediaType.TEXT_HTML_VALUE)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .queryParam("author", "Craig Walls")
         .when()
-            .get(URI.create("/library.html"))
+            .get("/books")
         .then()
             .statusCode(HttpStatus.SC_OK)
-            .contentType(MediaType.TEXT_HTML_VALUE)
-            .body(allOf(
-                containsString("Spring in Action, <em>Craig Walls</em>"),
-                containsString("Hibernate in Action, <em>Christian Bauer</em>")));
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body("size()", greaterThanOrEqualTo(1))
+            .body("author", everyItem(equalTo("Craig Walls")))
+            .body("name", contains("Spring in Action"));
     }
 }

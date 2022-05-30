@@ -36,12 +36,12 @@ public class BookServiceTest {
     }
 
     @Test
-    void ifNoBooksPassedEmptyListIsReturned() {
+    void ifNoBooksPassedThenEmptyListIsReturned() {
         assertThat(bookService.addBooks(Books.empty())).isEmpty();
     }
 
     @Test
-    void forEveryPairOfTitleAndAuthorBookIsCreatedAndStored() {
+    void ifPairsOfTitleAndAuthorArePassedThenTheyAreCreatedAndStored() {
         var first = new Book("The first", "author");
         var second = new Book("The second", "another author");
         when(dao.save(refEq(first))).thenReturn(first);
@@ -55,7 +55,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void ifNoBooksFoundForAuthorReturnEmptyList() {
+    void ifNoBooksFoundForAuthorThenReturnEmptyList() {
         when(dao.findByAuthor("a")).thenReturn(emptyList());
 
         assertNoBooksFound("a");
@@ -63,19 +63,19 @@ public class BookServiceTest {
     }
 
     @Test
-    void ifAuthorIsEmptyThrowException() {
+    void ifAuthorIsEmptyThenThrowException() {
         assertThatThrownBy(() -> bookService.findBooksByAuthor(" \t \n "))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void ifAuthorIsNullThrowException() {
+    void ifAuthorIsNullThenThrowException() {
         assertThatThrownBy(() -> bookService.findBooksByAuthor(null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
-    void booksByAuthorShouldBeCached() {
+    void ifBooksAreFoundByAuthorThenTheyAreCachedForNextSearch() {
         var book = new Book("The book", "author");
         when(dao.findByAuthor("a")).thenReturn(singletonList(book));
         when(dao.findByAuthor("a a")).thenReturn(emptyList());
@@ -87,7 +87,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void ifCamelCaseDetectedThenSplitInvalidAuthorNameOnFirstAndLastName() {
+    void ifCamelCaseDetectedInAuthorNameThenSplitInvalidAuthorNameOnFirstAndLastName() {
         var book = new Book("The book", "Mikalai Alimenkou");
         when(dao.findByAuthor("Mikalai Alimenkou")).thenReturn(singletonList(book));
 
@@ -95,7 +95,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void punctuationShouldBeIgnored() {
+    void ifPunctuationIsFoundInAuthorNameThenItIsIgnored() {
         var book = new Book("The book", "Who cares");
         when(dao.findByAuthor("Who cares?")).thenReturn(singletonList(book));
 
@@ -103,7 +103,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void compositeLastNameIsNotSplit() {
+    void ifCompositeLastNameIsPassedForAuthorThenIsNotSplit() {
         var book = new Book("The book", "Alfred McGregor");
         when(dao.findByAuthor("Alfred McGregor")).thenReturn(singletonList(book));
 
@@ -111,7 +111,7 @@ public class BookServiceTest {
     }
 
     @Test
-    void authorNameShouldBeTrimmedBeforeUsage() {
+    void ifAuthorNameContainsWhitespacesThenItIsTrimmed() {
         var book = new Book("The book", "Mikalai Alimenkou");
         when(dao.findByAuthor("Mikalai Alimenkou")).thenReturn(singletonList(book));
 
