@@ -25,7 +25,7 @@ public class CamelCaseDisplayNameGenerator extends DisplayNameGenerator.Standard
                     case "Rest" -> "REST";
                     case "Dao" -> "DAO";
                     case "Test" -> "Tests";
-                    case "Book" -> BOOKS_ICON + " Books";
+                    case "Book" -> BOOKS_ICON + " Book";
                     case "Expert" -> EXPERT_ICON + " Expert";
                     default -> word;
                 }).collect(joining(" "));
