@@ -14,6 +14,7 @@ import static java.util.stream.Collectors.joining;
 public class CamelCaseDisplayNameGenerator extends DisplayNameGenerator.Standard {
     private static final String NESTED_ICON = "\u21AA";
 
+    @Override
     public String generateDisplayNameForClass(Class<?> testClass) {
         var className = super.generateDisplayNameForClass(testClass);
         return splitByCamelCase(className)
@@ -26,12 +27,14 @@ public class CamelCaseDisplayNameGenerator extends DisplayNameGenerator.Standard
                 }).collect(joining(" "));
     }
 
+    @Override
     public String generateDisplayNameForNestedClass(Class<?> nestedClass) {
         var className = super.generateDisplayNameForNestedClass(nestedClass);
         return NESTED_ICON + " " + splitByCamelCase(className)
                 .collect(joining(" "));
     }
 
+    @Override
     public String generateDisplayNameForMethod(Class<?> testClass, Method testMethod) {
         return splitByCamelCase(testMethod.getName())
                 .map(String::toLowerCase)
