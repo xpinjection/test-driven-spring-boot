@@ -24,6 +24,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
+        <pact.provider.version>0.1.0</pact.provider.version>
+        <pact.provider.branch>master</pact.provider.branch>
+        <pact.publish.results>false</pact.publish.results>
+        <pact.broker.url>http://localhost:9292</pact.broker.url>
+        <pact.broker.enabled>false</pact.broker.enabled>
+        <pact.broker.username>admin</pact.broker.username>
+        <pact.broker.password>xpinjection</pact.broker.password>
     </properties>
 
     <dependencies>
@@ -188,6 +195,12 @@
             <version>0.23.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>au.com.dius.pact.provider</groupId>
+            <artifactId>junit5spring</artifactId>
+            <version>4.3.8</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -215,6 +228,17 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <forkCount>0</forkCount>
+                    <systemPropertyVariables>
+                        <pactbroker.url>${pact.broker.url}</pactbroker.url>
+                        <pactbroker.enabled>${pact.broker.enabled}</pactbroker.enabled>
+                        <pactbroker.auth.username>${pact.broker.username}</pactbroker.auth.username>
+                        <pactbroker.auth.password>${pact.broker.password}</pactbroker.auth.password>
+                        <pact.provider.version>${pact.provider.version}</pact.provider.version>
+                        <pact.provider.tag>${pact.provider.branch}</pact.provider.tag>
+                        <pact.provider.branch>${pact.provider.branch}</pact.provider.branch>
+                        <pact.verifier.publishResults>${pact.publish.results}</pact.verifier.publishResults>
+                        <pact_do_not_track>true</pact_do_not_track>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>

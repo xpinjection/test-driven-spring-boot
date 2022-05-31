@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    healthcheck:
+      test: psql pact_brocker --command "select 1" -U pact
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: pact
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pact_broker
+
+  broker_app:
+    image: pactfoundation/pact-broker
+    links:
+      - postgres
+    ports:
+      - 9292:9292
+    environment:
+      PACT_BROKER_BASIC_AUTH_USERNAME: admin
+      PACT_BROKER_BASIC_AUTH_PASSWORD: xpinjection
+      PACT_BROKER_DATABASE_USERNAME: pact
+      PACT_BROKER_DATABASE_PASSWORD: password
+      PACT_BROKER_DATABASE_HOST: postgres
+      PACT_BROKER_DATABASE_NAME: pact_broker
