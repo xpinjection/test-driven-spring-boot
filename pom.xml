@@ -229,8 +229,8 @@
                 <configuration>
                     <forkCount>0</forkCount>
                     <systemPropertyVariables>
-                        <pactbroker.url>${pact.broker.url}</pactbroker.url>
                         <pactbroker.enabled>${pact.broker.enabled}</pactbroker.enabled>
+                        <pactbroker.url>${pact.broker.url}</pactbroker.url>
                         <pactbroker.auth.username>${pact.broker.username}</pactbroker.auth.username>
                         <pactbroker.auth.password>${pact.broker.password}</pactbroker.auth.password>
                         <pact.provider.version>${pact.provider.version}</pact.provider.version>
