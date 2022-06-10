@@ -8,6 +8,10 @@ metadata:
     - url: https://github.com/xpinjection/test-driven-spring-boot
       title: GitHub Repo
       icon: github
+    - title: Website
+      url: http://localhost:8080
+    - title: Documentation
+      url: https://github.com/xpinjection/test-driven-spring-boot/blob/master/README.md
   tags:
     - java
     - web

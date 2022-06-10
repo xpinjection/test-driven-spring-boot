@@ -14,10 +14,6 @@ metadata:
     - url: https://github.com/xpinjection/test-driven-spring-boot/blob/master/src/main/resources/api/spec/v1/library-api.yaml
       title: API Spec
       icon: code
-    - title: Website
-      url: http://localhost:8080
-    - title: Documentation
-      url: https://github.com/xpinjection/test-driven-spring-boot/blob/master/README.md
 spec:
   type: openapi
   lifecycle: experimental
