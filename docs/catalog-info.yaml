@@ -1,0 +1,14 @@
+# nonk8s
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: library-catalog
+  description: A full set of Backstage specs for Library domain
+spec:
+  targets:
+    - ./xpinjection-team.yaml
+    - ./library-domain.yaml
+    - ./library-system.yaml
+    - ./library-service.yaml
+    - ./library-db.yaml
+    - ./library-api.yaml

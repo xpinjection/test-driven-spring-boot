@@ -1,0 +1,22 @@
+# nonk8s
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: library
+  description: The Library service with API and web interface
+  links:
+    - url: https://github.com/xpinjection/test-driven-spring-boot
+      title: GitHub Repo
+      icon: github
+  tags:
+    - java
+    - web
+    - API
+spec:
+  type: service
+  lifecycle: experimental
+  owner: xpinjection
+  system: library
+  dependsOn: ['resource:library-db']
+  providesApis:
+    - library

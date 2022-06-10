@@ -1,0 +1,22 @@
+# nonk8s
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: library
+  description: Library REST API
+  tags:
+    - http
+    - REST
+  links:
+    - url: https://github.com/xpinjection/test-driven-spring-boot
+      title: GitHub Repo
+      icon: github
+    - url: https://github.com/xpinjection/test-driven-spring-boot/blob/master/src/main/resources/api/spec/v1/library-api.yaml
+      title: API Spec
+      icon: code
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: xpinjection
+  definition:
+    $text: https://github.com/xpinjection/test-driven-spring-boot/blob/master/src/main/resources/api/spec/v1/library-api.yaml

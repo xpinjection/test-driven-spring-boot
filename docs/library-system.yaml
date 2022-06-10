@@ -1,0 +1,9 @@
+# nonk8s
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: library
+  description: Library system
+spec:
+  owner: xpinjection
+  domain: library

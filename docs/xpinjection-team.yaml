@@ -1,0 +1,22 @@
+# nonk8s
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: xpinjection
+  description: XP Injection team
+spec:
+  type: team
+  profile:
+    displayName: XP Injection
+    email: support@xpinjection.com
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: mikalai.alimenkou
+spec:
+  profile:
+    displayName: Mikalai Alimenkou
+    email: mikalai.alimenkou@xpinjection.com
+    picture: https://avatars.githubusercontent.com/u/1682232?s=48&v=4
+  memberOf: [xpinjection]
