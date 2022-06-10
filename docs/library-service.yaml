@@ -15,7 +15,7 @@ metadata:
   tags:
     - java
     - web
-    - API
+    - api
 spec:
   type: service
   lifecycle: experimental

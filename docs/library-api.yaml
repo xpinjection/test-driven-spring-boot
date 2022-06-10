@@ -6,7 +6,7 @@ metadata:
   description: Library REST API
   tags:
     - http
-    - REST
+    - rest
   links:
     - url: https://github.com/xpinjection/test-driven-spring-boot
       title: GitHub Repo

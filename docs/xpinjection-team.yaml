@@ -9,6 +9,8 @@ spec:
   profile:
     displayName: XP Injection
     email: support@xpinjection.com
+  children: []
+  members: [mikalai.alimenkou]
 ---
 apiVersion: backstage.io/v1alpha1
 kind: User
