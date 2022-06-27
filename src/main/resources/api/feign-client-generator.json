@@ -1,0 +1,16 @@
+{
+  "groupId": "com.xpinjection.library",
+  "artifactId":	"api-feign-client",
+  "artifactDescription": "Library API test client with OpenFeign",
+  "artifactVersion": "0.1.0",
+  "basePackage": "com.xpinjection.library",
+  "apiPackage":	"com.xpinjection.library.client.api",
+  "modelPackage": "com.xpinjection.library.client.api.dto",
+  "configPackage":	"com.xpinjection.library.config",
+  "invokerPackage":	"com.xpinjection.library",
+  "library": "feign",
+  "useRuntimeException": true,
+  "legacyDiscriminatorBehavior": false,
+  "performBeanValidation": true,
+  "serializationLibrary": "jackson"
+}
