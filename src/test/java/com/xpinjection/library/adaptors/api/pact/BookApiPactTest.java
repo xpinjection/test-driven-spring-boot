@@ -60,7 +60,7 @@ class BookApiPactTest {
     void bookExistsForAuthor(Map<String, String> params) {
         var author = params.get("author");
         when(bookService.findBooksByAuthor(author))
-                .thenReturn(singletonList(new BookDto(5L, "Head first Spring", "Who cares?")));
+                .thenReturn(singletonList(new BookDto(5L, "Head first Spring", author)));
     }
 
     @State(value = "no books for author", action = StateChangeAction.SETUP)

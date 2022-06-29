@@ -14,7 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 @Slf4j
 @ActiveProfiles("test")
 public abstract class AbstractApiTest {
-    private static OpenApiValidator OPEN_API_VALIDATOR = new OpenApiValidator();
+    private static final OpenApiValidator OPEN_API_VALIDATOR = new OpenApiValidator();
 
     @LocalServerPort
     protected int port;
