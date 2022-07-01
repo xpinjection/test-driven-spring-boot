@@ -24,6 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>17</java.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
         <pact.provider.version>0.1.0</pact.provider.version>
         <pact.provider.branch>master</pact.provider.branch>
         <pact.publish.results>false</pact.publish.results>
@@ -92,6 +93,10 @@
         	<groupId>org.springframework.boot</groupId>
         	<artifactId>spring-boot-configuration-processor</artifactId>
         	<optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
         </dependency>
 
         <dependency>
@@ -208,6 +213,18 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>
