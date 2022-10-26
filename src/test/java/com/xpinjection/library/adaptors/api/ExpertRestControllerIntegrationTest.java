@@ -1,5 +1,6 @@
 package com.xpinjection.library.adaptors.api;
 
+import com.xpinjection.library.config.ActuatorBasicSecurityConfig;
 import com.xpinjection.library.service.ExpertService;
 import com.xpinjection.library.service.dto.CreateExpertDto;
 import com.xpinjection.library.service.dto.Recommendation;
@@ -13,6 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,6 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(value = ExpertRestController.class)
 @ActiveProfiles("test")
+@Import(ActuatorBasicSecurityConfig.class)
 public class ExpertRestControllerIntegrationTest {
     private static final String NAME = "Mikalai";
     private static final String CONTACT = "+38099023546";
@@ -39,7 +42,6 @@ public class ExpertRestControllerIntegrationTest {
 
     @MockBean
     private ExpertService service;
-
 
     @Test
     void ifExpertIsValidThenItIsStored() throws Exception {
