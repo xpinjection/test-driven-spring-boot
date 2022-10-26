@@ -92,7 +92,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
         book.setId(13L);
         assertThat(dao.findAll()).usingRecursiveFieldByFieldElementComparator().contains(book);
         assertThat(dao.findById(13L)).get().usingRecursiveComparison().isEqualTo(book);
-        assertThat(dao.getById(13L)).usingRecursiveComparison().isEqualTo(book);
+        assertThat(dao.getReferenceById(13L)).usingRecursiveComparison().isEqualTo(book);
         assertThat(dao.existsById(13L)).isTrue();
         assertThat(dao.findByAuthor("Unknown")).usingRecursiveFieldByFieldElementComparator().contains(book);
     }
