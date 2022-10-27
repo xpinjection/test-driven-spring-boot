@@ -1,9 +1,7 @@
 target/
 generated/
 gen/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+/.mvn/wrapper/maven-wrapper.jar
 
 ### IntelliJ IDEA ###
 .idea
