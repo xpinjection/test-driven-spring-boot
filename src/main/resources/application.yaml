@@ -18,6 +18,8 @@ server:
     enabled: true
     min-response-size: 512
     mime-types: text/html,text/xml,text/plain,text/css,application/json
+  ssl:
+    enabled: false
 
 spring:
   sql:
@@ -78,3 +80,6 @@ springdoc:
         name: static
       - url: /v3/api-docs.yaml
         name: generated
+management:
+  endpoints:
+    enabled-by-default: false
