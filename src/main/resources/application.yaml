@@ -20,6 +20,8 @@ server:
     mime-types: text/html,text/xml,text/plain,text/css,application/json
   ssl:
     enabled: false
+  http2:
+    enabled: true
 
 spring:
   sql:
@@ -80,6 +82,7 @@ springdoc:
         name: static
       - url: /v3/api-docs.yaml
         name: generated
+
 management:
   endpoints:
     enabled-by-default: false
