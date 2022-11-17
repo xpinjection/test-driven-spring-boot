@@ -6,7 +6,6 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class BookApiTest extends AbstractApiTest {
@@ -14,7 +13,6 @@ public class BookApiTest extends AbstractApiTest {
     @DataSet(value = "default-books.xml", strategy = SeedStrategy.REFRESH)
     void ifBooksAreFoundByAuthorThenTheyAreAllReturned() {
         given()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
             .queryParam("author", "Craig Walls")
         .when()
             .get("/books")

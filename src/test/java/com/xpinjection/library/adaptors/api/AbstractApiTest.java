@@ -1,7 +1,9 @@
 package com.xpinjection.library.adaptors.api;
 
 import com.github.database.rider.spring.api.DBRider;
+import com.github.viclovsky.swagger.coverage.SwaggerCoverageRestAssured;
 import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,5 +25,10 @@ public abstract class AbstractApiTest {
     void init() {
         RestAssured.port = port;
         OPEN_API_VALIDATOR.validate(port);
+    }
+
+    protected RequestSpecification given() {
+        return RestAssured.given()
+                .filter(new SwaggerCoverageRestAssured());
     }
 }
