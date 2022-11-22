@@ -10,6 +10,7 @@ import au.com.dius.pact.provider.junitsupport.loader.VersionSelector;
 import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import au.com.dius.pact.provider.spring.junit5.PactVerificationSpringProvider;
 import com.xpinjection.library.adaptors.api.BookRestController;
+import com.xpinjection.library.config.ActuatorBasicSecurityConfig;
 import com.xpinjection.library.service.BookService;
 import com.xpinjection.library.service.dto.BookDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +19,11 @@ import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -38,6 +42,8 @@ import static org.mockito.Mockito.when;
 @Provider("com.xpinjection.library")
 @WebMvcTest(BookRestController.class)
 @ActiveProfiles("test")
+@Import(ActuatorBasicSecurityConfig.class)
+@EnableConfigurationProperties(WebEndpointProperties.class)
 class BookApiPactTest {
     @Autowired
     private MockMvc mockMvc;
