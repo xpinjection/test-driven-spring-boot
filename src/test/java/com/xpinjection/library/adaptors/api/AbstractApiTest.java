@@ -6,7 +6,6 @@ import com.github.viclovsky.swagger.coverage.SwaggerCoverageV3RestAssured;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.springdoc.core.SwaggerUiConfigParameters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +34,11 @@ public abstract class AbstractApiTest {
     @Autowired
     private SwaggerUiConfigParameters swaggerConfig;
 
-    @BeforeAll
-    static void cleanOldReports() {
-        REPORTS.clean();
-    }
-
     @BeforeEach
     void init() {
         RestAssured.port = port;
         if (OPEN_API == null) {
+            REPORTS.clean();
             OPEN_API = new OpenApi(swaggerConfig.getUrls());
             OPEN_API.validate(port, REPORTS.getChangesPath());
             OPEN_API.export(port, REPORTS.getExportedSpecPath());
