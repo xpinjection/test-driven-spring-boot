@@ -12,6 +12,11 @@ spring:
 
 management:
   endpoint:
+    env:
+      post:
+        enabled: true
+    shutdown:
+      enabled: true
     health:
       show-details: always
       show-components: always
@@ -28,6 +33,7 @@ management:
       base-path: /admin
       exposure:
         include: '*'
+    enabled-by-default: true
   info:
     java:
       enabled: true
