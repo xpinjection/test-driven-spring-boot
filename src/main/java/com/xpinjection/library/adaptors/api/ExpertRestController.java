@@ -5,12 +5,11 @@ import com.xpinjection.library.service.ExpertService;
 import com.xpinjection.library.service.dto.CreateExpertDto;
 import com.xpinjection.library.service.exception.InvalidRecommendationException;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @Tag(name = "experts")
 @RestController

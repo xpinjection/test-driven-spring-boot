@@ -1,12 +1,9 @@
 package com.xpinjection.library.adaptors.persistence;
 
 import com.github.database.rider.core.api.dataset.DataSet;
-import com.github.database.rider.core.api.dataset.DataSetProvider;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import com.github.database.rider.core.dataset.builder.DataSetBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.xpinjection.library.domain.Book;
-import org.dbunit.dataset.IDataSet;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -97,7 +94,7 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
         assertThat(dao.findByAuthor("Unknown")).usingRecursiveFieldByFieldElementComparator().contains(book);
     }
 
-    public static class BooksByNameDataSet implements DataSetProvider {
+    /*public static class BooksByNameDataSet implements DataSetProvider {
         @Override
         public IDataSet provide() {
             return new DataSetBuilder().table("book")
@@ -106,9 +103,9 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
                     .values(3, "Second", "Author")
                     .values(4, "Second", "Another author").build();
         }
-    }
+    }*/
 
-    public static class BooksByNameDataSetVerbose implements DataSetProvider {
+    /*public static class BooksByNameDataSetVerbose implements DataSetProvider {
         @Override
         public IDataSet provide() {
             return new DataSetBuilder().table("book")
@@ -126,5 +123,5 @@ public class BookDaoTest extends AbstractDaoTest<BookDao> {
                         .column("author", "Another author")
                     .build();
         }
-    }
+    }*/
 }

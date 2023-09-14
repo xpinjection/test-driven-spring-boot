@@ -14,10 +14,10 @@ public class ActuatorBasicSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, WebEndpointProperties webEndpointProperties) throws Exception {
         var actuatorBasePath = webEndpointProperties.getBasePath();
-        return http.authorizeRequests(requests ->
-                        requests.antMatchers(actuatorBasePath + "/health/**").permitAll()
-                                .antMatchers(actuatorBasePath + "/**").hasRole("ADMIN")
-                                .antMatchers("/**").permitAll()
+        return http.authorizeHttpRequests(requests ->
+                        requests.requestMatchers(actuatorBasePath + "/health/**").permitAll()
+                                .requestMatchers(actuatorBasePath + "/**").hasRole("ADMIN")
+                                .requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated())
             .httpBasic()
                 .and()

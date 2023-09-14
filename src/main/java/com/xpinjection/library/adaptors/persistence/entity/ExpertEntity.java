@@ -1,9 +1,9 @@
 package com.xpinjection.library.adaptors.persistence.entity;
 
 import com.xpinjection.library.domain.Book;
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.Set;
 
 @Entity

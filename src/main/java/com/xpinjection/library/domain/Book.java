@@ -1,8 +1,7 @@
 package com.xpinjection.library.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.*;
 
 /**
  * @author Alimenkou Mikalai
