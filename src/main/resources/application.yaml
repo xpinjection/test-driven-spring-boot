@@ -24,6 +24,10 @@ server:
     enabled: true
 
 spring:
+  docker:
+    compose:
+      lifecycle-management: none
+      enabled: false
   sql:
     init:
       mode: never

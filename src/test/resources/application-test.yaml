@@ -6,11 +6,6 @@ spring:
       enabled: false
   freemarker:
     cache: false
-  datasource:
-    url: jdbc:tc:postgresql:11:///library?TC_REUSABLE=true
-    username: test
-    password: test
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
   jpa:
     show-sql: true
   test:

@@ -3,6 +3,7 @@ package com.xpinjection.library.adaptors.api;
 import com.github.database.rider.spring.api.DBRider;
 import com.github.viclovsky.swagger.coverage.FileSystemOutputWriter;
 import com.github.viclovsky.swagger.coverage.SwaggerCoverageV3RestAssured;
+import com.xpinjection.library.RuntimeDependencies;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
@@ -11,15 +12,16 @@ import org.springdoc.core.properties.SwaggerUiConfigParameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.nio.file.Path;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@ContextConfiguration(initializers = StandaloneApplicationContextInitializer.class)
 @DBRider
 @Slf4j
 @ActiveProfiles("test")
+@ImportTestcontainers(RuntimeDependencies.class)
 public abstract class AbstractApiTest {
     private static final ApiReports REPORTS = ApiReports.builder()
             .coveragePath(Path.of("target", "api-coverage"))

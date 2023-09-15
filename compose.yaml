@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  library-db:
+    image: postgres:11
+    container_name: postgresql
+    environment:
+      POSTGRES_DB: library
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5432:5432"
+    labels:
+      org.springframework.boot.ignore: true
