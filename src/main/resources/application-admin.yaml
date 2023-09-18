@@ -16,8 +16,7 @@ management:
       probability: 1.0
   endpoint:
     env:
-      post:
-        enabled: true
+      show-values: never
     shutdown:
       enabled: true
     health:
