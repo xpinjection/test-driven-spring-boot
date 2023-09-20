@@ -16,7 +16,7 @@ management:
       probability: 1.0
   endpoint:
     env:
-      show-values: never
+      show-values: when_authorized
     shutdown:
       enabled: true
     health:
