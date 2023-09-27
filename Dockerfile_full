@@ -1,4 +1,4 @@
-FROM maven:3.8.4-jdk-17 AS maven_dependencies
+FROM maven:3.8.7-eclipse-temurin-17-alpine AS maven_dependencies
 COPY pom.xml /tmp/
 RUN mvn -B dependency:go-offline -f /tmp/pom.xml -s /usr/share/maven/ref/settings-docker.xml
 
@@ -14,8 +14,8 @@ RUN java -Djarmode=layertools -jar library.jar extract
 
 FROM openjdk:17.0.2-slim
 VOLUME /tmp
-COPY --from=maven_build dependencies/ ./
-COPY --from=maven_build snapshot-dependencies/ ./
-COPY --from=maven_build spring-boot-loader/ ./
-COPY --from=maven_build application/ ./
+COPY --from=maven_build /tmp/dependencies/ ./
+COPY --from=maven_build /tmp/snapshot-dependencies/ ./
+COPY --from=maven_build /tmp/spring-boot-loader/ ./
+COPY --from=maven_build /tmp/application/ ./
 ENTRYPOINT ["java", "org.springframework.boot.loader.JarLauncher"]

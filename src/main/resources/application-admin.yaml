@@ -27,6 +27,8 @@ management:
       group:
         readiness:
           include: readinessState, db
+    configprops:
+      show-values: when_authorized
   endpoints:
     jmx:
       exposure:
