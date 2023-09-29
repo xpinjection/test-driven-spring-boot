@@ -13,8 +13,10 @@ services:
       POSTGRES_DB: pact_broker
 
   broker_app:
-    image: pactfoundation/pact-broker
+    image: pactfoundation/pact-broker:latest
     links:
+      - postgres
+    depends_on:
       - postgres
     ports:
       - 9292:9292
