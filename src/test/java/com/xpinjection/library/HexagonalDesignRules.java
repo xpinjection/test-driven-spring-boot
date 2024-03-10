@@ -30,6 +30,7 @@ public class HexagonalDesignRules {
 
     @ArchTest
     ArchRule packages_should_follow_hexagonal_design = layeredArchitecture()
+            .consideringAllDependencies()
             .as("Packages structure should match hexagonal design rules")
             .layer(DOMAIN).definedBy("..domain..")
             .layer(SERVICE).definedBy("..service", "..service.dto..", "..service.exception..")

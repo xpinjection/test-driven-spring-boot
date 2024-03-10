@@ -29,6 +29,12 @@ public class CodingConventionRules {
     ArchRule standard_output_streams_should_not_be_used = NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS;
 
     @ArchTest
+    ArchRule deprecated_api_should_not_be_used = DEPRECATED_API_SHOULD_NOT_BE_USED;
+
+    @ArchTest
+    ArchRule test_classes_should_be_located_in_the_same_package = testClassesShouldResideInTheSamePackageAsImplementation();
+
+    @ArchTest
     ArchRule controllers_should_not_depend_on_each_other =
             classes().that().areAnnotatedWith(RestController.class)
                     .should().onlyDependOnClassesThat().areNotAnnotatedWith(RestController.class);
