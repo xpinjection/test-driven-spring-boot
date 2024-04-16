@@ -17,10 +17,10 @@ jobs:
     steps:
     - name: Git checkout
       uses: actions/checkout@v3
-    - name: Set up JDK 17 with Maven
+    - name: Set up JDK 21 with Maven
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
