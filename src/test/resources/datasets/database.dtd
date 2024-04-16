@@ -1,20 +1,20 @@
 <!ELEMENT dataset (
-    expert*,
     book*,
+    expert*,
     recommendations*)>
-
-<!ELEMENT expert EMPTY>
-<!ATTLIST expert
-    id CDATA #REQUIRED
-    name CDATA #REQUIRED
-    contact CDATA #REQUIRED
->
 
 <!ELEMENT book EMPTY>
 <!ATTLIST book
     id CDATA #REQUIRED
     name CDATA #REQUIRED
     author CDATA #REQUIRED
+>
+
+<!ELEMENT expert EMPTY>
+<!ATTLIST expert
+    id CDATA #REQUIRED
+    name CDATA #REQUIRED
+    contact CDATA #REQUIRED
 >
 
 <!ELEMENT recommendations EMPTY>

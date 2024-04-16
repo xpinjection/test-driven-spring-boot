@@ -75,6 +75,7 @@ library:
   size: 0
 
 logging:
+  include-application-name: false
   file:
     name: library.log
 
