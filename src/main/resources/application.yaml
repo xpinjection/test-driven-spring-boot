@@ -63,8 +63,6 @@ spring:
         order_updates: true
         batch_versioned_data: true
     open-in-view: false
-  mvc:
-    throw-exception-if-no-handler-found: true
   web:
     resources:
       static-locations: classpath:/static/, classpath:/api/spec/

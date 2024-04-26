@@ -1,0 +1,10 @@
+server:
+  shutdown: graceful
+spring:
+  task:
+    scheduling:
+      shutdown:
+        await-termination: true
+    execution:
+      shutdown:
+        await-termination: true
