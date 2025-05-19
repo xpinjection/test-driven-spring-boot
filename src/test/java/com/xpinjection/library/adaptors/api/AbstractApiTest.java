@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 
 import java.nio.file.Path;
 
@@ -20,6 +21,7 @@ import java.nio.file.Path;
 @DBRider
 @ActiveProfiles("test")
 @ImportTestcontainers(RuntimeDependencies.class)
+@DisabledIfSystemProperty(named = "testcontainers.enabled", matches = "false")
 public abstract class AbstractApiTest {
     private static final ApiReports REPORTS = ApiReports.builder()
             .coveragePath(Path.of("target", "api-coverage"))

@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 
 import java.util.Map;
 import java.util.stream.Stream;
@@ -23,6 +24,7 @@ import java.util.stream.Stream;
 @DBRider
 @ActiveProfiles("test")
 @ImportTestcontainers(RuntimeDependencies.class)
+@DisabledIfSystemProperty(named = "testcontainers.enabled", matches = "false")
 public abstract class AbstractDaoTest<D> {
     private static long ID = 1000;
 

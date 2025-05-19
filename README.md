@@ -25,3 +25,11 @@ Pact integration could be enabled during tests execution with `pactbroker.enable
 Use system variable `pact.verifier.publishResults` to control pact verification results publishing to the Pact Broker. Pact Broker configuration is located in `pom.xml` and could be overridden with system properties as well.
 
 System properties `pact.provider.version` and `pact.provider.branch` should be used to pass correct version of the application and git branch for tracking in the Pact Broker.
+
+## Skipping Testcontainers based tests
+
+Tests that rely on Testcontainers can be disabled by setting system property `testcontainers.enabled` to `false`:
+
+```bash
+./mvnw verify -Dtestcontainers.enabled=false
+```

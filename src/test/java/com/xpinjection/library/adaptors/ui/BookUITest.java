@@ -17,6 +17,7 @@ import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.htmlunit.MockMvcWebClientBuilder;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.IOException;
@@ -33,6 +34,7 @@ import static org.hamcrest.Matchers.containsString;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ActiveProfiles("test")
 @ImportTestcontainers(RuntimeDependencies.class)
+@DisabledIfSystemProperty(named = "testcontainers.enabled", matches = "false")
 public class BookUITest {
     @Autowired
     private WebApplicationContext context;
