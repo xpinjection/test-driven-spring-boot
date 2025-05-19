@@ -24,7 +24,7 @@ public class DefaultLibraryInitializer implements ApplicationRunner {
         if (args.containsOption("debug")) {
             LOG.info("Application is started in DEBUG mode");
         }
-        var books = IntStream.range(1, settings.getSize()).boxed()
+        var books = IntStream.rangeClosed(1, settings.getSize()).boxed()
                 .collect(toMap(o -> "Book #" + o, o -> "Author #" + o));
         bookService.addBooks(Books.fromMap(books));
         LOG.info("Configured library size is {}", settings.getSize());
