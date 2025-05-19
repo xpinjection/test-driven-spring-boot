@@ -1,2 +1,2 @@
 #!/bin/bash
-./mvnw clean package
+./mvnw clean package -Dtestcontainers.enabled=false
