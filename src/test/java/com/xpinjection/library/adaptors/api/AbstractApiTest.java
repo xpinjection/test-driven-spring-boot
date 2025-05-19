@@ -6,7 +6,6 @@ import com.github.viclovsky.swagger.coverage.SwaggerCoverageV3RestAssured;
 import com.xpinjection.library.RuntimeDependencies;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.springdoc.core.properties.SwaggerUiConfigParameters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,6 @@ import java.nio.file.Path;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DBRider
-@Slf4j
 @ActiveProfiles("test")
 @ImportTestcontainers(RuntimeDependencies.class)
 public abstract class AbstractApiTest {

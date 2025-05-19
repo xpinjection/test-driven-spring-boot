@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 
 import static java.util.Collections.singletonMap;
@@ -36,10 +37,11 @@ public class ExpertApiTest extends AbstractApiTest {
     }
 
     @TestConfiguration
+    @Slf4j
     public static class BookTestContext {
         @Bean
         public CommandLineRunner bookInitializer(BookService bookService) {
-            System.out.println("!!! Insert test data");
+            LOG.info("Insert test data");
             return (args) -> bookService.addBooks(
                     Books.fromMap(singletonMap("Effective Java", "Josh Bloch")));
         }
