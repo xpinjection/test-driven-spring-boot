@@ -74,7 +74,7 @@ public class ExpertServiceImpl implements ExpertService {
 
     private boolean validateAuthor(String author, Book book) {
         if (!book.getAuthor().equals(author)) {
-            LOG.error("Author {} doesn't map for the book: {}", author, book);
+            LOG.error("Author {} doesn't match the book: {}", author, book);
             throw new InvalidRecommendationException("Invalid author: " + author);
         }
         return true;
