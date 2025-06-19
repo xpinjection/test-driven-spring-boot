@@ -5,6 +5,7 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import com.xpinjection.library.adaptors.persistence.entity.ExpertEntity;
 import com.xpinjection.library.domain.Book;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.transaction.TestTransaction;
@@ -13,6 +14,7 @@ import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@DisabledIfSystemProperty(named = "testcontainers.enabled", matches = "false")
 public class ExpertDaoTest extends AbstractDaoTest<ExpertDao> {
     @Test
     @DataSet(executeStatementsBefore = "ALTER SEQUENCE expert_id_seq RESTART WITH 1",

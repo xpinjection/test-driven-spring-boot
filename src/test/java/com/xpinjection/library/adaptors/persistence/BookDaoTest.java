@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.xpinjection.library.domain.Book;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -15,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * @author Alimenkou Mikalai
  */
+@DisabledIfSystemProperty(named = "testcontainers.enabled", matches = "false")
 public class BookDaoTest extends AbstractDaoTest<BookDao> {
     @Nested
     class FindByNameTests {
