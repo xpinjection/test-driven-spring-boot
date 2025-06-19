@@ -4,6 +4,7 @@ import com.xpinjection.library.service.BookService;
 import com.xpinjection.library.service.dto.Books;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DisabledIfSystemProperty(named = "testcontainers.enabled", matches = "false")
 public class ExpertApiTest extends AbstractApiTest {
     @Test
     /*@ExportDataSet(format = DataSetFormat.XML, outputName = "target/expert-added.xml",
