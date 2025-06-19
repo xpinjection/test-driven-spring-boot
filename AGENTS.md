@@ -1,7 +1,7 @@
-# Contributor Guide
+# AI Agent Guide
 
 ## Dev Environment Tips
-- If project dependencies didn't change run all Maven commands with --offline flag to avoid internet usage
+- If project dependencies didn't change run all Maven commands with --offline flag to avoid internet usage.
 - Use `mvn compile --offline` to quickly compile the project.
 
 ## Testing Instructions
