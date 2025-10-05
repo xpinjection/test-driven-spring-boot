@@ -11,14 +11,28 @@ spring:
     enabled: true
 
 management:
+  otlp:
+    logging:
+      export:
+        enabled: false
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
+      export:
+        enabled: true
+  logging:
+    export:
+      enabled: false
   tracing:
+    enabled: true
     sampling:
       probability: 1.0
   endpoint:
     env:
       show-values: when_authorized
     shutdown:
-      enabled: true
+      access: unrestricted
+    heapdump:
+      access: unrestricted
     health:
       show-details: always
       show-components: always
@@ -30,6 +44,8 @@ management:
     configprops:
       show-values: when_authorized
   endpoints:
+    access:
+      default: unrestricted
     jmx:
       exposure:
         include: '*'
@@ -37,7 +53,6 @@ management:
       base-path: /admin
       exposure:
         include: '*'
-    enabled-by-default: true
   info:
     java:
       enabled: true
@@ -46,4 +61,6 @@ management:
     git:
       mode: full
     os:
+      enabled: true
+    process:
       enabled: true

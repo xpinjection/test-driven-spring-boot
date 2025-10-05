@@ -7,13 +7,13 @@ import com.xpinjection.library.RuntimeDependencies;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
-import org.springdoc.core.properties.SwaggerUiConfigParameters;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;
 import org.springframework.test.context.ActiveProfiles;
-import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 
 import java.nio.file.Path;
 
@@ -34,7 +34,7 @@ public abstract class AbstractApiTest {
     protected int port;
 
     @Autowired
-    private SwaggerUiConfigParameters swaggerConfig;
+    private SwaggerUiConfigProperties swaggerConfig;
 
     @BeforeEach
     void init() {

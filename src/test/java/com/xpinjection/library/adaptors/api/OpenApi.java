@@ -9,9 +9,8 @@ import org.openapitools.openapidiff.core.output.ConsoleRender;
 import org.openapitools.openapidiff.core.output.MarkdownRender;
 import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+import java.io.*;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
@@ -63,23 +62,23 @@ public class OpenApi {
     }
 
     private void generateMdReport(ChangedOpenApi apiDiff, String reportPath) {
-        var mdReport = new MarkdownRender().render(apiDiff);
-        LOG.info("API changes report in Markdown format is available here: {}", reportPath);
         try {
-            FileUtils.writeStringToFile(new File(reportPath), mdReport, StandardCharsets.UTF_8);
+            LOG.info("API changes report in Markdown format is available here: {}", reportPath);
+            new MarkdownRender().render(apiDiff, new FileWriter(reportPath, StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new IllegalStateException("Can't store API changes report", e);
         }
     }
 
     private void generateConsoleReport(ChangedOpenApi apiDiff) {
-        var consoleReport = new ConsoleRender().render(apiDiff);
-        LOG.warn(consoleReport);
+        var report = new ByteArrayOutputStream();
+        new ConsoleRender().render(apiDiff, new OutputStreamWriter(report, StandardCharsets.UTF_8));
+        LOG.warn(report.toString(StandardCharsets.UTF_8));
     }
 
     private void export(String specUrl, File targetFile) {
         try {
-            FileUtils.copyURLToFile(new URL(specUrl), targetFile);
+            FileUtils.copyURLToFile(URI.create(specUrl).toURL(), targetFile);
             LOG.info("API spec exported successfully");
         } catch (IOException e) {
             throw new IllegalStateException("Can't export API spec", e);

@@ -10,6 +10,7 @@ server:
     max-connections: 30
     threads:
       max: 30
+      max-queue-capacity: 1000
     basedir: tomcat
     accesslog:
         enabled: true
@@ -22,6 +23,7 @@ server:
     enabled: false
   http2:
     enabled: true
+  shutdown: immediate
 
 spring:
   docker:
@@ -33,11 +35,13 @@ spring:
       mode: never
   application:
     name: library
+    group: xpinjection
   jackson:
     serialization:
       indent_output: true
     deserialization:
       fail-on-unknown-properties: true
+    constructor-detector: use_delegating
   freemarker:
     enabled: true
     cache: true
@@ -73,6 +77,7 @@ library:
   size: 0
 
 logging:
+  include-application-group: false
   include-application-name: false
   file:
     name: library.log
@@ -87,5 +92,8 @@ springdoc:
         name: generated
 
 management:
+  tracing:
+    enabled: false
   endpoints:
-    enabled-by-default: false
+    access:
+      default: none

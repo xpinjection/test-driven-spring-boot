@@ -1,10 +1,10 @@
 package com.xpinjection.library.service.dto;
 
-import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 @Value
+@RequiredArgsConstructor
 public class Recommendation {
-    @NonNull
     String sentence;
 }

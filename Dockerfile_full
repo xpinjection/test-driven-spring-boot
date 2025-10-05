@@ -1,8 +1,8 @@
-FROM maven:3.9.6-eclipse-temurin-21-alpine AS maven_dependencies
+FROM maven:3.9.6-eclipse-temurin-24-alpine AS maven_dependencies
 COPY pom.xml /tmp/
 RUN mvn -B dependency:go-offline -f /tmp/pom.xml -s /usr/share/maven/ref/settings-docker.xml
 
-FROM maven_dependencies as maven_build
+FROM maven_dependencies AS maven_build
 COPY src /tmp/src/
 COPY .git /tmp/.git/
 COPY lombok.config /tmp/
@@ -10,12 +10,11 @@ WORKDIR /tmp/
 RUN mvn -B -s /usr/share/maven/ref/settings-docker.xml package -DskipTests
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} library.jar
-RUN java -Djarmode=layertools -jar library.jar extract
+RUN java -jar -Djarmode=tools library.jar extract --layers --destination library
 
-FROM eclipse-temurin:21.0.2_13-jdk-alpine
-VOLUME /tmp
-COPY --from=maven_build /tmp/dependencies/ ./
-COPY --from=maven_build /tmp/snapshot-dependencies/ ./
-COPY --from=maven_build /tmp/spring-boot-loader/ ./
-COPY --from=maven_build /tmp/application/ ./
-ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
+FROM eclipse-temurin:24.0.2_12-jdk-alpine
+COPY --from=maven_build /tmp/library/dependencies/ ./
+COPY --from=maven_build /tmp/library/snapshot-dependencies/ ./
+COPY --from=maven_build /tmp/library/spring-boot-loader/ ./
+COPY --from=maven_build /tmp/library/application/ ./
+ENTRYPOINT ["java", "-jar", "library.jar"]
