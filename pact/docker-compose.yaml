@@ -1,10 +1,7 @@
-version: "3"
-
 services:
   postgres:
-    image: postgres
-    healthcheck:
-      test: psql pact_brocker --command "select 1" -U pact
+    image: postgres:17.6
+    container_name: pact-brocker-db
     ports:
       - "5432:5432"
     environment:
@@ -13,7 +10,8 @@ services:
       POSTGRES_DB: pact_broker
 
   broker_app:
-    image: pactfoundation/pact-broker:latest
+    image: pactfoundation/pact-broker:2
+    container_name: pact-broker
     links:
       - postgres
     depends_on:

@@ -1,12 +1,13 @@
 package com.xpinjection.library.adaptors.api.pact;
 
+import au.com.dius.pact.core.pactbroker.ConsumerVersionSelectors;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junitsupport.AllowOverridePactUrl;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.StateChangeAction;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
-import au.com.dius.pact.provider.junitsupport.loader.VersionSelector;
+import au.com.dius.pact.provider.junitsupport.loader.PactBrokerConsumerVersionSelectors;
 import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import au.com.dius.pact.provider.spring.junit5.PactVerificationSpringProvider;
 import com.xpinjection.library.adaptors.api.BookRestController;
@@ -27,6 +28,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.emptyList;
@@ -35,9 +37,7 @@ import static org.mockito.Mockito.when;
 
 @EnabledIfSystemProperty(named = "pactbroker.enabled", matches = "true")
 @DisabledIfSystemProperty(named = "pactbroker.enabled", matches = "false")
-@PactBroker(enablePendingPacts = "true", providerTags = {"master"}, consumerVersionSelectors = {
-        @VersionSelector(tag = "master")
-})
+@PactBroker(enablePendingPacts = "true", providerTags = {"master"})
 @AllowOverridePactUrl
 @Provider("com.xpinjection.library")
 @WebMvcTest(BookRestController.class)
@@ -54,6 +54,11 @@ class BookApiPactTest {
     @ExtendWith(PactVerificationSpringProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
         context.verifyInteraction();
+    }
+
+    @PactBrokerConsumerVersionSelectors
+    public static List<ConsumerVersionSelectors> consumerVersionSelectors() {
+        return List.of(new ConsumerVersionSelectors.Tag("master"));
     }
 
     @BeforeEach
