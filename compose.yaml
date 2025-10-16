@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:17.6
-    container_name: postgresql
+    container_name: library-db
     environment:
       POSTGRES_DB: library
       POSTGRES_USER: test
@@ -11,7 +11,7 @@ services:
 
   jaeger:
     image: cr.jaegertracing.io/jaegertracing/jaeger:2.10.0
-    container_name: jaeger
+    container_name: library-jaeger
     ports:
       - "16686:16686" # Jaeger UI
       - "4317:4317"   # OTLP gRPC ingest

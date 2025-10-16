@@ -19,8 +19,6 @@
     </parent>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>24</java.version>
         <pact.provider.version>0.1.0</pact.provider.version>
         <pact.provider.branch>master</pact.provider.branch>
@@ -275,6 +273,10 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.cyclonedx</groupId>
+                <artifactId>cyclonedx-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
