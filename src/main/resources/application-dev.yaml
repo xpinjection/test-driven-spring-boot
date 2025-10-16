@@ -13,3 +13,18 @@ spring:
   main:
     lazy-initialization: true
     banner-mode: off
+  docker:
+    compose:
+      enabled: true
+      lifecycle-management: start_and_stop
+
+management:
+  otlp:
+    tracing:
+      endpoint: http://localhost:4318/v1/traces
+
+logging:
+  level:
+    web: DEBUG
+  include-application-group: false
+  include-application-name: false

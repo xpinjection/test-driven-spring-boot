@@ -16,7 +16,7 @@ management:
       export:
         enabled: false
     tracing:
-      endpoint: http://localhost:4318/v1/traces
+      endpoint: # define Jaeger endpoint
       export:
         enabled: true
   logging:

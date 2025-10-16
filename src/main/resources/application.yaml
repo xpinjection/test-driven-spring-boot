@@ -47,7 +47,7 @@ spring:
     cache: true
     suffix: .ftl
   datasource:
-    url: jdbc:postgresql://localhost/library
+    url: # define PostgreSQL DB URL
     username:
     password:
     driver-class-name: org.postgresql.Driver
@@ -77,8 +77,6 @@ library:
   size: 0
 
 logging:
-  include-application-group: false
-  include-application-name: false
   file:
     name: library.log
 

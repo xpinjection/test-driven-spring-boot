@@ -12,5 +12,8 @@ import org.springframework.validation.annotation.Validated;
 @ConfigurationProperties(prefix = "library")
 public class LibrarySettings {
     @Min(0)
+    /**
+     * Initial size of the library
+     */
     private int size;
 }
