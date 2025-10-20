@@ -18,4 +18,45 @@ services:
       - "4318:4318"   # OTLP HTTP ingest
       - "5778:5778"   # Remote sampling (HTTP)
       - "9411:9411"   # Zipkin compatible ingest (optional)
-    restart: unless-stopped
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.1.5
+    container_name: library-elastic
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - cluster.name=library-logs
+    ports:
+      - "9200:9200"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 40s
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.1.5
+    container_name: library-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elastic:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      elastic:
+        condition: service_healthy
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.137.0
+    container_name: library-otel-collector
+    command: [ "--config=/etc/otelcol/config.yaml" ]
+    volumes:
+      - ./otel/otel-collector-config.yaml:/etc/otelcol/config.yaml:ro
+      - ./logs:/var/log/app
+    ports:
+      - "4315:4317"  # OTLP gRPC
+      - "4316:4318"  # OTLP HTTP
+    depends_on:
+      elastic:
+        condition: service_healthy

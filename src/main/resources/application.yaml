@@ -13,8 +13,8 @@ server:
       max-queue-capacity: 1000
     basedir: tomcat
     accesslog:
-        enabled: true
-        pattern: '%t %a "%r" %s (%D ms)'
+      enabled: true
+      pattern: '%t %a "%r" %s (%D ms)'
   compression:
     enabled: true
     min-response-size: 512
@@ -79,6 +79,9 @@ library:
 logging:
   file:
     name: library.log
+  structured:
+    format:
+      console: ecs
 
 springdoc:
   packages-to-scan: com.xpinjection.library.adaptors.api

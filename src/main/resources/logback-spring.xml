@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <springProfile name="json-logs">
         <springProperty name="app" source="spring.application.name" defaultValue="app"/>
@@ -51,7 +50,17 @@
         </root>
     </springProfile>
 
-    <springProfile name="!json-logs">
+    <springProfile name="structured-logs">
+        <include resource="org/springframework/boot/logging/logback/structured-console-appender.xml"/>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="!json-logs &amp; !structured-logs">
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
         </root>

@@ -28,3 +28,8 @@ logging:
     web: DEBUG
   include-application-group: false
   include-application-name: false
+  structured:
+    ecs:
+      service:
+        environment: local-dev
+        node-name: laptop

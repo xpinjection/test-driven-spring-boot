@@ -11,17 +11,14 @@ spring:
     enabled: true
 
 management:
+  observations:
+    annotations:
+      enabled: true
   otlp:
-    logging:
-      export:
-        enabled: false
     tracing:
       endpoint: # define Jaeger endpoint
       export:
         enabled: true
-  logging:
-    export:
-      enabled: false
   tracing:
     enabled: true
     sampling:
@@ -64,3 +61,7 @@ management:
       enabled: true
     process:
       enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
