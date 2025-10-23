@@ -1,0 +1,18 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'library-monitor'
+
+scrape_configs:
+  - job_name: 'library-application'
+    metrics_path: '/admin/prometheus'
+    scrape_interval: 5s
+    basic_auth:
+      username: admin
+      password: xpinjection
+    static_configs:
+      - targets: ['host.docker.internal:8080']
+        labels:
+          application: 'library'
+          environment: 'local-dev'

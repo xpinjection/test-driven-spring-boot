@@ -11,6 +11,10 @@ spring:
     enabled: true
 
 management:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
   observations:
     annotations:
       enabled: true
@@ -61,7 +65,11 @@ management:
       enabled: true
     process:
       enabled: true
-  metrics:
     distribution:
       percentiles-histogram:
         http.server.requests: true
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
