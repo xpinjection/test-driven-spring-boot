@@ -9,38 +9,42 @@
         <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers>
-                    <contextName>
-                        <fieldName>app</fieldName>
-                    </contextName>
-                    <timestamp>
-                        <fieldName>ts</fieldName>
-                        <timeZone>UTC</timeZone>
-                    </timestamp>
-                    <logLevel>
-                        <fieldName>level</fieldName>
-                    </logLevel>
-                    <loggerName>
-                        <fieldName>logger</fieldName>
-                    </loggerName>
+                    <timestamp/>
+                    <threadName/>
+                    <logLevel/>
+                    <loggerName/>
+                    <contextName/>
                     <callerData>
+                        <fieldName>caller</fieldName>
                         <classFieldName>class</classFieldName>
                         <methodFieldName>method</methodFieldName>
                         <lineFieldName>line</lineFieldName>
                         <fileFieldName>file</fileFieldName>
                     </callerData>
-                    <threadName>
-                        <fieldName>thread</fieldName>
-                    </threadName>
-                    <mdc/>
                     <arguments>
+                        <fieldName>args</fieldName>
                         <includeNonStructuredArguments>false</includeNonStructuredArguments>
                     </arguments>
-                    <stackTrace>
-                        <fieldName>stack</fieldName>
-                    </stackTrace>
-                    <message>
-                        <fieldName>msg</fieldName>
-                    </message>
+                    <mdc/>
+                    <tags/>
+                    <logstashMarkers/>
+                    <nestedField>
+                        <fieldName>exception</fieldName>
+                        <providers>
+                            <stackTrace/>
+                            <throwableClassName>
+                                <useSimpleClassName>false</useSimpleClassName>
+                            </throwableClassName>
+                            <throwableMessage/>
+                            <rootStackTraceElement/>
+                            <throwableRootCauseClassName>
+                                <useSimpleClassName>false</useSimpleClassName>
+                            </throwableRootCauseClassName>
+                            <throwableRootCauseMessage/>
+                            <stackHash/>
+                        </providers>
+                    </nestedField>
+                    <message/>
                 </providers>
             </encoder>
         </appender>

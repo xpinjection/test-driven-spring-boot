@@ -77,11 +77,17 @@ library:
   size: 0
 
 logging:
-  file:
-    name: library.log
-  structured:
-    format:
-      console: ecs
+  level:
+    org.zalando.logbook: TRACE
+
+logbook:
+  predicate:
+    exclude:
+      - path: /admin/**
+  format:
+    style: http
+  strategy: body-only-if-status-at-least
+  minimum-status: 200
 
 springdoc:
   packages-to-scan: com.xpinjection.library.adaptors.api

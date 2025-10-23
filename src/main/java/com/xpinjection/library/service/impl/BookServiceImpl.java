@@ -16,7 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static net.logstash.logback.argument.StructuredArguments.value;
+import static net.logstash.logback.marker.Markers.append;
 
 /**
  * @author Alimenkou Mikalai
@@ -42,11 +43,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> findBooksByAuthor(String author) {
-        LOG.info("Try to find books by author: {}", author);
-        Assert.hasText(author, "Author is empty!");
-        var normalizedAuthor = normalizeAuthorName(author);
-        var books = cache.computeIfAbsent(normalizedAuthor, bookDao::findByAuthor).stream();
-        return toDto(books);
+            LOG.info(append("operation", "search"),
+                    "Try to find books by author: {}", value("author", author));
+            Assert.hasText(author, "Author is empty!");
+            var normalizedAuthor = normalizeAuthorName(author);
+            var books = cache.computeIfAbsent(normalizedAuthor, bookDao::findByAuthor).stream();
+            return toDto(books);
     }
 
     @Override
@@ -76,7 +78,7 @@ public class BookServiceImpl implements BookService {
 
     private List<BookDto> toDto(Stream<Book> books) {
         return books.map(BookServiceImpl::toDto)
-                .collect(toList());
+                .toList();
     }
 
     public static BookDto toDto(Book book) {

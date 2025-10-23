@@ -1,0 +1,13 @@
+logbook:
+  format:
+    style: json
+
+logging:
+  structured:
+    format:
+      console: ecs
+    json:
+      stacktrace:
+        include-hashes: true
+        include-common-frames: false
+        root: first

@@ -1,0 +1,3 @@
+logbook:
+  format:
+    style: json
