@@ -89,3 +89,37 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+
+  library-app:
+    profiles: ["perftest"]
+    image: xpinjection.com/library:perf-test
+    container_name: library-app
+    environment:
+      - SPRING_PROFILES_ACTIVE=admin,perftest
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=xpinjection
+      - SERVER_TOMCAT_THREADS_MAX=200
+      - SERVER_TOMCAT_MAX_CONNECTIONS=1000
+      - JAVA_TOOL_OPTIONS=-XX:InitialRAMPercentage=80.0 -XX:MaxRAMPercentage=80.0 -XX:MaxMetaspaceSize=128m
+    ports:
+      - "8080:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/admin/health/readiness"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    depends_on:
+      db:
+        condition: service_started
+      jaeger:
+        condition: service_started
+      elastic:
+        condition: service_healthy

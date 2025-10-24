@@ -11,6 +11,10 @@ spring:
     enabled: true
 
 management:
+  metrics:
+    distribution:
+      percentiles:
+        http.server.requests: 0.9,0.95,0.99
   prometheus:
     metrics:
       export:
@@ -65,9 +69,6 @@ management:
       enabled: true
     process:
       enabled: true
-    distribution:
-      percentiles-histogram:
-        http.server.requests: true
 
 server:
   tomcat:

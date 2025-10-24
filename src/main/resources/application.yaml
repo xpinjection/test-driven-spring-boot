@@ -7,7 +7,7 @@ server:
     jsp:
       registered: false
   tomcat:
-    max-connections: 30
+    max-connections: 1000
     threads:
       max: 30
       max-queue-capacity: 1000

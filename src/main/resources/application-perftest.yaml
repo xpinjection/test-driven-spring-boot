@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db:5432/library
+    username: test
+    password: test
+
+management:
+  otlp:
+    tracing:
+      endpoint: http://jaeger:4318/v1/traces
+      export:
+        enabled: true
+
+logbook:
+  strategy: status-at-least
+  minimum-status: 400
+
+logging:
+  include-application-name: false
+  include-application-group: false
+  level:
+    org.zalando.logbook: INFO
