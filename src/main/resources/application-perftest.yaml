@@ -3,6 +3,8 @@ spring:
     url: jdbc:postgresql://db:5432/library
     username: test
     password: test
+  cache:
+    type: none
 
 management:
   otlp:

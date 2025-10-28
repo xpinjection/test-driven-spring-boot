@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class BookServiceTest {
 
     @BeforeEach
     void init() {
-        bookService = new BookServiceImpl(dao);
+        bookService = new BookServiceImpl(dao, new ConcurrentMapCacheManager("booksByAuthor"));
     }
 
     @Test

@@ -70,6 +70,9 @@ spring:
       static-locations: classpath:/static/, classpath:/api/spec/
   jmx:
     enabled: false
+  cache:
+    type: simple
+    cache-names: booksByAuthor
 
 library:
   size: 0

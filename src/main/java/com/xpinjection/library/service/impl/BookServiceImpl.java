@@ -8,14 +8,13 @@ import com.xpinjection.library.service.dto.Books;
 import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Stream;
 
 import static net.logstash.logback.argument.StructuredArguments.value;
 import static net.logstash.logback.marker.Markers.append;
@@ -28,18 +27,21 @@ import static net.logstash.logback.marker.Markers.append;
 @Transactional
 public class BookServiceImpl implements BookService {
     private final BookDao bookDao;
-    private final ConcurrentMap<String, List<Book>> cache = new ConcurrentHashMap<>();
+    private final Cache cache;
 
-    public BookServiceImpl(BookDao bookDao) {
+    public BookServiceImpl(BookDao bookDao, CacheManager cacheManager) {
         this.bookDao = bookDao;
+        this.cache = cacheManager.getCache("booksByAuthor");
     }
 
     @Override
     public List<BookDto> addBooks(Books books) {
         LOG.info("Adding books: {}", books);
-        return toDto(books.stream()
+        var savedBooks = books.stream()
                 .map(entry -> new Book(entry.getKey(), entry.getValue()))
-                .map(bookDao::save));
+                .map(bookDao::save)
+                .toList();
+        return toDto(savedBooks);
     }
 
     @Override
@@ -52,14 +54,14 @@ public class BookServiceImpl implements BookService {
                 "Try to find books by author: {}", value("author", author));
         Assert.hasText(author, "Author is empty!");
         var normalizedAuthor = normalizeAuthorName(author);
-        var books = cache.computeIfAbsent(normalizedAuthor, bookDao::findByAuthor).stream();
+        var books = cache.get(normalizedAuthor, () -> bookDao.findByAuthor(author));
         return toDto(books);
     }
 
     @Override
     public List<BookDto> findAllBooks() {
         LOG.info("Finding all books");
-        return toDto(bookDao.findAll().stream());
+        return toDto(bookDao.findAll());
     }
 
     private String normalizeAuthorName(String author) {
@@ -81,8 +83,9 @@ public class BookServiceImpl implements BookService {
         return String.join(" ", firstName, lastName);
     }
 
-    private List<BookDto> toDto(Stream<Book> books) {
-        return books.map(BookServiceImpl::toDto)
+    private List<BookDto> toDto(List<Book> books) {
+        return books.stream()
+                .map(BookServiceImpl::toDto)
                 .toList();
     }
 
