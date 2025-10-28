@@ -37,8 +37,6 @@ spring:
     name: library
     group: xpinjection
   jackson:
-    serialization:
-      indent_output: true
     deserialization:
       fail-on-unknown-properties: true
     constructor-detector: use_delegating

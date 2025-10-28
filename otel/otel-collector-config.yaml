@@ -11,29 +11,116 @@ receivers:
     operators:
       - type: json_parser
         parse_from: body
+        parse_to: body
+      - type: time_parser
+        parse_from: body["@timestamp"]
+        layout_type: gotime
+        layout: "2006-01-02T15:04:05.999999999Z07:00"
   otlp:
     protocols:
-      http:
       grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
 
 processors:
   batch: {}
+
+  # Transform Logstash JSON format to OpenTelemetry attributes
+  transform:
+    error_mode: ignore
+    log_statements:
+      - context: log
+        statements:
+          # Set severity from level field
+          - set(severity_text, body["level"]) where body["level"] != nil
+          - set(attributes["level"], body["level"]) where body["level"] != nil
+
+          # Map log level to severity number (OpenTelemetry standard)
+          - set(severity_number, 5) where severity_text == "TRACE"
+          - set(severity_number, 9) where severity_text == "DEBUG"
+          - set(severity_number, 13) where severity_text == "INFO"
+          - set(severity_number, 17) where severity_text == "WARN"
+          - set(severity_number, 21) where severity_text == "ERROR"
+          - set(severity_number, 25) where severity_text == "FATAL"
+
+          # Core log attributes
+          - set(attributes["logger.name"], body["logger_name"]) where body["logger_name"] != nil
+          - set(attributes["thread.name"], body["thread_name"]) where body["thread_name"] != nil
+          - set(attributes["context.name"], body["context_name"]) where body["context_name"] != nil
+
+          # Caller information (code location)
+          - set(attributes["code.filepath"], body["caller"]["file"]) where body["caller"]["file"] != nil
+          - set(attributes["code.function"], body["caller"]["method"]) where body["caller"]["method"] != nil
+          - set(attributes["code.lineno"], body["caller"]["line"]) where body["caller"]["line"] != nil
+          - set(attributes["code.namespace"], body["caller"]["class"]) where body["caller"]["class"] != nil
+
+          # Structured arguments from logging statements
+          - set(attributes["args"], body["args"]) where body["args"] != nil
+
+          # Tags array
+          - set(attributes["tags"], body["tags"]) where body["tags"] != nil
+
+          # Exception information
+          - set(attributes["exception.type"], body["exception"]["throwable_class_name"]) where body["exception"]["throwable_class_name"] != nil
+          - set(attributes["exception.message"], body["exception"]["throwable_message"]) where body["exception"]["throwable_message"] != nil
+          - set(attributes["exception.stacktrace"], body["exception"]["stack_trace"]) where body["exception"]["stack_trace"] != nil
+
+          # Exception root cause
+          - set(attributes["exception.root_cause.type"], body["exception"]["throwable_root_cause_class_name"]) where body["exception"]["throwable_root_cause_class_name"] != nil
+          - set(attributes["exception.root_cause.message"], body["exception"]["throwable_root_cause_message"]) where body["exception"]["throwable_root_cause_message"] != nil
+
+          # Root stack trace element (where exception was thrown)
+          - set(attributes["exception.root_element.class"], body["exception"]["root_stack_trace_element"]["class_name"]) where body["exception"]["root_stack_trace_element"]["class_name"] != nil
+          - set(attributes["exception.root_element.method"], body["exception"]["root_stack_trace_element"]["method_name"]) where body["exception"]["root_stack_trace_element"]["method_name"] != nil
+          - set(attributes["exception.root_element.line"], body["exception"]["root_stack_trace_element"]["line_number"]) where body["exception"]["root_stack_trace_element"]["line_number"] != nil
+          - set(attributes["exception.root_element.file"], body["exception"]["root_stack_trace_element"]["file_name"]) where body["exception"]["root_stack_trace_element"]["file_name"] != nil
+
+          # Stack hash for deduplication
+          - set(attributes["exception.stack_hash"], body["exception"]["stack_hash"]) where body["exception"]["stack_hash"] != nil
+
+          # MDC (Mapped Diagnostic Context) - Common Spring Boot fields
+          - set(attributes["trace_id"], body["traceId"]) where body["traceId"] != nil
+          - set(attributes["span_id"], body["spanId"]) where body["spanId"] != nil
+
+          # HTTP log attributes
+          - set(attributes["http"], body["http"]) where body["http"] != nil
+
+          # Set body to message content (primary log message)
+          - set(body, body["message"]) where body["message"] != nil
+
+  # Add resource attributes
+  resource:
+    attributes:
+      - key: service.name
+        value: library
+        action: insert
+      - key: deployment.environment
+        value: local-dev
+        action: insert
 
 exporters:
   debug:
     verbosity: detailed
 
-  elasticsearch:
-    endpoint: http://elastic:9200
-    mapping:
-      mode: raw
-    sending_queue:
-      enabled: true
+  otlphttp/loki:
+    endpoint: http://loki:3100/otlp
+    tls:
+      insecure: true
+
+  otlphttp:
+    endpoint: http://jaeger:4318
+    tls:
+      insecure: true
 
 service:
   extensions: [file_storage]
   pipelines:
     logs:
       receivers: [filelog,otlp]
+      processors: [transform, resource, batch]
+      exporters: [otlphttp/loki, debug]
+    traces:
+      receivers: [otlp]
       processors: [batch]
-      exporters: [elasticsearch, debug]
+      exporters: [otlphttp]

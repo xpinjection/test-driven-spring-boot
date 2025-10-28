@@ -19,33 +19,20 @@ services:
       - "5778:5778"   # Remote sampling (HTTP)
       - "9411:9411"   # Zipkin compatible ingest (optional)
 
-  elastic:
-    image: docker.elastic.co/elasticsearch/elasticsearch:9.1.5
-    container_name: library-elastic
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g
-      - cluster.name=library-logs
+  loki:
+    image: grafana/loki:3.5.7
+    container_name: library-loki
+    command: -config.file=/etc/loki/config.yaml
+    volumes:
+      - ./loki/loki-config.yaml:/etc/loki/config.yaml:ro
     ports:
-      - "9200:9200"
+      - "3100:3100"
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3100/ready || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 30
-      start_period: 40s
-
-  kibana:
-    image: docker.elastic.co/kibana/kibana:9.1.5
-    container_name: library-kibana
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elastic:9200
-    ports:
-      - "5601:5601"
-    depends_on:
-      elastic:
-        condition: service_healthy
+      retries: 5
+      start_period: 10s
 
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.137.0
@@ -58,7 +45,7 @@ services:
       - "4315:4317"  # OTLP gRPC
       - "4316:4318"  # OTLP HTTP
     depends_on:
-      elastic:
+      loki:
         condition: service_healthy
 
   prometheus:
@@ -69,6 +56,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
+      - '--enable-feature=exemplar-storage'
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
@@ -89,6 +77,7 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+      - loki
 
   library-app:
     profiles: ["perftest"]
@@ -121,5 +110,5 @@ services:
         condition: service_started
       jaeger:
         condition: service_started
-      elastic:
+      loki:
         condition: service_healthy

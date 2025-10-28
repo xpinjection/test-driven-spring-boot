@@ -58,6 +58,11 @@ management:
       base-path: /admin
       exposure:
         include: '*'
+  health:
+    defaults:
+      enabled: true
+    ssl:
+      enabled: false
   info:
     java:
       enabled: true
