@@ -5,6 +5,7 @@ import com.xpinjection.library.domain.Book;
 import com.xpinjection.library.service.BookService;
 import com.xpinjection.library.service.dto.BookDto;
 import com.xpinjection.library.service.dto.Books;
+import io.micrometer.observation.annotation.Observed;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -42,13 +43,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Observed(name = "books.search", contextualName = "findBooksByAuthor", lowCardinalityKeyValues = {
+            "operation", "search",
+            "type", "byAuthor"
+    })
     public List<BookDto> findBooksByAuthor(String author) {
-            LOG.info(append("operation", "search"),
-                    "Try to find books by author: {}", value("author", author));
-            Assert.hasText(author, "Author is empty!");
-            var normalizedAuthor = normalizeAuthorName(author);
-            var books = cache.computeIfAbsent(normalizedAuthor, bookDao::findByAuthor).stream();
-            return toDto(books);
+        LOG.info(append("operation", "search"),
+                "Try to find books by author: {}", value("author", author));
+        Assert.hasText(author, "Author is empty!");
+        var normalizedAuthor = normalizeAuthorName(author);
+        var books = cache.computeIfAbsent(normalizedAuthor, bookDao::findByAuthor).stream();
+        return toDto(books);
     }
 
     @Override

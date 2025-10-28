@@ -14,7 +14,13 @@ management:
   metrics:
     distribution:
       percentiles:
-        http.server.requests: 0.9,0.95,0.99
+        books.search: 0.9,0.95,0.99
+      percentiles-histogram:
+        http.server.requests: true
+      minimum-expected-value:
+        http.server.requests: 5ms
+      maximum-expected-value:
+        http.server.requests: 10s
   prometheus:
     metrics:
       export:
