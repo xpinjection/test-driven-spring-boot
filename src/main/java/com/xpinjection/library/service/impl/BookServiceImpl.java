@@ -54,7 +54,7 @@ public class BookServiceImpl implements BookService {
                 "Try to find books by author: {}", value("author", author));
         Assert.hasText(author, "Author is empty!");
         var normalizedAuthor = normalizeAuthorName(author);
-        var books = cache.get(normalizedAuthor, () -> bookDao.findByAuthor(author));
+        var books = cache.get(normalizedAuthor, () -> bookDao.findByAuthor(normalizedAuthor));
         return toDto(books);
     }
 
