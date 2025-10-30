@@ -113,6 +113,11 @@ exporters:
     tls:
       insecure: true
 
+  otlphttp/tempo:
+    endpoint: http://tempo:4318
+    tls:
+      insecure: true
+
 service:
   extensions: [file_storage]
   pipelines:
@@ -123,4 +128,4 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlphttp]
+      exporters: [otlphttp, otlphttp/tempo, debug]

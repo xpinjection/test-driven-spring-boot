@@ -34,6 +34,17 @@ services:
       retries: 5
       start_period: 10s
 
+  tempo:
+    image: grafana/tempo:2.9.0
+    container_name: library-tempo
+    command: [ "-config.file=/etc/tempo/tempo.yaml" ]
+    volumes:
+      - ./tempo/tempo-config.yaml:/etc/tempo/tempo.yaml:ro
+    ports:
+      - "3200:3200"   # Tempo HTTP API
+      - "4311:4317"   # OTLP gRPC
+      - "4312:4318"   # OTLP HTTP
+
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.137.0
     container_name: library-otel-collector
@@ -47,6 +58,8 @@ services:
     depends_on:
       loki:
         condition: service_healthy
+      tempo:
+        condition: service_started
 
   prometheus:
     image: prom/prometheus:v3.7.1
@@ -57,6 +70,8 @@ services:
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
       - '--enable-feature=exemplar-storage'
+      - '--web.enable-remote-write-receiver'
+      - '--enable-feature=native-histograms'
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
@@ -78,6 +93,7 @@ services:
     depends_on:
       - prometheus
       - loki
+      - tempo
 
   library-app:
     profiles: ["perftest"]
@@ -104,11 +120,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 10s
     depends_on:
       db:
         condition: service_started
-      jaeger:
+      otel-collector:
         condition: service_started
-      loki:
-        condition: service_healthy
