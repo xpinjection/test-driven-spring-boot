@@ -1,0 +1,16 @@
+spring:
+  docker:
+    compose:
+      enabled: false
+  datasource:
+    url: XXX
+  jpa:
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        boot:
+          allow_jdbc_metadata_access: false
+  flyway:
+    enabled: false

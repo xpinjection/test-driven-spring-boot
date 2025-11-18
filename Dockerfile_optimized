@@ -9,8 +9,8 @@ COPY --from=builder /library/snapshot-dependencies/ ./
 COPY --from=builder /library/spring-boot-loader/ ./
 COPY --from=builder /library/application/ ./
 
-# RUN java -XX:ArchiveClassesAtExit=application.jsa -Dspring.context.exit=onRefresh -Dspring.profiles.active=dev -Dspring.datasource.url=jdbc:postgresql://host.docker.internal:5432/library -jar library.jar
-RUN java -XX:AOTCacheOutput=app.aot -Dspring.context.exit=onRefresh -Dspring.profiles.active=dev -Dspring.datasource.url=jdbc:postgresql://host.docker.internal:5432/library -jar library.jar
+# RUN java -XX:ArchiveClassesAtExit=application.jsa -Dspring.context.exit=onRefresh -Dspring.profiles.active=dev,training-run -jar library.jar
+RUN java -XX:AOTCacheOutput=app.aot -Dspring.context.exit=onRefresh -Dspring.profiles.active=dev,training-run -jar library.jar
 
 #ENTRYPOINT ["java", "-XX:SharedArchiveFile=application.jsa", "-Xlog:cds=info", "-jar", "library.jar"]
 ENTRYPOINT ["java", "-XX:AOTCache=app.aot", "-XX:AOTMode=on", "-Xlog:aot=info", "-jar", "library.jar"]
