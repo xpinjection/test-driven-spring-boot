@@ -1,3 +1,4 @@
+### Build ###
 target/
 generated/
 gen/
@@ -10,3 +11,10 @@ gen/
 
 ### VS Code ###
 .vscode/
+
+### AI Agents ###
+/.claude/
+
+### Local Run ###
+/tomcat/
+/logs/
