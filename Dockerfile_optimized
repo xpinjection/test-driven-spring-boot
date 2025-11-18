@@ -1,0 +1,16 @@
+FROM eclipse-temurin:25.0.1_8-jdk-alpine AS builder
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} library.jar
+RUN java -jar -Djarmode=tools library.jar extract --layers --destination library
+
+FROM eclipse-temurin:25.0.1_8-jdk-alpine
+COPY --from=builder /library/dependencies/ ./
+COPY --from=builder /library/snapshot-dependencies/ ./
+COPY --from=builder /library/spring-boot-loader/ ./
+COPY --from=builder /library/application/ ./
+
+# RUN java -XX:ArchiveClassesAtExit=application.jsa -Dspring.context.exit=onRefresh -Dspring.profiles.active=dev -Dspring.datasource.url=jdbc:postgresql://host.docker.internal:5432/library -jar library.jar
+RUN java -XX:AOTCacheOutput=app.aot -Dspring.context.exit=onRefresh -Dspring.profiles.active=dev -Dspring.datasource.url=jdbc:postgresql://host.docker.internal:5432/library -jar library.jar
+
+#ENTRYPOINT ["java", "-XX:SharedArchiveFile=application.jsa", "-Xlog:cds=info", "-jar", "library.jar"]
+ENTRYPOINT ["java", "-XX:AOTCache=app.aot", "-XX:AOTMode=on", "-Xlog:aot=info", "-jar", "library.jar"]
