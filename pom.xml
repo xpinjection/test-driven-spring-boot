@@ -14,12 +14,12 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.6</version>
+        <version>3.5.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
-        <java.version>24</java.version>
+        <java.version>25</java.version>
         <pact.provider.version>0.1.0</pact.provider.version>
         <pact.provider.branch>master</pact.provider.branch>
         <pact.publish.results>false</pact.publish.results>
