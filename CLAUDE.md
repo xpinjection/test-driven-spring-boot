@@ -202,6 +202,59 @@ Base path: `/admin`
 k6 run k6/search-books-test.js --env RPS=10
 ```
 
+### Code Coverage
+
+**Tool:** JaCoCo Maven Plugin v0.8.12
+
+**Generating Coverage Reports:**
+
+```bash
+# Run tests with coverage
+./mvnw clean test
+
+# Run full verification with coverage
+./mvnw clean verify
+
+# Generate coverage report only (after tests)
+./mvnw jacoco:report
+```
+
+**Coverage Reports Location:**
+- HTML Report: `target/site/jacoco/index.html`
+- XML Report: `target/site/jacoco/jacoco.xml`
+- CSV Report: `target/site/jacoco/jacoco.csv`
+
+**What's Measured:**
+- Line coverage
+- Branch coverage
+- Instruction coverage
+- Cyclomatic complexity
+- Class and method coverage
+
+**Configuration:**
+- Plugin: `pom.xml` lines 295-335
+- Minimum coverage threshold: 0% (configurable at line 327)
+- Automatic execution during `test` and `verify` phases
+- Coverage check runs during `verify` phase
+
+**Viewing Coverage:**
+
+```bash
+# Generate report and open in browser
+./mvnw clean test jacoco:report
+open target/site/jacoco/index.html  # macOS
+xdg-open target/site/jacoco/index.html  # Linux
+```
+
+**Customizing Coverage Thresholds:**
+
+Edit `pom.xml` at line 327 to set minimum required coverage:
+```xml
+<minimum>0.80</minimum>  <!-- 80% coverage required -->
+```
+
+The build will fail if coverage falls below the threshold during `mvn verify`.
+
 ## Configuration
 
 ### Application Profiles
@@ -772,6 +825,11 @@ This enables integration with developer portals for:
 ./mvnw test                    # Unit tests
 ./mvnw verify                  # All tests
 ./mvnw verify -Dtestcontainers.enabled=false  # Skip integration tests
+
+# Code Coverage
+./mvnw clean test jacoco:report  # Generate coverage report
+open target/site/jacoco/index.html  # View coverage (macOS)
+xdg-open target/site/jacoco/index.html  # View coverage (Linux)
 
 # Building
 ./mvnw clean package           # Build JAR
