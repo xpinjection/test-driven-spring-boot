@@ -1,0 +1,39 @@
+extensions:
+  file_storage:
+    directory: /var/log/app/.otel-file-storage
+    create_directory: true
+
+receivers:
+  filelog:
+    include: [ /var/log/app/library-logs.json ]
+    start_at: end
+    storage: file_storage
+    operators:
+      - type: json_parser
+        parse_from: body
+  otlp:
+    protocols:
+      http:
+      grpc:
+
+processors:
+  batch: {}
+
+exporters:
+  debug:
+    verbosity: detailed
+
+  elasticsearch:
+    endpoint: http://elastic:9200
+    mapping:
+      mode: raw
+    sending_queue:
+      enabled: true
+
+service:
+  extensions: [file_storage]
+  pipelines:
+    logs:
+      receivers: [filelog,otlp]
+      processors: [batch]
+      exporters: [elasticsearch, debug]
