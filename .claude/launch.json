@@ -1,0 +1,16 @@
+{
+  "version": "0.0.1",
+  "autoVerify": true,
+  "configurations": [
+    {
+      "name": "Library - Build Jar & Run",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": [
+        "/c",
+        ".claude\\build-and-run.cmd"
+      ],
+      "port": 8080,
+      "autoPort": false
+    }
+  ]
+}

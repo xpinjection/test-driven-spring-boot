@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(./mvnw:*)",
+      "Bash(mvn:*)",
+      "Bash(java:*)",
+      "Bash(git commit:*)",
+      "Bash(git diff*)",
+      "Bash(git status:*)",
+      "Bash(git fetch:*)",
+      "Bash(git remote:*)",
+      "Bash(git log:*)",
+      "Skill(playwright-cli)",
+      "Skill(ij-debugger)",
+      "mcp__idea__execute_tool",
+      "mcp__observability__*",
+      "mcp__sentry__*",
+      "mcp__context7__*",
+      "mcp__Claude_Preview__*"
+    ],
+    "deny": [
+      "Bash(sudo:*)",
+      "Bash(rm -rf *)"
+    ],
+    "ask": [
+      "Bash(git push:*)",
+      "Edit(.claude/settings.local.json)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/block-existing-migrations.sh\"",
+            "statusMessage": "Checking Flyway migration immutability..."
+          }
+        ]
+      }
+    ]
+  },
+  "showClearContextOnPlanAccept": true,
+  "showThinkingSummaries": true
+}

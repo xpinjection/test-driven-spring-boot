@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "observability": {
+      "command": "docker",
+      "args": [
+        "mcp",
+        "gateway",
+        "run",
+        "--profile",
+        "observability"
+      ],
+      "env": {}
+    },
+    "sentry": {
+      "type": "http",
+      "url": "https://mcp.sentry.dev/mcp"
+    },
+    "idea": {
+      "url": "http://127.0.0.1:64343/stream",
+      "type": "http"
+    }
+  }
+}

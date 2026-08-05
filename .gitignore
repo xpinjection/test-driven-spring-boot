@@ -13,8 +13,11 @@ gen/
 .vscode/
 
 ### AI Agents ###
-/.claude/
+.claude/settings.local.json
+.claude/worktrees/
+.playwright-cli/
+.playwright-mcp/
+.tool-logs/
 
 ### Local Run ###
-/tomcat/
-/logs/
+tomcat/
