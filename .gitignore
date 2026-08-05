@@ -17,7 +17,7 @@ gen/
 .claude/worktrees/
 .playwright-cli/
 .playwright-mcp/
-.tool-logs/
+tool-logs/
 
 ### Local Run ###
 tomcat/
