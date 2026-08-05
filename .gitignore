@@ -21,3 +21,4 @@ gen/
 
 ### Local Run ###
 tomcat/
+logs/
