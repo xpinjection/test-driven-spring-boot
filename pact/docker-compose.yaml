@@ -1,23 +1,27 @@
 services:
   postgres:
-    image: postgres:17.6
-    container_name: pact-brocker-db
+    image: postgres:17.10
+    container_name: pact-broker-db
     ports:
       - "5432:5432"
     environment:
       POSTGRES_USER: pact
       POSTGRES_PASSWORD: password
       POSTGRES_DB: pact_broker
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pact -d pact_broker"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
   broker_app:
-    image: pactfoundation/pact-broker:2
+    image: pactfoundation/pact-broker:2.142.0-pactbroker2.120.0
     container_name: pact-broker
-    links:
-      - postgres
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     ports:
-      - 9292:9292
+      - "9292:9292"
     environment:
       PACT_BROKER_BASIC_AUTH_USERNAME: admin
       PACT_BROKER_BASIC_AUTH_PASSWORD: xpinjection

@@ -23,6 +23,7 @@
         <!-- Overrides the version managed by spring-boot-starter-parent (1.21.3), which hardcodes
              Docker API 1.32 and is rejected by Docker Engine 29+ (MinAPIVersion 1.40). -->
         <testcontainers.version>2.0.3</testcontainers.version>
+        <pact.version>4.6.21</pact.version>
         <pact.provider.version>0.1.0</pact.provider.version>
         <pact.provider.branch>master</pact.provider.branch>
         <pact.publish.results>false</pact.publish.results>
@@ -209,8 +210,8 @@
         </dependency>
         <dependency>
             <groupId>au.com.dius.pact.provider</groupId>
-            <artifactId>junit5spring</artifactId>
-            <version>4.6.17</version>
+            <artifactId>spring6</artifactId>
+            <version>${pact.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

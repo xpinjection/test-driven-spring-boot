@@ -2,14 +2,14 @@ package com.xpinjection.library.adaptors.api.pact;
 
 import au.com.dius.pact.core.pactbroker.ConsumerVersionSelectors;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
+import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import au.com.dius.pact.provider.junitsupport.AllowOverridePactUrl;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.StateChangeAction;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
 import au.com.dius.pact.provider.junitsupport.loader.PactBrokerConsumerVersionSelectors;
-import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
-import au.com.dius.pact.provider.spring.junit5.PactVerificationSpringProvider;
+import au.com.dius.pact.provider.spring.spring6.Spring6MockMvcTestTarget;
 import com.xpinjection.library.adaptors.api.BookRestController;
 import com.xpinjection.library.config.ActuatorBasicSecurityConfig;
 import com.xpinjection.library.service.BookService;
@@ -51,7 +51,7 @@ class BookApiPactTest {
     private BookService bookService;
 
     @TestTemplate
-    @ExtendWith(PactVerificationSpringProvider.class)
+    @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
         context.verifyInteraction();
     }
@@ -63,7 +63,7 @@ class BookApiPactTest {
 
     @BeforeEach
     void before(PactVerificationContext context) {
-        var target = new MockMvcTestTarget(mockMvc);
+        var target = new Spring6MockMvcTestTarget(mockMvc);
         context.setTarget(target);
     }
 
