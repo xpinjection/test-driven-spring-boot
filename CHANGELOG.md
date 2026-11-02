@@ -2,9 +2,9 @@
 
 All notable changes to this project from November 2024 to November 2026 are documented here.
 
-The project has no tagged releases (the current version is `0.1.0-SNAPSHOT`), so entries are grouped by month, newest first. The most recent commit is dated 2026-08-12; there were no commits between 2024-11 and 2025-05.
+The project has no tagged releases (the current version is `0.1.0-SNAPSHOT`), so entries are grouped by month, newest first. The most recent commit is dated 12 August 2026; there were no commits between November 2024 and May 2025.
 
-## 2026-08
+## August 2026
 
 ### Added
 - Claude Code configuration: runtime permissions, skills and supporting tools.
@@ -16,12 +16,12 @@ The project has no tagged releases (the current version is `0.1.0-SNAPSHOT`), so
 - Upgraded Pact to 4.6.21 and switched to the Spring 6 provider module (#17).
 - Upgraded Testcontainers to 2.0.3.
 
-## 2026-02
+## February 2026
 
 ### Added
 - ELK stack (Elasticsearch + Kibana) with an OpenTelemetry Collector configuration (`compose_elk.yaml`).
 
-## 2025-11
+## November 2025
 
 ### Added
 - `training-run` profile for the AOT/CDS training run.
@@ -34,7 +34,7 @@ The project has no tagged releases (the current version is `0.1.0-SNAPSHOT`), so
 - Docker images and the GitHub workflow now run on Java 25.
 - Lazy initialization is disabled.
 
-## 2025-10
+## October 2025
 
 ### Added
 - Observation for the book search method (`books.search` metrics).
@@ -55,7 +55,7 @@ The project has no tagged releases (the current version is `0.1.0-SNAPSHOT`), so
 - Book search by author.
 - Docker Compose container names.
 
-## 2025-06
+## June 2025
 
 ### Added
 - MIT license (#16).
@@ -64,7 +64,7 @@ The project has no tagged releases (the current version is `0.1.0-SNAPSHOT`), so
 - Tests that need Testcontainers can be disabled with a system property (#15).
 - Agent instructions file renamed to `AGENTS.md`, and agents use the preinstalled Maven in offline mode.
 
-## 2025-05
+## May 2025
 
 ### Added
 - Option to skip Testcontainers-based tests via `-Dtestcontainers.enabled=false` (#13, #14).
