@@ -22,3 +22,5 @@ tool-logs/
 ### Local Run ###
 tomcat/
 logs/
+/swagger-coverage-report.html
+/swagger-coverage-results.json
