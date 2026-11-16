@@ -1,0 +1,59 @@
+# syntax=docker/sandbox-kit:3
+# yaml-language-server: $schema=https://raw.githubusercontent.com/docker/sandbox-kit-spec/main/schema/kit.schema.json
+schemaVersion: "3"
+kind: mixin
+version: "1.0.0"
+
+displayName: Java 25 + Maven
+description: >-
+  Eclipse Temurin JDK 25.0.1+8 and Apache Maven 3.9.11 — the versions this
+  repository's Dockerfiles and Maven wrapper pin — installed from upstream
+  tarballs as a self-contained overlay.
+sourceUrl: https://github.com/xpinjection/test-driven-spring-boot
+licenses: [GPL-2.0-with-classpath-exception, Apache-2.0]
+
+args:
+  # Split in two because a `provides` version may not contain '+'
+  # (SPEC-v3 §5.2), while the Temurin release tag and asset name both need it.
+  jdkVersion:
+    default: "25.0.1"
+    pattern: '^[0-9]+\.[0-9]+\.[0-9]+$'
+    description: Temurin JDK version; keep in step with the Dockerfiles
+    buildArg: JDK_VERSION
+  jdkBuild:
+    default: "8"
+    pattern: '^[0-9]+$'
+    description: Temurin build number for jdkVersion (the '+8' of 25.0.1+8)
+    buildArg: JDK_BUILD
+  mavenVersion:
+    default: "3.9.11"
+    pattern: '^[0-9]+\.[0-9]+\.[0-9]+$'
+    description: Apache Maven version; keep in step with maven-wrapper.properties
+    buildArg: MAVEN_VERSION
+
+provides:
+  - "java@${{ kit.args.jdkVersion }}"
+  - "maven@${{ kit.args.mavenVersion }}"
+
+capabilities:
+  # Runtime only: the tarballs are fetched by the builder, so there is no
+  # install phase to grant.
+  - type: com.docker.sandbox/network-policy@1
+    description: Maven dependency resolution against Maven Central
+    config:
+      runtime:
+        allow:
+          - repo.maven.apache.org:443
+          - repo1.maven.org:443
+
+  - group:
+      name: Shared Maven repository cache
+      description: Reuse ~/.m2 across sandboxes of this kit and keep it after removal
+      optional: true
+      capabilities:
+        - type: com.docker.sandbox/host-mount@1
+          config:
+            path: /home/agent/.m2
+            mode: "0755"
+
+dockerfile: java-maven.dockerfile
