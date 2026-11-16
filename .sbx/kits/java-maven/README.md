@@ -45,9 +45,16 @@ same host `.mvn/wrapper/maven-wrapper.properties` already points the wrapper at,
 `./mvnw` would be the same 3.9.11 — but use `mvn`, see below.
 
 The kit declares runtime egress to Maven Central (`repo.maven.apache.org`, `repo1.maven.org`)
-and nothing else, and requests an optional shared `~/.m2` cache so a fresh sandbox does not
-re-download the whole Spring Boot dependency tree. The cache is keyed on the kit, survives
-sandbox deletion, and is shared by every sandbox composing this kit.
+and nothing else, and requests an optional shared cache at `~/.m2/repository` so a fresh sandbox
+does not re-download the whole Spring Boot dependency tree. The cache is keyed on the kit,
+survives sandbox deletion, and is shared by every sandbox composing this kit. Your host `~/.m2`
+is never mounted — sbx owns the directory, so host builds are untouched.
+
+It is scoped to `repository/` rather than all of `~/.m2` so that a `settings.xml` or
+`settings-security.xml` written in one sandbox does not reach every other one. A side effect is
+that the runtime creates `~/.m2` itself to host the mount point, so that directory is root-owned
+and a custom settings file is easier to pass with `mvn -s /path/to/settings.xml` than to place in
+the default location.
 
 ## Two gotchas when the host is Windows
 

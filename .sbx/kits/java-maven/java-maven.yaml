@@ -48,12 +48,16 @@ capabilities:
 
   - group:
       name: Shared Maven repository cache
-      description: Reuse ~/.m2 across sandboxes of this kit and keep it after removal
+      description: Reuse the local artifact repository across sandboxes of this kit
       optional: true
       capabilities:
+        # Deliberately ~/.m2/repository and not ~/.m2: the artifact cache is
+        # what is worth sharing, while a settings.xml or settings-security.xml
+        # written in one sandbox would otherwise reach every other one —
+        # including a <mirror> that redirects all dependency resolution.
         - type: com.docker.sandbox/host-mount@1
           config:
-            path: /home/agent/.m2
+            path: /home/agent/.m2/repository
             mode: "0755"
 
 dockerfile: java-maven.dockerfile
